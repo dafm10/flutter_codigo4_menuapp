@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_codigo4_menuapp/pages/customer/product_detail_customer_page.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
+import 'package:flutter_codigo4_menuapp/ui/widgets/general_widget.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/item_product_list_widget.dart';
 
 class HomeCustomerPage extends StatelessWidget {
@@ -47,7 +49,9 @@ class HomeCustomerPage extends StatelessWidget {
                     backgroundImage: AssetImage("assets/images/logo.jpeg"),
                     radius: 24.0,
                   ),
-                  SizedBox(width: 10.0,),
+                  SizedBox(
+                    width: 10.0,
+                  ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -69,14 +73,7 @@ class HomeCustomerPage extends StatelessWidget {
                       const SizedBox(
                         height: 10.0,
                       ),
-                      Container(
-                        width: 100,
-                        height: 3.5,
-                        decoration: BoxDecoration(
-                          color: COLOR_SECONDARY,
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                      ),
+                      lineWidget,
                     ],
                   ),
                 ],
@@ -147,8 +144,11 @@ class HomeCustomerPage extends StatelessWidget {
               const SizedBox(
                 height: 20.0,
               ),
-              ItemProductListWidget(),
-              ItemProductListWidget(),
+              ItemProductListWidget(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> ProductDetailCustomerPage()));
+                },
+              ),
             ],
           ),
         ),
