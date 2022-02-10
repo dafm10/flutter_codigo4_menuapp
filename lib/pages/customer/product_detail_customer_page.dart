@@ -151,7 +151,20 @@ class ProductDetailCustomerPage extends StatelessWidget {
                   const SizedBox(
                     height: 10.0,
                   ),
-                  Column(
+                  // con los 3 puntos concatenamos la lista, ya que
+                  // todos los elementos está en una columna
+                  ...product.ingredients
+                      .map<Widget>(
+                        (item) => Text(
+                      "- $item",
+                      style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 14.0,
+                      ),
+                    ),
+                  )
+                      .toList(),
+                  /*Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: product.ingredients
                         .map<Widget>(
@@ -164,7 +177,7 @@ class ProductDetailCustomerPage extends StatelessWidget {
                           ),
                         )
                         .toList(),
-                  ),
+                  ),*/
                 ],
               ),
             ),

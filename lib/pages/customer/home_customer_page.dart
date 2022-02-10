@@ -25,6 +25,9 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
     super.initState();
     _myFirestoreService.getProducts().then((value) {
       products = value;
+      setState(() {
+
+      });
     });
   }
 

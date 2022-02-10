@@ -36,7 +36,7 @@ class ItemProductListWidget extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.only(bottom: 20.0),
         width: double.infinity,
-        height: _height * 0.38,
+        //height: _height * 0.38,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(24.0),
@@ -90,7 +90,7 @@ class ItemProductListWidget extends StatelessWidget {
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 8.0),
+                        horizontal: 10, vertical: 14.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
