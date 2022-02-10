@@ -68,7 +68,7 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
                 children: [
                   CircleAvatar(
                     backgroundImage: AssetImage("assets/images/logo.jpeg"),
-                    radius: 24.0,
+                    radius: 25.0,
                   ),
                   SizedBox(
                     width: 10.0,
@@ -173,6 +173,13 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
                 itemCount: products.length,
                 itemBuilder: (BuildContext context, int index){
                   return ItemProductListWidget(
+                    name: products[index].name,
+                    image: products[index].image,
+                    origin: products[index].origin,
+                    description: products[index].description,
+                    price: products[index].price,
+                    time: products[index].time,
+                    discount: products[index].discount,
                     onTap: () {
                       Navigator.push(
                         context,

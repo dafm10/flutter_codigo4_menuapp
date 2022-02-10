@@ -3,9 +3,23 @@ import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 
 class ItemProductListWidget extends StatelessWidget {
 
+  String image;
+  String name;
+  String origin;
+  String description;
+  double price;
+  int time;
+  int discount;
   Function onTap;
 
   ItemProductListWidget({
+    required this.name,
+    required this.image,
+    required this.origin,
+    required this.description,
+    required this.price,
+    required this.time,
+    required this.discount,
     required this.onTap
 });
 
@@ -41,13 +55,14 @@ class ItemProductListWidget extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(24.0),
                   child: Image.network(
-                    "https://decomidaperuana.com/wp-content/uploads/2020/05/parrilla.jpg",
+                    image,
                     fit: BoxFit.cover,
                     width: double.infinity,
                     height: _height * 0.25,
                   ),
                 ),
-                Positioned(
+                // validamos que si el discount es 0, no debe aparecer
+                discount > 0 ? Positioned(
                   right: 10,
                   top: 10,
                   child: Container(
@@ -59,7 +74,7 @@ class ItemProductListWidget extends StatelessWidget {
                     ),
                     alignment: Alignment.center,
                     child: Text(
-                      "-70%",
+                      "-${discount}%",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16.0,
@@ -67,7 +82,7 @@ class ItemProductListWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                ),
+                ) : Container(),
               ],
             ),
             Row(
@@ -80,7 +95,7 @@ class ItemProductListWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Parrillada Completa",
+                          name,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -89,7 +104,7 @@ class ItemProductListWidget extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "Origen: Andina",
+                          "Origen: $origin",
                           style: TextStyle(
                             color: COLOR_PRIMARY.withOpacity(0.7),
                           ),
@@ -98,7 +113,7 @@ class ItemProductListWidget extends StatelessWidget {
                           height: 3.0,
                         ),
                         Text(
-                          "Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen. No sólo sobrevivió 500 años, sino que tambien ingresó como texto de relleno en documentos electrónicos, quedando esencialmente igual al original. Fue popularizado en los 60s con la creación de las hojas Letraset, las cuales contenian pasajes de Lorem Ipsum, y más recientemente con software de autoedición, como por ejemplo Aldus PageMaker, el cual incluye versiones de Lorem Ipsum.",
+                          description,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -116,7 +131,7 @@ class ItemProductListWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        "S/. 50.00",
+                        "S/. ${price.toStringAsFixed(2)}",
                         style: TextStyle(
                           color: COLOR_PRIMARY,
                           fontWeight: FontWeight.bold,
@@ -134,7 +149,7 @@ class ItemProductListWidget extends StatelessWidget {
                             width: 2.0,
                           ),
                           Text(
-                            "10 min.",
+                            "$time min.",
                             style: TextStyle(
                               fontSize: 14.0,
                               color: COLOR_PRIMARY.withOpacity(0.7),

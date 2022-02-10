@@ -5,7 +5,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProductDetailCustomerPage extends StatelessWidget {
-  const ProductDetailCustomerPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

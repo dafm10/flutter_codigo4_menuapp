@@ -4,7 +4,7 @@ class Product {
   String id;
   String image;
   int rate;
-  int price;
+  double price;
   String origin;
   String name;
   List<String> ingredients;
@@ -31,7 +31,7 @@ class Product {
     id: json["id"] ?? "",
     image: json["image"],
     rate: json["rate"],
-    price: json["price"],
+    price: json["price"].toDouble(),
     origin: json["origin"],
     name: json["name"],
     ingredients: List<String>.from(json["ingredients"].map((x) => x)),
