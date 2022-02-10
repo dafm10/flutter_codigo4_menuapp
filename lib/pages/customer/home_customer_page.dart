@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_codigo4_menuapp/models/product_model.dart';
 import 'package:flutter_codigo4_menuapp/pages/customer/product_detail_customer_page.dart';
 import 'package:flutter_codigo4_menuapp/services/firestore_service.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
@@ -13,16 +14,19 @@ class HomeCustomerPage extends StatefulWidget {
 }
 
 class _HomeCustomerPageState extends State<HomeCustomerPage> {
+  MyFirestoreService _myFirestoreService =
+      MyFirestoreService(collection: "products");
 
-  MyFirestoreService _myFirestoreService = MyFirestoreService(collection: "products");
+  List<Product> products = [];
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _myFirestoreService.getProducts();
+    _myFirestoreService.getProducts().then((value) {
+      products = value;
+    });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -163,9 +167,21 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
               const SizedBox(
                 height: 20.0,
               ),
-              ItemProductListWidget(
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> ProductDetailCustomerPage()));
+              ListView.builder(
+                shrinkWrap: true,
+                physics: BouncingScrollPhysics(),
+                itemCount: products.length,
+                itemBuilder: (BuildContext context, int index){
+                  return ItemProductListWidget(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProductDetailCustomerPage(),
+                        ),
+                      );
+                    },
+                  );
                 },
               ),
             ],

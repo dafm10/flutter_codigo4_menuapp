@@ -1,6 +1,7 @@
 
 class Product {
 
+  String id;
   String image;
   int rate;
   int price;
@@ -13,6 +14,7 @@ class Product {
   bool status;
 
   Product({
+    required this.id,
     required this.image,
     required this.rate,
     required this.price,
@@ -26,6 +28,7 @@ class Product {
   });
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
+    id: json["id"] ?? "",
     image: json["image"],
     rate: json["rate"],
     price: json["price"],
@@ -39,6 +42,7 @@ class Product {
   );
 
   Map<String, dynamic> toJson() => {
+    "id": id,
     "image": image,
     "rate": rate,
     "price": price,
