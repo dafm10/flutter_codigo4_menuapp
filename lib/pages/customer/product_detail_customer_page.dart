@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/general_widget.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ProductDetailCustomerPage extends StatelessWidget {
   const ProductDetailCustomerPage({Key? key}) : super(key: key);
@@ -11,6 +12,15 @@ class ProductDetailCustomerPage extends StatelessWidget {
     double _width = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color(0xff45EF61),
+        onPressed: () {},
+        child: SvgPicture.asset(
+          "assets/icons/whp.svg",
+          color: Colors.white,
+          height: 38.0,
+        ),
+      ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -110,9 +120,45 @@ class ProductDetailCustomerPage extends StatelessWidget {
                     height: 6.0,
                   ),
                   Text(
-                    "Es un hecho establecido hace demasiado tiempo que un lector se distraerá con el contenido del texto de un sitio mientras que mira su diseño. El punto de usar Lorem Ipsum es que tiene una distribución más o menos normal de las letras, al contrario de usar textos como por ejemplo Contenido aquí, contenido aquí. Estos textos hacen parecerlo un español que se puede leer. Muchos paquetes de autoedición y editores de páginas web usan el Lorem Ipsum como su texto por defecto, y al hacer una búsqueda de Lorem Ipsum va a dar por resultado muchos sitios web que usan este texto si se encuentran en estado de desarrollo. Muchas versiones han evolucionado a través de los años, algunas veces por accidente, otras veces a propósito (por ejemplo insertándole humor y cosas por el estilo).",
+                    "Es un hecho establecido hace demasiado tiempo que un lector se distraerá con el contenido del texto de un sitio mientras que mira su diseño.",
                     style: TextStyle(
-                        fontWeight: FontWeight.normal, fontSize: 14.0),
+                      fontWeight: FontWeight.normal,
+                      fontSize: 14.0,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                  Text(
+                    "Ingredientes principales",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14.0,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                  Text(
+                    "- Limón",
+                    style: TextStyle(
+                      fontWeight: FontWeight.normal,
+                      fontSize: 14.0,
+                    ),
+                  ),
+                  Text(
+                    "- Cebolla",
+                    style: TextStyle(
+                      fontWeight: FontWeight.normal,
+                      fontSize: 14.0,
+                    ),
+                  ),
+                  Text(
+                    "- Carne",
+                    style: TextStyle(
+                      fontWeight: FontWeight.normal,
+                      fontSize: 14.0,
+                    ),
                   ),
                 ],
               ),
