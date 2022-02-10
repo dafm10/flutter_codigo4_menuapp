@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/general_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProductDetailCustomerPage extends StatelessWidget {
   const ProductDetailCustomerPage({Key? key}) : super(key: key);
@@ -13,8 +14,12 @@ class ProductDetailCustomerPage extends StatelessWidget {
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color(0xff45EF61),
-        onPressed: () {},
+        //backgroundColor: const Color(0xff45EF61),
+        backgroundColor: const Color(0xff00BB2D),
+        onPressed: () async {
+          await launch("https://api.whatsapp.com/send?phone=51969461067&text=Quiero%20esta%20parrilla%20");
+          //https://api.whatsapp.com/send?phone=51969461067&text=How%20are%20you%20?
+        },
         child: SvgPicture.asset(
           "assets/icons/whp.svg",
           color: Colors.white,

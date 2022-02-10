@@ -1,11 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_codigo4_menuapp/pages/customer/product_detail_customer_page.dart';
+import 'package:flutter_codigo4_menuapp/services/firestore_service.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/general_widget.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/item_product_list_widget.dart';
 
-class HomeCustomerPage extends StatelessWidget {
+class HomeCustomerPage extends StatefulWidget {
   const HomeCustomerPage({Key? key}) : super(key: key);
+
+  @override
+  State<HomeCustomerPage> createState() => _HomeCustomerPageState();
+}
+
+class _HomeCustomerPageState extends State<HomeCustomerPage> {
+
+  MyFirestoreService _myFirestoreService = MyFirestoreService(collection: "products");
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _myFirestoreService.getProducts();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -52,29 +69,31 @@ class HomeCustomerPage extends StatelessWidget {
                   SizedBox(
                     width: 10.0,
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Bienvenido!",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20.0,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Bienvenido!",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                          ),
                         ),
-                      ),
-                      Text(
-                        "Descubre los mejores platos que tenemos para tí",
-                        style: TextStyle(
-                          fontWeight: FontWeight.normal,
-                          color: COLOR_PRIMARY.withOpacity(0.6),
-                          fontSize: 14.0,
+                        Text(
+                          "Descubre los mejores platos que tenemos para tí",
+                          style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            color: COLOR_PRIMARY.withOpacity(0.6),
+                            fontSize: 14.0,
+                          ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 10.0,
-                      ),
-                      lineWidget,
-                    ],
+                        const SizedBox(
+                          height: 10.0,
+                        ),
+                        lineWidget,
+                      ],
+                    ),
                   ),
                 ],
               ),
