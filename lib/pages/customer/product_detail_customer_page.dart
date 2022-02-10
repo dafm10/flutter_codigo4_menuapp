@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/general_widget.dart';
 
 class ProductDetailCustomerPage extends StatelessWidget {
@@ -29,29 +30,89 @@ class ProductDetailCustomerPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "Parrilla Completa",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0
-                    ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Parrilla Completa",
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 22.0),
+                            ),
+                            Text(
+                              "Origen: Andina",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 14.0),
+                            ),
+                            Text(
+                              "Tiempo de preparación: 10 mins.",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 14.0),
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  "Calificación: 4",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 15.0),
+                                ),
+                                Icon(
+                                  Icons.star,
+                                  size: 20.0,
+                                  color: Color(0xffffb703),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            "S/. 40.00",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20.0),
+                          ),
+                          Container(
+                            width: 60.0,
+                            height: 30.0,
+                            decoration: BoxDecoration(
+                              color: COLOR_SECONDARY,
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              "-70%",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.0,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                  Text(
-                    "Origen: Andina",
-                    style: TextStyle(
-                        fontWeight: FontWeight.normal,
-                        fontSize: 14.0
-                    ),
+                  const SizedBox(
+                    height: 10.0,
                   ),
-                  SizedBox(height: 6.0,),
                   lineWidget,
-                  SizedBox(height: 6.0,),
+                  const SizedBox(
+                    height: 6.0,
+                  ),
                   Text(
                     "Es un hecho establecido hace demasiado tiempo que un lector se distraerá con el contenido del texto de un sitio mientras que mira su diseño. El punto de usar Lorem Ipsum es que tiene una distribución más o menos normal de las letras, al contrario de usar textos como por ejemplo Contenido aquí, contenido aquí. Estos textos hacen parecerlo un español que se puede leer. Muchos paquetes de autoedición y editores de páginas web usan el Lorem Ipsum como su texto por defecto, y al hacer una búsqueda de Lorem Ipsum va a dar por resultado muchos sitios web que usan este texto si se encuentran en estado de desarrollo. Muchas versiones han evolucionado a través de los años, algunas veces por accidente, otras veces a propósito (por ejemplo insertándole humor y cosas por el estilo).",
                     style: TextStyle(
-                        fontWeight: FontWeight.normal,
-                        fontSize: 14.0
-                    ),
+                        fontWeight: FontWeight.normal, fontSize: 14.0),
                   ),
                 ],
               ),
