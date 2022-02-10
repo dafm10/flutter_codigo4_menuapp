@@ -34,7 +34,7 @@ class Product {
     price: json["price"].toDouble(),
     origin: json["origin"],
     name: json["name"],
-    ingredients: List<String>.from(json["ingredients"].map((x) => x)),
+    ingredients: List<String>.from(json["ingredients"].map((x) => x)) ?? [],
     discount: json["discount"],
     description: json["description"],
     time: json["time"],

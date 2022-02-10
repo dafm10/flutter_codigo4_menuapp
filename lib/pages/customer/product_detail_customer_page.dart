@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_codigo4_menuapp/models/product_model.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/general_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProductDetailCustomerPage extends StatelessWidget {
+  Product product;
+
+  ProductDetailCustomerPage({required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +20,8 @@ class ProductDetailCustomerPage extends StatelessWidget {
         //backgroundColor: const Color(0xff45EF61),
         backgroundColor: const Color(0xff00BB2D),
         onPressed: () async {
-          await launch("https://api.whatsapp.com/send?phone=51969461067&text=Quiero%20esta%20parrilla%20");
+          await launch(
+              "https://api.whatsapp.com/send?phone=51969461067&text=Quiero%20esta%20parrilla%20");
           //https://api.whatsapp.com/send?phone=51969461067&text=How%20are%20you%20?
         },
         child: SvgPicture.asset(
@@ -35,7 +40,8 @@ class ProductDetailCustomerPage extends StatelessWidget {
                 image: DecorationImage(
                   fit: BoxFit.cover,
                   image: NetworkImage(
-                      "https://decomidaperuana.com/wp-content/uploads/2020/05/parrilla.jpg"),
+                    product.image,
+                  ),
                 ),
               ),
             ),
@@ -51,20 +57,20 @@ class ProductDetailCustomerPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Parrilla Completa",
+                              product.name,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 22.0),
                             ),
                             Text(
-                              "Origen: Andina",
+                              "Origen: ${product.origin}",
                               style: TextStyle(
                                   fontWeight: FontWeight.normal,
                                   fontSize: 14.0),
                             ),
                             Text(
-                              "Tiempo de preparación: 10 mins.",
+                              "Tiempo de preparación: ${product.time} mins.",
                               style: TextStyle(
                                   fontWeight: FontWeight.normal,
                                   fontSize: 14.0),
@@ -72,7 +78,7 @@ class ProductDetailCustomerPage extends StatelessWidget {
                             Row(
                               children: [
                                 Text(
-                                  "Calificación: 4",
+                                  "Calificación: ${product.rate}",
                                   style: TextStyle(
                                       fontWeight: FontWeight.normal,
                                       fontSize: 15.0),
@@ -91,11 +97,11 @@ class ProductDetailCustomerPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            "S/. 40.00",
+                            "S/. ${product.price.toStringAsFixed(2)}",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 20.0),
                           ),
-                          Container(
+                          product.discount > 0 ? Container(
                             width: 60.0,
                             height: 30.0,
                             decoration: BoxDecoration(
@@ -104,14 +110,14 @@ class ProductDetailCustomerPage extends StatelessWidget {
                             ),
                             alignment: Alignment.center,
                             child: Text(
-                              "-70%",
+                              "-${product.discount}%",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16.0,
                                 color: Colors.white,
                               ),
                             ),
-                          ),
+                          ) : Container(),
                         ],
                       ),
                     ],
@@ -124,7 +130,7 @@ class ProductDetailCustomerPage extends StatelessWidget {
                     height: 6.0,
                   ),
                   Text(
-                    "Es un hecho establecido hace demasiado tiempo que un lector se distraerá con el contenido del texto de un sitio mientras que mira su diseño.",
+                    product.description,
                     style: TextStyle(
                       fontWeight: FontWeight.normal,
                       fontSize: 14.0,
@@ -133,13 +139,7 @@ class ProductDetailCustomerPage extends StatelessWidget {
                   const SizedBox(
                     height: 10.0,
                   ),
-                  Text(
-                    "Ingredientes principales",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14.0,
-                    ),
-                  ),
+
                   const SizedBox(
                     height: 10.0,
                   ),

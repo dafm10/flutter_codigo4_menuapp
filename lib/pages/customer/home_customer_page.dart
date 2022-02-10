@@ -184,7 +184,9 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ProductDetailCustomerPage(),
+                          builder: (context) => ProductDetailCustomerPage(
+                            product: products[index],
+                          ),
                         ),
                       );
                     },
