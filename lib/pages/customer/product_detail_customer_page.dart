@@ -101,23 +101,25 @@ class ProductDetailCustomerPage extends StatelessWidget {
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 20.0),
                           ),
-                          product.discount > 0 ? Container(
-                            width: 60.0,
-                            height: 30.0,
-                            decoration: BoxDecoration(
-                              color: COLOR_SECONDARY,
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            alignment: Alignment.center,
-                            child: Text(
-                              "-${product.discount}%",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16.0,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ) : Container(),
+                          product.discount > 0
+                              ? Container(
+                                  width: 60.0,
+                                  height: 30.0,
+                                  decoration: BoxDecoration(
+                                    color: COLOR_SECONDARY,
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    "-${product.discount}%",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16.0,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                )
+                              : Container(),
                         ],
                       ),
                     ],
@@ -139,30 +141,29 @@ class ProductDetailCustomerPage extends StatelessWidget {
                   const SizedBox(
                     height: 10.0,
                   ),
-
+                  Text(
+                    "Ingredientes principales",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14.0,
+                    ),
+                  ),
                   const SizedBox(
                     height: 10.0,
                   ),
-                  Text(
-                    "- Limón",
-                    style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      fontSize: 14.0,
-                    ),
-                  ),
-                  Text(
-                    "- Cebolla",
-                    style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      fontSize: 14.0,
-                    ),
-                  ),
-                  Text(
-                    "- Carne",
-                    style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      fontSize: 14.0,
-                    ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: product.ingredients
+                        .map<Widget>(
+                          (item) => Text(
+                            "- $item",
+                            style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontSize: 14.0,
+                            ),
+                          ),
+                        )
+                        .toList(),
                   ),
                 ],
               ),
