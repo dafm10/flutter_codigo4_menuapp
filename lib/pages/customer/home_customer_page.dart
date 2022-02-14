@@ -92,7 +92,9 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
             onPressed: () async {
               await showSearch(
                 context: context,
-                delegate: SearchProduct(),
+                delegate: SearchProduct(
+                  products: products,
+                ),
               );
             },
             icon: Icon(

@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_codigo4_menuapp/models/product_model.dart';
+import 'package:flutter_codigo4_menuapp/ui/widgets/item_product_search_widget.dart';
 
 class SearchProduct extends SearchDelegate {
+
+  List<Product> products = [];
+
+  SearchProduct({required this.products});
+
   List<String> names = [
     "Juan",
     "Luis",
@@ -50,15 +57,13 @@ class SearchProduct extends SearchDelegate {
   Widget buildResults(BuildContext context) {
     // Muestra los resultados
 
-    List<String> aux = names
-        .where((element) => element.toLowerCase().contains(query.toLowerCase()))
+    List<Product> aux = products
+        .where((element) => element.name.toLowerCase().contains(query.toLowerCase()))
         .toList();
     return ListView.builder(
       itemCount: aux.length,
       itemBuilder: (conext, index) {
-        return ListTile(
-          title: Text(aux[index]),
-        );
+        return ItemProductSearchWidget();
       },
     );
   }
@@ -66,82 +71,13 @@ class SearchProduct extends SearchDelegate {
   @override
   Widget buildSuggestions(BuildContext context) {
     // Muestra las sugerencias
+    List<Product> aux = products
+        .where((element) => element.name.toLowerCase().contains(query.toLowerCase()))
+        .toList();
     return ListView.builder(
-      itemCount: names.length,
+      itemCount: aux.length,
       itemBuilder: (conext, index) {
-        return Container(
-          height: 120.0,
-          margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12.0),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black87.withOpacity(0.07),
-                offset: Offset(4,4),
-                blurRadius: 12.0,
-              ),
-            ],
-          ),
-          child: Row(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(12.0),
-                child: Image.network(
-                  "https://t1.rg.ltmcdn.com/es/posts/7/4/1/ceviche_peruano_18147_orig.jpg",
-                  width: 120.0,
-                  height: 120.0,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Ceviche",
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        "Origen: Andino",
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                      Text(
-                        "https://t1.rg.ltmcdn.com/es/posts/7/4/1/ceviche_peruano_18147_orig.jpg",
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 13.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "S/. 50.00",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        );
+        return ItemProductSearchWidget();
       },
     );
   }
