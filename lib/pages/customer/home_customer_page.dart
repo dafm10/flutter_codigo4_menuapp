@@ -177,6 +177,7 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
                 itemCount: products.length,
                 itemBuilder: (BuildContext context, int index){
                   return ItemProductListWidget(
+                    id: products[index].id,
                     name: products[index].name,
                     image: products[index].image,
                     origin: products[index].origin,

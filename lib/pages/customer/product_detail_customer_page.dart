@@ -47,7 +47,7 @@ class ProductDetailCustomerPage extends StatelessWidget {
               ),
             ),*/
             Hero(
-              tag: 'image-product-1',
+              tag: product.id,
               child: CachedNetworkImage(
                 fit: BoxFit.cover,
                 fadeInCurve: Curves.easeIn,

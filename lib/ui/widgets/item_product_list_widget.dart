@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 
 class ItemProductListWidget extends StatelessWidget {
+  String id;
   String image;
   String name;
   String origin;
@@ -12,15 +13,17 @@ class ItemProductListWidget extends StatelessWidget {
   int discount;
   Function onTap;
 
-  ItemProductListWidget(
-      {required this.name,
-      required this.image,
-      required this.origin,
-      required this.description,
-      required this.price,
-      required this.time,
-      required this.discount,
-      required this.onTap});
+  ItemProductListWidget({
+    required this.id,
+    required this.name,
+    required this.image,
+    required this.origin,
+    required this.description,
+    required this.price,
+    required this.time,
+    required this.discount,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +64,7 @@ class ItemProductListWidget extends StatelessWidget {
                 ),*/
 
                 Hero(
-                  tag: 'image-product-1',
+                  tag: id,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(24.0),
                     child: CachedNetworkImage(
