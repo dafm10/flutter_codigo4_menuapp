@@ -25,6 +25,7 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
 
   List<Product> products = [];
   List<Category> categories = [];
+  int indexCategory = 0;
 
   @override
   void initState() {
@@ -186,9 +187,12 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
                   itemBuilder: (BuildContext context, int index){
                     return ItemFilterCategoryWidget(
                       title: categories[index].description,
-                      selected: true,
+                      selected: indexCategory == index ? true : false,
                       onSelected: (){
+                        indexCategory = index;
+                        setState(() {
 
+                        });
                       },
                     );
                   },

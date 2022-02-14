@@ -27,7 +27,9 @@ class ItemFilterCategoryWidget extends StatelessWidget {
         showCheckmark: false,
         selectedColor: COLOR_BRAND_SECONDARY,
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
-        onSelected: (bool value) {},
+        onSelected: (bool value) {
+          onSelected();
+        },
       ),
     );
   }
