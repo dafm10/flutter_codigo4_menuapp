@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_codigo4_menuapp/models/product_model.dart';
+import 'package:flutter_codigo4_menuapp/pages/customer/product_detail_customer_page.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/item_product_search_widget.dart';
 
 class SearchProduct extends SearchDelegate {
@@ -64,11 +65,22 @@ class SearchProduct extends SearchDelegate {
       itemCount: aux.length,
       itemBuilder: (conext, index) {
         return ItemProductSearchWidget(
+          id: aux[index].id,
           image: aux[index].image,
           name: aux[index].name,
           origin: aux[index].origin,
           description: aux[index].description,
           price: aux[index].price,
+          onTap: (){
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProductDetailCustomerPage(
+                  product: aux[index],
+                ),
+              ),
+            );
+          },
         );
       },
     );
@@ -84,11 +96,22 @@ class SearchProduct extends SearchDelegate {
       itemCount: aux.length,
       itemBuilder: (conext, index) {
         return ItemProductSearchWidget(
+          id: aux[index].id,
           image: aux[index].image,
           name: aux[index].name,
           origin: aux[index].origin,
           description: aux[index].description,
           price: aux[index].price,
+          onTap: (){
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProductDetailCustomerPage(
+                  product: aux[index],
+                ),
+              ),
+            );
+          },
         );
       },
     );
