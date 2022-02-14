@@ -63,7 +63,13 @@ class SearchProduct extends SearchDelegate {
     return ListView.builder(
       itemCount: aux.length,
       itemBuilder: (conext, index) {
-        return ItemProductSearchWidget();
+        return ItemProductSearchWidget(
+          image: aux[index].image,
+          name: aux[index].name,
+          origin: aux[index].origin,
+          description: aux[index].description,
+          price: aux[index].price,
+        );
       },
     );
   }
@@ -77,7 +83,13 @@ class SearchProduct extends SearchDelegate {
     return ListView.builder(
       itemCount: aux.length,
       itemBuilder: (conext, index) {
-        return ItemProductSearchWidget();
+        return ItemProductSearchWidget(
+          image: aux[index].image,
+          name: aux[index].name,
+          origin: aux[index].origin,
+          description: aux[index].description,
+          price: aux[index].price,
+        );
       },
     );
   }

@@ -2,7 +2,20 @@
 import 'package:flutter/material.dart';
 
 class ItemProductSearchWidget extends StatelessWidget {
-  const ItemProductSearchWidget({Key? key}) : super(key: key);
+
+  String image;
+  String name;
+  String origin;
+  String description;
+  double price;
+
+  ItemProductSearchWidget({
+    required this.image,
+    required this.name,
+    required this.origin,
+    required this.description,
+    required this.price,
+});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +38,7 @@ class ItemProductSearchWidget extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(12.0),
             child: Image.network(
-              "https://t1.rg.ltmcdn.com/es/posts/7/4/1/ceviche_peruano_18147_orig.jpg",
+              image,
               width: 120.0,
               height: 120.0,
               fit: BoxFit.cover,
@@ -39,21 +52,21 @@ class ItemProductSearchWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Ceviche",
+                    name,
                     style: TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
-                    "Origen: Andino",
+                    "Origen: $origin",
                     style: TextStyle(
                       fontSize: 14.0,
                       fontWeight: FontWeight.normal,
                     ),
                   ),
                   Text(
-                    "https://t1.rg.ltmcdn.com/es/posts/7/4/1/ceviche_peruano_18147_orig.jpg",
+                    description,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -71,7 +84,7 @@ class ItemProductSearchWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "S/. 50.00",
+                  "S/. ${price.toStringAsFixed(2)}",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
