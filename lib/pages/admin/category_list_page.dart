@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_codigo4_menuapp/models/category_model.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/general_widget.dart';
+import 'package:flutter_codigo4_menuapp/ui/widgets/item_category_list_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CategoryListPage extends StatelessWidget {
@@ -38,6 +40,15 @@ class CategoryListPage extends StatelessWidget {
           ),
         ),
         centerTitle: true,
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: COLOR_BRAND_SECONDARY,
+        onPressed: () {},
+        child: SvgPicture.asset(
+          "assets/icons/plus.svg",
+          color: Colors.white,
+          height: 26.0,
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -91,10 +102,28 @@ class CategoryListPage extends StatelessWidget {
                 stream: collectionReference.snapshots(),
                 builder: (BuildContext context, AsyncSnapshot snap) {
                   if (snap.hasData) {
+                    QuerySnapshot collection = snap.data;
+                    /*List<Category> categories = collection.docs.map(
+                      (e) {
+                        Category item =
+                            Category.fromJson(e.data() as Map<String, dynamic>);
+                        item.id = e.id;
+                        return item;
+                      },
+                    ).toList();*/
+
+                    List<Category> categories =  collection.docs.map((e) {
+                      Category item = Category.fromJson(e.data() as Map<String, dynamic>);
+                      item.id = e.id;
+                      return item;
+                    } ).toList();
+                    print(categories);
+
+                    //print(categories[0].id);
                     return ListView.separated(
                       shrinkWrap: true,
                       physics: const BouncingScrollPhysics(),
-                      itemCount: 3,
+                      itemCount: categories.length,
                       // aqui agregamos un separador
                       //separatorBuilder: (BuildContext context, int index) => Divider(),
                       // colocamos los guiones segun los parametros, cuando no usamos context ni index
@@ -104,35 +133,7 @@ class CategoryListPage extends StatelessWidget {
                         endIndent: _width * 0.07,
                       ),
                       itemBuilder: (BuildContext context, int index) {
-                        return ListTile(
-                          leading: CircleAvatar(
-                            backgroundColor: COLOR_BRAND_SECONDARY,
-                            child: Text("B"),
-                          ),
-                          title: Text("Bebidas"),
-                          subtitle: Text("Estado: Activo"),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              IconButton(
-                                onPressed: () {},
-                                icon: SvgPicture.asset(
-                                  "assets/icons/trash.svg",
-                                  color: COLOR_BRAND_SECONDARY,
-                                  height: 20.0,
-                                ),
-                              ),
-                              IconButton(
-                                onPressed: () {},
-                                icon: SvgPicture.asset(
-                                  "assets/icons/edit.svg",
-                                  color: COLOR_BRAND_SECONDARY,
-                                  height: 20.0,
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
+                        return ItemCategoryListWidget();
                       },
                     );
                   }
