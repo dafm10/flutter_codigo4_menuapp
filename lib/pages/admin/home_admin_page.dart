@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/general_widget.dart';
+import 'package:flutter_codigo4_menuapp/ui/widgets/item_option_admin_widget.dart';
 
 class HomeAdminPage extends StatefulWidget {
   const HomeAdminPage({Key? key}) : super(key: key);
@@ -73,44 +74,7 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
               const SizedBox(
                 height: 20.0,
               ),
-              Container(
-                height: 100.0,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12.0),
-                  boxShadow: [
-                    BoxShadow(
-                      offset: Offset(4, 4),
-                      blurRadius: 12.0,
-                      color: Colors.black87.withOpacity(0.07),
-                    ),
-                  ],
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(
-                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzqiPAQ6N4heNSfYwwv1b8ZxqiMVQQ5Dm-ToA4jZcb4WiTDeq_lcG8C_VfYFNCp0WLiv0&usqp=CAU",
-                    ),
-                  ),
-                ),
-                child: Stack(
-                  children: [
-                    Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Text(
-                          "Productos",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 22.0,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              ItemOptionAdminWidget(),
             ],
           ),
         ),
