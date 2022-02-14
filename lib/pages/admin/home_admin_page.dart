@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_codigo4_menuapp/pages/admin/category_list_page.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/general_widget.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/item_option_admin_widget.dart';
@@ -74,7 +75,32 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
               const SizedBox(
                 height: 20.0,
               ),
-              ItemOptionAdminWidget(),
+              ItemOptionAdminWidget(
+                image:
+                    "https://images.pexels.com/photos/1565982/pexels-photo-1565982.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+                title: "Productos",
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CategoryListPage(),
+                    ),
+                  );
+                },
+              ),
+              ItemOptionAdminWidget(
+                image:
+                    "https://images.pexels.com/photos/326278/pexels-photo-326278.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+                title: "Categorías",
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CategoryListPage(),
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         ),
