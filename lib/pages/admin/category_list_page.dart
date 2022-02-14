@@ -15,12 +15,33 @@ class _CategoryListPageState extends State<CategoryListPage> {
   CollectionReference collectionReference =
       FirebaseFirestore.instance.collection('categories');
 
-  void _showDeleteItem(){
+  void _showDeleteItem() {
     showDialog(
-        context: context,
-        builder: (BuildContext context){
-          return AlertDialog();
-        },
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            "¿Deseas eliminar este registro?",
+          ),
+          content: Text(
+            "El registro se eliminará permanentemente",
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {},
+              child: Text(
+                "Cancelar",
+              ),
+            ),
+            TextButton(
+              onPressed: () {},
+              child: Text(
+                "Aceptar",
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -97,8 +118,8 @@ class _CategoryListPageState extends State<CategoryListPage> {
                               fontSize: 14.0,
                             ),
                           ),
-                          const SizedBox(
-                            height: 10.0,
+                          SizedBox(
+                            height: _height * 0.011,
                           ),
                           lineWidget,
                         ],
@@ -124,11 +145,12 @@ class _CategoryListPageState extends State<CategoryListPage> {
                       },
                     ).toList();*/
 
-                    List<Category> categories =  collection.docs.map((e) {
-                      Category item = Category.fromJson(e.data() as Map<String, dynamic>);
+                    List<Category> categories = collection.docs.map((e) {
+                      Category item =
+                          Category.fromJson(e.data() as Map<String, dynamic>);
                       item.id = e.id;
                       return item;
-                    } ).toList();
+                    }).toList();
                     print(categories);
 
                     //print(categories[0].id);
@@ -148,10 +170,10 @@ class _CategoryListPageState extends State<CategoryListPage> {
                         return ItemCategoryListWidget(
                           title: categories[index].description,
                           status: categories[index].status,
-                          onDelete: (){
+                          onDelete: () {
                             _showDeleteItem();
                           },
-                          onUpdate: (){},
+                          onUpdate: () {},
                         );
                       },
                     );
