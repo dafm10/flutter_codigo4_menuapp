@@ -20,23 +20,46 @@ class _CategoryListPageState extends State<CategoryListPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: Color(0xfff72585),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+          ),
           title: Text(
             "¿Deseas eliminar este registro?",
+            style: TextStyle(
+              fontSize: 16.0,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
           content: Text(
             "El registro se eliminará permanentemente",
+            style: TextStyle(
+              fontSize: 14.0,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
           actions: [
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pop(context);
+              },
               child: Text(
                 "Cancelar",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white60,
+                ),
               ),
             ),
             TextButton(
               onPressed: () {},
               child: Text(
                 "Aceptar",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
               ),
             ),
           ],
