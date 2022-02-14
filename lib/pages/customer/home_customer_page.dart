@@ -51,6 +51,10 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
     });
   }
 
+  filterProduct(String idCategory){
+    print(idCategory);
+  }
+
   @override
   Widget build(BuildContext context) {
     double _height = MediaQuery.of(context).size.height;
@@ -190,6 +194,7 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
                       selected: indexCategory == index ? true : false,
                       onSelected: (){
                         indexCategory = index;
+                        filterProduct(categories[index].id);
                         setState(() {
 
                         });
