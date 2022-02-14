@@ -7,10 +7,14 @@ class ItemCategoryListWidget extends StatelessWidget {
 
   String title;
   bool status;
+  Function onDelete;
+  Function onUpdate;
 
   ItemCategoryListWidget({
     required this.title,
     required this.status,
+    required this.onDelete,
+    required this.onUpdate,
 });
 
   @override
@@ -26,7 +30,9 @@ class ItemCategoryListWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              onDelete();
+            },
             icon: SvgPicture.asset(
               "assets/icons/trash.svg",
               color: COLOR_BRAND_SECONDARY,
@@ -34,7 +40,9 @@ class ItemCategoryListWidget extends StatelessWidget {
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              onUpdate();
+            },
             icon: SvgPicture.asset(
               "assets/icons/edit.svg",
               color: COLOR_BRAND_SECONDARY,

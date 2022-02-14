@@ -148,6 +148,10 @@ class _CategoryListPageState extends State<CategoryListPage> {
                         return ItemCategoryListWidget(
                           title: categories[index].description,
                           status: categories[index].status,
+                          onDelete: (){
+                            _showDeleteItem();
+                          },
+                          onUpdate: (){},
                         );
                       },
                     );
