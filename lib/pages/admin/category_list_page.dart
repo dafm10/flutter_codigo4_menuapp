@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/general_widget.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CategoryListPage extends StatelessWidget {
   CollectionReference collectionReference =
@@ -37,48 +38,48 @@ class CategoryListPage extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16.0,
-            vertical: 12.0,
-          ),
+          padding: const EdgeInsets.symmetric(vertical: 12.0),
           child: Column(
             children: [
-              Row(
-                children: [
-                  CircleAvatar(
-                    backgroundImage: AssetImage("assets/images/logo.jpeg"),
-                    radius: 25.0,
-                  ),
-                  SizedBox(
-                    width: 10.0,
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          "Categorias",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20.0,
-                          ),
-                        ),
-                        Text(
-                          "Gestiona las categorías existentes",
-                          style: TextStyle(
-                            fontWeight: FontWeight.normal,
-                            color: COLOR_PRIMARY.withOpacity(0.6),
-                            fontSize: 14.0,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10.0,
-                        ),
-                        lineWidget,
-                      ],
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundImage: AssetImage("assets/images/logo.jpeg"),
+                      radius: 25.0,
                     ),
-                  ),
-                ],
+                    SizedBox(
+                      width: 10.0,
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "Categorias",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0,
+                            ),
+                          ),
+                          Text(
+                            "Gestiona las categorías existentes",
+                            style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              color: COLOR_PRIMARY.withOpacity(0.6),
+                              fontSize: 14.0,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10.0,
+                          ),
+                          lineWidget,
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(
                 height: 20.0,
@@ -87,9 +88,42 @@ class CategoryListPage extends StatelessWidget {
                 stream: collectionReference.snapshots(),
                 builder: (BuildContext context, AsyncSnapshot snap) {
                   if (snap.hasData) {
-                    return Text("Hola");
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: const BouncingScrollPhysics(),
+                      itemCount: 3,
+                      itemBuilder: (BuildContext context, int index) {
+                        return ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: COLOR_BRAND_SECONDARY,
+                            child: Text("B"),
+                          ),
+                          title: Text("Bebidas"),
+                          subtitle: Text("Estado: Activo"),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                onPressed: () {},
+                                icon: SvgPicture.asset(
+                                  "assets/icons/trash.svg",
+                                  height: 20.0,
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: () {},
+                                icon: SvgPicture.asset(
+                                  "assets/icons/edit.svg",
+                                  height: 20.0,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
                   }
-                  return Center(
+                  return const Center(
                     child: SizedBox(
                       height: 20.0,
                       width: 20.0,
