@@ -27,6 +27,7 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
   List<Product> productsAux = [];
   List<Category> categories = [];
   int indexCategory = 0;
+  String categoryTitle = "Populares";
 
   @override
   void initState() {
@@ -54,18 +55,19 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
   }
 
   filterProduct(String idCategory){
-    products = productsAux;
+    /*products = productsAux;
     if(idCategory == ""){
       products = productsAux;
-      setState(() {
-
-      });
     }else{
       products = products.where((element) => element.category == idCategory).toList();
-      setState(() {
-
-      });
+    }*/
+    products = productsAux;
+    if(idCategory != ""){
+      products = products.where((element) => element.category == idCategory).toList();
     }
+    setState(() {
+
+    });
   }
 
   @override
@@ -208,6 +210,7 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
                       onSelected: (){
                         indexCategory = index;
                         filterProduct(categories[index].id);
+                        categoryTitle = categories[index].description;
                         setState(() {
 
                         });
@@ -220,8 +223,8 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
               const SizedBox(
                 height: 20.0,
               ),
-              const Text(
-                "Populares",
+              Text(
+                categoryTitle,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 15.0,
