@@ -186,6 +186,10 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
                   itemBuilder: (BuildContext context, int index){
                     return ItemFilterCategoryWidget(
                       title: categories[index].description,
+                      selected: true,
+                      onSelected: (){
+
+                      },
                     );
                   },
                 ),
