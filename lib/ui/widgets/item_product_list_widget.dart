@@ -1,8 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 
 class ItemProductListWidget extends StatelessWidget {
-
   String image;
   String name;
   String origin;
@@ -12,25 +12,23 @@ class ItemProductListWidget extends StatelessWidget {
   int discount;
   Function onTap;
 
-  ItemProductListWidget({
-    required this.name,
-    required this.image,
-    required this.origin,
-    required this.description,
-    required this.price,
-    required this.time,
-    required this.discount,
-    required this.onTap
-});
+  ItemProductListWidget(
+      {required this.name,
+      required this.image,
+      required this.origin,
+      required this.description,
+      required this.price,
+      required this.time,
+      required this.discount,
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-
     double _height = MediaQuery.of(context).size.height;
     double _width = MediaQuery.of(context).size.width;
 
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         onTap();
       },
       child: Container(
@@ -52,7 +50,7 @@ class ItemProductListWidget extends StatelessWidget {
           children: [
             Stack(
               children: [
-                ClipRRect(
+                /*ClipRRect(
                   borderRadius: BorderRadius.circular(24.0),
                   child: Image.network(
                     image,
@@ -60,29 +58,48 @@ class ItemProductListWidget extends StatelessWidget {
                     width: double.infinity,
                     height: _height * 0.25,
                   ),
+                ),*/
+
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(24.0),
+                  child: CachedNetworkImage(
+                    fit: BoxFit.cover,
+                    fadeInCurve: Curves.easeIn,
+                    fadeInDuration: Duration(milliseconds: 400),
+                    progressIndicatorBuilder: (context, url, progress){
+                      return Center(child: CircularProgressIndicator(
+
+                      ),);
+                    },
+                    height: _height * 0.25,
+                    width: double.infinity,
+                    imageUrl: image,
+                  ),
                 ),
                 // validamos que si el discount es 0, no debe aparecer
-                discount > 0 ? Positioned(
-                  right: 10,
-                  top: 10,
-                  child: Container(
-                    width: 60.0,
-                    height: 30.0,
-                    decoration: BoxDecoration(
-                      color: COLOR_SECONDARY,
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      "-${discount}%",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16.0,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ) : Container(),
+                discount > 0
+                    ? Positioned(
+                        right: 10,
+                        top: 10,
+                        child: Container(
+                          width: 60.0,
+                          height: 30.0,
+                          decoration: BoxDecoration(
+                            color: COLOR_SECONDARY,
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            "-${discount}%",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      )
+                    : Container(),
               ],
             ),
             Row(
