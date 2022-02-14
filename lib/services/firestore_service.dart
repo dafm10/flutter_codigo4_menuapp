@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_codigo4_menuapp/models/category_model.dart';
 import 'package:flutter_codigo4_menuapp/models/product_model.dart';
 
 class MyFirestoreService {
@@ -29,6 +30,23 @@ class MyFirestoreService {
       //print(products);
       return products;
     } on TimeoutException catch (e) {
+      return Future.error("Error internet 1");
+    } on SocketException catch (e) {
+      return Future.error("Error internet 2");
+    } on Error catch (e) {
+      return Future.error("Error internet 3");
+    }
+  }
+
+  Future<List<Category>> getCategories()async{
+    try{
+      List<Category> categories = [];
+      QuerySnapshot _querySnapshot = await _collectionReference.get();
+      _querySnapshot.docs.forEach((element) {
+        print(element.data());
+      });
+      return categories;
+    }on TimeoutException catch (e) {
       return Future.error("Error internet 1");
     } on SocketException catch (e) {
       return Future.error("Error internet 2");

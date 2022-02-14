@@ -15,8 +15,11 @@ class HomeCustomerPage extends StatefulWidget {
 }
 
 class _HomeCustomerPageState extends State<HomeCustomerPage> {
-  MyFirestoreService _myFirestoreService =
+  MyFirestoreService _myProductService =
       MyFirestoreService(collection: "products");
+
+  MyFirestoreService _myCategoryService =
+  MyFirestoreService(collection: "categories");
 
   List<Product> products = [];
 
@@ -24,12 +27,14 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _myFirestoreService.getProducts().then((value) {
+    _myProductService.getProducts().then((value) {
       products = value;
       setState(() {
 
       });
     });
+
+    _myCategoryService.getCategories();
   }
 
   @override
