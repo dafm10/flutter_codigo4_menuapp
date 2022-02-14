@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_codigo4_menuapp/models/category_model.dart';
 import 'package:flutter_codigo4_menuapp/models/product_model.dart';
@@ -8,6 +7,7 @@ import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/general_widget.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/item_filter_category_widget.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/item_product_list_widget.dart';
+import 'package:flutter_codigo4_menuapp/utils/search_products_delegate.dart';
 
 class HomeCustomerPage extends StatefulWidget {
   const HomeCustomerPage({Key? key}) : super(key: key);
@@ -70,7 +70,7 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
   @override
   Widget build(BuildContext context) {
     double _height = MediaQuery.of(context).size.height;
-    double _width = MediaQuery.of(context).size.width;
+    //double _width = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AppBar(
@@ -89,7 +89,12 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () async {
+              await showSearch(
+                context: context,
+                delegate: SearchProduct(),
+              );
+            },
             icon: Icon(
               Icons.search,
               color: COLOR_PRIMARY,
