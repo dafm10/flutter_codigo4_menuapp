@@ -21,7 +21,7 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
       MyFirestoreService(collection: "products");
 
   MyFirestoreService _myCategoryService =
-  MyFirestoreService(collection: "categories");
+      MyFirestoreService(collection: "categories");
 
   List<Product> products = [];
   List<Product> productsAux = [];
@@ -36,25 +36,23 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
     _myProductService.getProducts().then((value) {
       products = value;
       productsAux = value;
-      setState(() {
-
-      });
+      setState(() {});
     });
 
     _myCategoryService.getCategories().then((value) {
       categories = value;
-      categories.insert(0, Category(
-        id: "",
-        status: true,
-        description: "Todos",
-      ));
-      setState(() {
-
-      });
+      categories.insert(
+          0,
+          Category(
+            id: "",
+            status: true,
+            description: "Todos",
+          ));
+      setState(() {});
     });
   }
 
-  filterProduct(String idCategory){
+  filterProduct(String idCategory) {
     /*products = productsAux;
     if(idCategory == ""){
       products = productsAux;
@@ -62,12 +60,11 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
       products = products.where((element) => element.category == idCategory).toList();
     }*/
     products = productsAux;
-    if(idCategory != ""){
-      products = products.where((element) => element.category == idCategory).toList();
+    if (idCategory != "") {
+      products =
+          products.where((element) => element.category == idCategory).toList();
     }
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   @override
@@ -203,23 +200,20 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
                   scrollDirection: Axis.horizontal,
                   physics: const BouncingScrollPhysics(),
                   itemCount: categories.length,
-                  itemBuilder: (BuildContext context, int index){
+                  itemBuilder: (BuildContext context, int index) {
                     return ItemFilterCategoryWidget(
                       title: categories[index].description,
                       selected: indexCategory == index ? true : false,
-                      onSelected: (){
+                      onSelected: () {
                         indexCategory = index;
                         filterProduct(categories[index].id);
                         categoryTitle = categories[index].description;
-                        setState(() {
-
-                        });
+                        setState(() {});
                       },
                     );
                   },
                 ),
               ),
-
               const SizedBox(
                 height: 20.0,
               ),
@@ -233,33 +227,51 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
               const SizedBox(
                 height: 20.0,
               ),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: BouncingScrollPhysics(),
-                itemCount: products.length,
-                itemBuilder: (BuildContext context, int index){
-                  return ItemProductListWidget(
-                    id: products[index].id,
-                    name: products[index].name,
-                    image: products[index].image,
-                    origin: products[index].origin,
-                    description: products[index].description,
-                    price: products[index].price,
-                    time: products[index].time,
-                    discount: products[index].discount,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ProductDetailCustomerPage(
-                            product: products[index],
+              products.length > 0
+                  ? ListView.builder(
+                      shrinkWrap: true,
+                      physics: BouncingScrollPhysics(),
+                      itemCount: products.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return ItemProductListWidget(
+                          id: products[index].id,
+                          name: products[index].name,
+                          image: products[index].image,
+                          origin: products[index].origin,
+                          description: products[index].description,
+                          price: products[index].price,
+                          time: products[index].time,
+                          discount: products[index].discount,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ProductDetailCustomerPage(
+                                  product: products[index],
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    )
+                  : Container(
+                      width: double.infinity,
+                      height: _height * 0.4,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            "assets/images/box.png",
+                            height: _height * 0.12,
                           ),
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
+                          SizedBox(
+                            height: _height * 0.01,
+                          ),
+                          Text("No hay productos registrados")
+                        ],
+                      ),
+                    ),
             ],
           ),
         ),
@@ -267,4 +279,3 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
     );
   }
 }
-
