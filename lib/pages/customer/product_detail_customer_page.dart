@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_codigo4_menuapp/models/product_model.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
@@ -34,8 +35,8 @@ class ProductDetailCustomerPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              height: _height * 0.40,
+            /*Container(
+              height: _height * 0.4,
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,
@@ -43,6 +44,29 @@ class ProductDetailCustomerPage extends StatelessWidget {
                     product.image,
                   ),
                 ),
+              ),
+            ),*/
+            Hero(
+              tag: 'image-product-1',
+              child: CachedNetworkImage(
+                fit: BoxFit.cover,
+                fadeInCurve: Curves.easeIn,
+                fadeInDuration: Duration(milliseconds: 400),
+                progressIndicatorBuilder: (context, url, progress) {
+                  return const Center(
+                    child: SizedBox(
+                      height: 20.0,
+                      width: 20.0,
+                      child: CircularProgressIndicator(
+                        color: COLOR_BRAND_SECONDARY,
+                        strokeWidth: 2,
+                      ),
+                    ),
+                  );
+                },
+                height: _height * 0.4,
+                width: double.infinity,
+                imageUrl: product.image,
               ),
             ),
             Padding(

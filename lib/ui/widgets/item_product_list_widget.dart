@@ -60,20 +60,30 @@ class ItemProductListWidget extends StatelessWidget {
                   ),
                 ),*/
 
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(24.0),
-                  child: CachedNetworkImage(
-                    fit: BoxFit.cover,
-                    fadeInCurve: Curves.easeIn,
-                    fadeInDuration: Duration(milliseconds: 400),
-                    progressIndicatorBuilder: (context, url, progress){
-                      return Center(child: CircularProgressIndicator(
-
-                      ),);
-                    },
-                    height: _height * 0.25,
-                    width: double.infinity,
-                    imageUrl: image,
+                Hero(
+                  tag: 'image-product-1',
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(24.0),
+                    child: CachedNetworkImage(
+                      fit: BoxFit.cover,
+                      fadeInCurve: Curves.easeIn,
+                      fadeInDuration: Duration(milliseconds: 400),
+                      progressIndicatorBuilder: (context, url, progress) {
+                        return const Center(
+                          child: SizedBox(
+                            height: 20.0,
+                            width: 20.0,
+                            child: CircularProgressIndicator(
+                              color: COLOR_BRAND_SECONDARY,
+                              strokeWidth: 2,
+                            ),
+                          ),
+                        );
+                      },
+                      height: _height * 0.25,
+                      width: double.infinity,
+                      imageUrl: image,
+                    ),
                   ),
                 ),
                 // validamos que si el discount es 0, no debe aparecer
