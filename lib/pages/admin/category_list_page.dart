@@ -6,9 +6,23 @@ import 'package:flutter_codigo4_menuapp/ui/widgets/general_widget.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/item_category_list_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class CategoryListPage extends StatelessWidget {
+class CategoryListPage extends StatefulWidget {
+  @override
+  State<CategoryListPage> createState() => _CategoryListPageState();
+}
+
+class _CategoryListPageState extends State<CategoryListPage> {
   CollectionReference collectionReference =
       FirebaseFirestore.instance.collection('categories');
+
+  void _showDeleteItem(){
+    showDialog(
+        context: context,
+        builder: (BuildContext context){
+          return AlertDialog();
+        },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +31,7 @@ class CategoryListPage extends StatelessWidget {
         print(element.data());
       });
     });*/
-
     //print(collectionReference.snapshots());
-
     //print(collectionReference.snapshots().map((event) => event.docs));
 
     double _width = MediaQuery.of(context).size.width;
@@ -78,7 +90,7 @@ class CategoryListPage extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            "Gestiona las categorías existentes",
+                            "Gestiona tus categorías existentes",
                             style: TextStyle(
                               fontWeight: FontWeight.normal,
                               color: COLOR_PRIMARY.withOpacity(0.6),
@@ -133,7 +145,10 @@ class CategoryListPage extends StatelessWidget {
                         endIndent: _width * 0.07,
                       ),
                       itemBuilder: (BuildContext context, int index) {
-                        return ItemCategoryListWidget();
+                        return ItemCategoryListWidget(
+                          title: categories[index].description,
+                          status: categories[index].status,
+                        );
                       },
                     );
                   }

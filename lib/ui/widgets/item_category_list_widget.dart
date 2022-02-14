@@ -4,17 +4,24 @@ import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ItemCategoryListWidget extends StatelessWidget {
-  const ItemCategoryListWidget({Key? key}) : super(key: key);
+
+  String title;
+  bool status;
+
+  ItemCategoryListWidget({
+    required this.title,
+    required this.status,
+});
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       leading: CircleAvatar(
         backgroundColor: COLOR_BRAND_SECONDARY,
-        child: Text("B"),
+        child: Text(title[0].toUpperCase()),
       ),
-      title: Text("Bebidas"),
-      subtitle: Text("Estado: Activo"),
+      title: Text(title),
+      subtitle: Text(status ? "Estado: Activo" : "Estado: Desactivo"),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
