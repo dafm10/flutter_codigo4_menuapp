@@ -39,6 +39,11 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
 
     _myCategoryService.getCategories().then((value) {
       categories = value;
+      categories.insert(0, Category(
+        id: "",
+        status: true,
+        description: "Todos",
+      ));
       setState(() {
 
       });

@@ -13,7 +13,7 @@ class ItemFilterCategoryWidget extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(right: 8.0),
       child: FilterChip(
-        label: Text("todos"),
+        label: Text(title),
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
         onSelected: (bool value) {},
       ),
