@@ -20,6 +20,9 @@ class CategoryListPage extends StatelessWidget {
 
     //print(collectionReference.snapshots().map((event) => event.docs));
 
+    double _width = MediaQuery.of(context).size.width;
+    double _height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -88,10 +91,18 @@ class CategoryListPage extends StatelessWidget {
                 stream: collectionReference.snapshots(),
                 builder: (BuildContext context, AsyncSnapshot snap) {
                   if (snap.hasData) {
-                    return ListView.builder(
+                    return ListView.separated(
                       shrinkWrap: true,
                       physics: const BouncingScrollPhysics(),
                       itemCount: 3,
+                      // aqui agregamos un separador
+                      //separatorBuilder: (BuildContext context, int index) => Divider(),
+                      // colocamos los guiones segun los parametros, cuando no usamos context ni index
+                      separatorBuilder: (_, __) => Divider(
+                        thickness: 0.8,
+                        indent: _width * 0.07,
+                        endIndent: _width * 0.07,
+                      ),
                       itemBuilder: (BuildContext context, int index) {
                         return ListTile(
                           leading: CircleAvatar(
@@ -107,6 +118,7 @@ class CategoryListPage extends StatelessWidget {
                                 onPressed: () {},
                                 icon: SvgPicture.asset(
                                   "assets/icons/trash.svg",
+                                  color: COLOR_BRAND_SECONDARY,
                                   height: 20.0,
                                 ),
                               ),
@@ -114,6 +126,7 @@ class CategoryListPage extends StatelessWidget {
                                 onPressed: () {},
                                 icon: SvgPicture.asset(
                                   "assets/icons/edit.svg",
+                                  color: COLOR_BRAND_SECONDARY,
                                   height: 20.0,
                                 ),
                               ),
