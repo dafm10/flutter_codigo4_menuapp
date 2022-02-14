@@ -273,7 +273,7 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
                           SizedBox(
                             height: _height * 0.01,
                           ),
-                          Text("No hay productos registrados")
+                          Text("No hay ${categoryTitle} registrados")
                         ],
                       ),
                     ),
