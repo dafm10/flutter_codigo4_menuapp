@@ -24,6 +24,7 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
   MyFirestoreService(collection: "categories");
 
   List<Product> products = [];
+  List<Product> productsAux = [];
   List<Category> categories = [];
   int indexCategory = 0;
 
@@ -33,6 +34,7 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
     super.initState();
     _myProductService.getProducts().then((value) {
       products = value;
+      productsAux = value;
       setState(() {
 
       });
@@ -52,7 +54,18 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
   }
 
   filterProduct(String idCategory){
-    print(idCategory);
+    products = productsAux;
+    if(idCategory == ""){
+      products = productsAux;
+      setState(() {
+
+      });
+    }else{
+      products = products.where((element) => element.category == idCategory).toList();
+      setState(() {
+
+      });
+    }
   }
 
   @override
