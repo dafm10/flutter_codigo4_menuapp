@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_codigo4_menuapp/models/category_model.dart';
 import 'package:flutter_codigo4_menuapp/models/product_model.dart';
 import 'package:flutter_codigo4_menuapp/pages/customer/product_detail_customer_page.dart';
 import 'package:flutter_codigo4_menuapp/services/firestore_service.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/general_widget.dart';
+import 'package:flutter_codigo4_menuapp/ui/widgets/item_filter_category_widget.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/item_product_list_widget.dart';
 
 class HomeCustomerPage extends StatefulWidget {
@@ -22,6 +24,7 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
   MyFirestoreService(collection: "categories");
 
   List<Product> products = [];
+  List<Category> categories = [];
 
   @override
   void initState() {
@@ -34,7 +37,12 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
       });
     });
 
-    _myCategoryService.getCategories();
+    _myCategoryService.getCategories().then((value) {
+      categories = value;
+      setState(() {
+
+      });
+    });
   }
 
   @override
@@ -123,7 +131,7 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
               const SizedBox(
                 height: 6.0,
               ),
-              SingleChildScrollView(
+              /*SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 physics: const BouncingScrollPhysics(),
                 child: Row(
@@ -162,7 +170,22 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
                     ),
                   ],
                 ),
+              ),*/
+
+              SizedBox(
+                height: 40.0,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: categories.length,
+                  itemBuilder: (BuildContext context, int index){
+                    return ItemFilterCategoryWidget(
+                      title: categories[index].description,
+                    );
+                  },
+                ),
               ),
+
               const SizedBox(
                 height: 20.0,
               ),
@@ -210,3 +233,4 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
     );
   }
 }
+

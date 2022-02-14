@@ -43,7 +43,10 @@ class MyFirestoreService {
       List<Category> categories = [];
       QuerySnapshot _querySnapshot = await _collectionReference.get();
       _querySnapshot.docs.forEach((element) {
-        print(element.data());
+        Map<String, dynamic> myMap = element.data() as Map<String, dynamic>;
+        Category category = Category.fromJson(myMap);
+        category.id = element.id;
+        categories.add(category);
       });
       return categories;
     }on TimeoutException catch (e) {
