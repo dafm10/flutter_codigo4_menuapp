@@ -33,13 +33,20 @@ class _DialogAddUpdateFormWidgetState extends State<DialogAddUpdateFormWidget> {
     };
   }
 
-  _addCategory() {
+  _addUpdateCategory() {
     if (_formKey.currentState!.validate()) {
+
       Category category = Category(
         description: _descriptionController.text,
         status: selected,
       );
-      _myFirestoreService.addCategory(category).then((value) {});
+
+      if(widget.category == null){
+        _myFirestoreService.addCategory(category);
+      }else{
+        category.id = widget.category!.id;
+        _myFirestoreService.updateCategory(category);
+      }
     }
   }
 
@@ -143,7 +150,7 @@ class _DialogAddUpdateFormWidgetState extends State<DialogAddUpdateFormWidget> {
         ),
         TextButton(
           onPressed: () {
-            _addCategory();
+            _addUpdateCategory();
             Navigator.pop(context);
           },
           child: const Text(
