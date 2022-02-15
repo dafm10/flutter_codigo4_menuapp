@@ -66,6 +66,10 @@ class _CategoryListPageState extends State<CategoryListPage> {
                 ),
               ),
               onPressed: () {
+                isLoading = true;
+                setState(() {
+
+                });
                 deleteItem();
                 Navigator.pop(context);
               },
@@ -78,7 +82,15 @@ class _CategoryListPageState extends State<CategoryListPage> {
 
   void deleteItem(){
     collectionReference.doc(idCategory).delete().then((value) {
-      print("Elemento eliminado");
+      isLoading = false;
+      setState(() {
+
+      });
+    }).catchError((error){
+      isLoading = false;
+      setState(() {
+
+      });
     });
   }
 
@@ -233,7 +245,7 @@ class _CategoryListPageState extends State<CategoryListPage> {
               ),
             ),
           ),
-          Container(
+          isLoading ? Container(
             color: Colors.white60,
             child: const Center(
               child: SizedBox(
@@ -245,7 +257,7 @@ class _CategoryListPageState extends State<CategoryListPage> {
                 ),
               ),
             ),
-          ),
+          ) : Container(),
         ],
       ),
     );
