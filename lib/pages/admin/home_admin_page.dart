@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_codigo4_menuapp/pages/admin/category_list_page.dart';
+import 'package:flutter_codigo4_menuapp/pages/admin/product_list_page.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/general_widget.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/item_option_admin_widget.dart';
@@ -83,7 +84,7 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => CategoryListPage(),
+                      builder: (context) => ProductListpage(),
                     ),
                   );
                 },

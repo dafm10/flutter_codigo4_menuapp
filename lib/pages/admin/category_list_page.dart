@@ -18,7 +18,8 @@ class _CategoryListPageState extends State<CategoryListPage> {
   CollectionReference collectionReference =
       FirebaseFirestore.instance.collection('categories');
 
-  MyFirestoreService myFirestoreService = MyFirestoreService(collection: "categories");
+  MyFirestoreService myFirestoreService =
+      MyFirestoreService(collection: "categories");
 
   String idCategory = "";
   bool isLoading = false;
@@ -41,9 +42,8 @@ class _CategoryListPageState extends State<CategoryListPage> {
   }
 
   void deleteItem() {
-
     myFirestoreService.deleteItem(idCategory).then((value) {
-      if(value ==1){
+      if (value == 1) {
         isLoading = false;
         setState(() {});
         messageSuccessSnackBar(context);
@@ -58,13 +58,12 @@ class _CategoryListPageState extends State<CategoryListPage> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return DialogAddUpdateFormWidget(category: category,);
+        return DialogAddUpdateFormWidget(
+          category: category,
+        );
       },
     );
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -94,6 +93,9 @@ class _CategoryListPageState extends State<CategoryListPage> {
           ),
         ),
         centerTitle: true,
+        iconTheme: const IconThemeData(
+          color: COLOR_BRAND_SECONDARY,
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: COLOR_BRAND_SECONDARY,
@@ -137,7 +139,7 @@ class _CategoryListPageState extends State<CategoryListPage> {
                                 ),
                               ),
                               Text(
-                                "Gestiona tus categorías existentes",
+                                "Gestiona las categorías existentes",
                                 style: TextStyle(
                                   fontWeight: FontWeight.normal,
                                   color: COLOR_PRIMARY.withOpacity(0.6),
@@ -209,7 +211,9 @@ class _CategoryListPageState extends State<CategoryListPage> {
                       return loadingWidget;
                     },
                   ),
-                  const SizedBox(height: 50.0,),
+                  const SizedBox(
+                    height: 50.0,
+                  ),
                 ],
               ),
             ),
