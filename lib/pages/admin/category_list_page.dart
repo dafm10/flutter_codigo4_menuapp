@@ -12,7 +12,6 @@ class CategoryListPage extends StatefulWidget {
 }
 
 class _CategoryListPageState extends State<CategoryListPage> {
-
   CollectionReference collectionReference =
       FirebaseFirestore.instance.collection('categories');
 
@@ -67,9 +66,7 @@ class _CategoryListPageState extends State<CategoryListPage> {
               ),
               onPressed: () {
                 isLoading = true;
-                setState(() {
-
-                });
+                setState(() {});
                 deleteItem();
                 Navigator.pop(context);
               },
@@ -80,17 +77,38 @@ class _CategoryListPageState extends State<CategoryListPage> {
     );
   }
 
-  void deleteItem(){
+  void deleteItem() {
     collectionReference.doc(idCategory).delete().then((value) {
       isLoading = false;
-      setState(() {
+      setState(() {});
 
-      });
-    }).catchError((error){
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: COLOR_BRAND_SECONDARY,
+          content: Row(
+            children: const [
+              Icon(
+                Icons.check_circle,
+                color: Colors.white,
+              ),
+              SizedBox(
+                width: 10.0,
+              ),
+              Text(
+                "El registro se eliminó correctamente",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }).catchError((error) {
       isLoading = false;
-      setState(() {
-
-      });
+      setState(() {});
     });
   }
 
@@ -143,12 +161,13 @@ class _CategoryListPageState extends State<CategoryListPage> {
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Row(
                       children: [
-                        CircleAvatar(
-                          backgroundImage: AssetImage("assets/images/logo.jpeg"),
+                        const CircleAvatar(
+                          backgroundImage:
+                              AssetImage("assets/images/logo.jpeg"),
                           radius: 25.0,
                         ),
                         SizedBox(
-                          width: 10.0,
+                          width: _width * 0.03,
                         ),
                         Expanded(
                           child: Column(
@@ -197,8 +216,8 @@ class _CategoryListPageState extends State<CategoryListPage> {
                     ).toList();*/
 
                         List<Category> categories = collection.docs.map((e) {
-                          Category item =
-                          Category.fromJson(e.data() as Map<String, dynamic>);
+                          Category item = Category.fromJson(
+                              e.data() as Map<String, dynamic>);
                           item.id = e.id;
                           return item;
                         }).toList();
@@ -245,19 +264,21 @@ class _CategoryListPageState extends State<CategoryListPage> {
               ),
             ),
           ),
-          isLoading ? Container(
-            color: Colors.white60,
-            child: const Center(
-              child: SizedBox(
-                height: 20.0,
-                width: 20.0,
-                child: CircularProgressIndicator(
-                  color: COLOR_BRAND_SECONDARY,
-                  strokeWidth: 2,
-                ),
-              ),
-            ),
-          ) : Container(),
+          isLoading
+              ? Container(
+                  color: Colors.white60,
+                  child: const Center(
+                    child: SizedBox(
+                      height: 20.0,
+                      width: 20.0,
+                      child: CircularProgressIndicator(
+                        color: COLOR_BRAND_SECONDARY,
+                        strokeWidth: 2,
+                      ),
+                    ),
+                  ),
+                )
+              : Container(),
         ],
       ),
     );
