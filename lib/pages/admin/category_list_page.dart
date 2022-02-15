@@ -12,19 +12,23 @@ class CategoryListPage extends StatefulWidget {
 }
 
 class _CategoryListPageState extends State<CategoryListPage> {
+
   CollectionReference collectionReference =
       FirebaseFirestore.instance.collection('categories');
+
+  String idCategory = "";
+  bool isLoading = false;
 
   void _showDeleteItem() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Color(0xfff72585),
+          backgroundColor: COLOR_BRAND_SECONDARY,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12.0),
           ),
-          title: Text(
+          title: const Text(
             "¿Deseas eliminar este registro?",
             style: TextStyle(
               fontSize: 16.0,
@@ -32,7 +36,7 @@ class _CategoryListPageState extends State<CategoryListPage> {
               color: Colors.white,
             ),
           ),
-          content: Text(
+          content: const Text(
             "El registro se eliminará permanentemente",
             style: TextStyle(
               fontSize: 14.0,
@@ -42,9 +46,6 @@ class _CategoryListPageState extends State<CategoryListPage> {
           ),
           actions: [
             TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
               child: Text(
                 "Cancelar",
                 style: TextStyle(
@@ -52,20 +53,33 @@ class _CategoryListPageState extends State<CategoryListPage> {
                   color: Colors.white60,
                 ),
               ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
             ),
             TextButton(
-              onPressed: () {},
               child: Text(
                 "Aceptar",
                 style: TextStyle(
+                  fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
               ),
+              onPressed: () {
+                deleteItem();
+                Navigator.pop(context);
+              },
             ),
           ],
         );
       },
     );
+  }
+
+  void deleteItem(){
+    collectionReference.doc(idCategory).delete().then((value) {
+      print("Elemento eliminado");
+    });
   }
 
   @override
@@ -106,60 +120,62 @@ class _CategoryListPageState extends State<CategoryListPage> {
           height: 26.0,
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12.0),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Row(
-                  children: [
-                    CircleAvatar(
-                      backgroundImage: AssetImage("assets/images/logo.jpeg"),
-                      radius: 25.0,
-                    ),
-                    SizedBox(
-                      width: 10.0,
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            "Categorias",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20.0,
-                            ),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12.0),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          backgroundImage: AssetImage("assets/images/logo.jpeg"),
+                          radius: 25.0,
+                        ),
+                        SizedBox(
+                          width: 10.0,
+                        ),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Categorias",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20.0,
+                                ),
+                              ),
+                              Text(
+                                "Gestiona tus categorías existentes",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                  color: COLOR_PRIMARY.withOpacity(0.6),
+                                  fontSize: 14.0,
+                                ),
+                              ),
+                              SizedBox(
+                                height: _height * 0.011,
+                              ),
+                              lineWidget,
+                            ],
                           ),
-                          Text(
-                            "Gestiona tus categorías existentes",
-                            style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              color: COLOR_PRIMARY.withOpacity(0.6),
-                              fontSize: 14.0,
-                            ),
-                          ),
-                          SizedBox(
-                            height: _height * 0.011,
-                          ),
-                          lineWidget,
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 20.0,
-              ),
-              StreamBuilder(
-                stream: collectionReference.snapshots(),
-                builder: (BuildContext context, AsyncSnapshot snap) {
-                  if (snap.hasData) {
-                    QuerySnapshot collection = snap.data;
-                    /*List<Category> categories = collection.docs.map(
+                  ),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  StreamBuilder(
+                    stream: collectionReference.snapshots(),
+                    builder: (BuildContext context, AsyncSnapshot snap) {
+                      if (snap.hasData) {
+                        QuerySnapshot collection = snap.data;
+                        /*List<Category> categories = collection.docs.map(
                       (e) {
                         Category item =
                             Category.fromJson(e.data() as Map<String, dynamic>);
@@ -168,54 +184,69 @@ class _CategoryListPageState extends State<CategoryListPage> {
                       },
                     ).toList();*/
 
-                    List<Category> categories = collection.docs.map((e) {
-                      Category item =
+                        List<Category> categories = collection.docs.map((e) {
+                          Category item =
                           Category.fromJson(e.data() as Map<String, dynamic>);
-                      item.id = e.id;
-                      return item;
-                    }).toList();
-                    print(categories);
-
-                    //print(categories[0].id);
-                    return ListView.separated(
-                      shrinkWrap: true,
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: categories.length,
-                      // aqui agregamos un separador
-                      //separatorBuilder: (BuildContext context, int index) => Divider(),
-                      // colocamos los guiones segun los parametros, cuando no usamos context ni index
-                      separatorBuilder: (_, __) => Divider(
-                        thickness: 0.8,
-                        indent: _width * 0.07,
-                        endIndent: _width * 0.07,
-                      ),
-                      itemBuilder: (BuildContext context, int index) {
-                        return ItemCategoryListWidget(
-                          title: categories[index].description,
-                          status: categories[index].status,
-                          onDelete: () {
-                            _showDeleteItem();
+                          item.id = e.id;
+                          return item;
+                        }).toList();
+                        //print(categories);
+                        //print(categories[0].id);
+                        return ListView.separated(
+                          shrinkWrap: true,
+                          physics: const BouncingScrollPhysics(),
+                          itemCount: categories.length,
+                          // aqui agregamos un separador
+                          //separatorBuilder: (BuildContext context, int index) => Divider(),
+                          // colocamos los guiones segun los parametros, cuando no usamos context ni index
+                          separatorBuilder: (_, __) => Divider(
+                            thickness: 0.8,
+                            indent: _width * 0.07,
+                            endIndent: _width * 0.07,
+                          ),
+                          itemBuilder: (BuildContext context, int index) {
+                            return ItemCategoryListWidget(
+                              title: categories[index].description,
+                              status: categories[index].status,
+                              onDelete: () {
+                                idCategory = categories[index].id;
+                                _showDeleteItem();
+                              },
+                              onUpdate: () {},
+                            );
                           },
-                          onUpdate: () {},
                         );
-                      },
-                    );
-                  }
-                  return const Center(
-                    child: SizedBox(
-                      height: 20.0,
-                      width: 20.0,
-                      child: CircularProgressIndicator(
-                        color: COLOR_BRAND_SECONDARY,
-                        strokeWidth: 2,
-                      ),
-                    ),
-                  );
-                },
+                      }
+                      return const Center(
+                        child: SizedBox(
+                          height: 20.0,
+                          width: 20.0,
+                          child: CircularProgressIndicator(
+                            color: COLOR_BRAND_SECONDARY,
+                            strokeWidth: 2,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
+          Container(
+            color: Colors.white60,
+            child: const Center(
+              child: SizedBox(
+                height: 20.0,
+                width: 20.0,
+                child: CircularProgressIndicator(
+                  color: COLOR_BRAND_SECONDARY,
+                  strokeWidth: 2,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
     ;
