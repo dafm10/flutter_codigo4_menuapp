@@ -84,4 +84,17 @@ class MyFirestoreService {
     }
   }
 
+  Future<String> updateCategory(Category category) async {
+    try{
+     await _collectionReference.doc(category.id).update(category.toJson());
+     return category.id!;
+    }on TimeoutException catch (e) {
+      return Future.error("Error internet 1");
+    } on SocketException catch (e) {
+      return Future.error("Error internet 2");
+    } on Error catch (e) {
+      return Future.error("Error internet 3");
+    }
+  }
+
 }
