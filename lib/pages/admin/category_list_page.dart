@@ -46,7 +46,7 @@ class _CategoryListPageState extends State<CategoryListPage> {
           ),
           actions: [
             TextButton(
-              child: Text(
+              child: const Text(
                 "Cancelar",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -58,7 +58,7 @@ class _CategoryListPageState extends State<CategoryListPage> {
               },
             ),
             TextButton(
-              child: Text(
+              child: const Text(
                 "Aceptar",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -261,6 +261,5 @@ class _CategoryListPageState extends State<CategoryListPage> {
         ],
       ),
     );
-    ;
   }
 }
