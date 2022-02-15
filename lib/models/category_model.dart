@@ -1,12 +1,12 @@
 
 class Category {
 
-  String id;
+  String? id;
   String description;
   bool status;
 
   Category({
-    required this.id,
+    this.id,
     required this.description,
     required this.status,
   });

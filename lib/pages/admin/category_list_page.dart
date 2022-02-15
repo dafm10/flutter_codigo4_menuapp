@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_codigo4_menuapp/models/category_model.dart';
+import 'package:flutter_codigo4_menuapp/services/firestore_service.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/dialog_add_update_form_widget.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/dialog_delete_widget.dart';
@@ -16,6 +17,8 @@ class CategoryListPage extends StatefulWidget {
 class _CategoryListPageState extends State<CategoryListPage> {
   CollectionReference collectionReference =
       FirebaseFirestore.instance.collection('categories');
+
+  MyFirestoreService myFirestoreService = MyFirestoreService(collection: "categories");
 
   String idCategory = "";
   bool isLoading = false;
@@ -47,16 +50,19 @@ class _CategoryListPageState extends State<CategoryListPage> {
   }
 
   void deleteItem() {
-    collectionReference.doc(idCategory).delete().then((value) {
-      isLoading = false;
-      setState(() {});
 
-      messageSuccessSnackBar(context);
+    myFirestoreService.deleteItem(idCategory).then((value) {
+      if(value ==1){
+        isLoading = false;
+        setState(() {});
+        messageSuccessSnackBar(context);
+      }
     }).catchError((error) {
       isLoading = false;
       setState(() {});
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -188,7 +194,7 @@ class _CategoryListPageState extends State<CategoryListPage> {
                               title: categories[index].description,
                               status: categories[index].status,
                               onDelete: () {
-                                idCategory = categories[index].id;
+                                idCategory = categories[index].id!;
                                 _showDeleteItem();
                               },
                               onUpdate: () {},

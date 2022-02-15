@@ -213,7 +213,7 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
                       selected: indexCategory == index ? true : false,
                       onSelected: () {
                         indexCategory = index;
-                        filterProduct(categories[index].id);
+                        filterProduct(categories[index].id!);
                         categoryTitle = categories[index].description;
                         setState(() {});
                       },

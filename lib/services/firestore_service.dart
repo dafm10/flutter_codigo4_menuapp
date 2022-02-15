@@ -57,4 +57,31 @@ class MyFirestoreService {
       return Future.error("Error internet 3");
     }
   }
+
+  Future<int> deleteItem(String id) async {
+    try{
+      await _collectionReference.doc(id).delete();
+      return 1;
+    }on TimeoutException catch (e) {
+      return Future.error("Error internet 1");
+    } on SocketException catch (e) {
+      return Future.error("Error internet 2");
+    } on Error catch (e) {
+      return Future.error("Error internet 3");
+    }
+  }
+  
+  Future<String> addCategory(Category category) async {
+    try{
+     DocumentReference documentReference = await _collectionReference.add(category.toJson());
+     return documentReference.id;
+    }on TimeoutException catch (e) {
+      return Future.error("Error internet 1");
+    } on SocketException catch (e) {
+      return Future.error("Error internet 2");
+    } on Error catch (e) {
+      return Future.error("Error internet 3");
+    }
+  }
+
 }
