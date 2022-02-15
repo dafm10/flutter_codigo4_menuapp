@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_codigo4_menuapp/models/category_model.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
+import 'package:flutter_codigo4_menuapp/ui/widgets/dialog_delete_widget.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/general_widget.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/item_category_list_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -22,56 +23,13 @@ class _CategoryListPageState extends State<CategoryListPage> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: COLOR_BRAND_SECONDARY,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.0),
-          ),
-          title: const Text(
-            "¿Deseas eliminar este registro?",
-            style: TextStyle(
-              fontSize: 16.0,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-          content: const Text(
-            "El registro se eliminará permanentemente",
-            style: TextStyle(
-              fontSize: 14.0,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-          actions: [
-            TextButton(
-              child: const Text(
-                "Cancelar",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white60,
-                ),
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            TextButton(
-              child: const Text(
-                "Aceptar",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-              onPressed: () {
-                isLoading = true;
-                setState(() {});
-                deleteItem();
-                Navigator.pop(context);
-              },
-            ),
-          ],
+        return DialogDeleteWidget(
+          onDelete: () {
+            isLoading = true;
+            setState(() {});
+            deleteItem();
+            Navigator.pop(context);
+          },
         );
       },
     );
@@ -83,7 +41,6 @@ class _CategoryListPageState extends State<CategoryListPage> {
       setState(() {});
 
       messageSuccessSnackBar(context);
-
     }).catchError((error) {
       isLoading = false;
       setState(() {});
@@ -226,16 +183,7 @@ class _CategoryListPageState extends State<CategoryListPage> {
                           },
                         );
                       }
-                      return const Center(
-                        child: SizedBox(
-                          height: 20.0,
-                          width: 20.0,
-                          child: CircularProgressIndicator(
-                            color: COLOR_BRAND_SECONDARY,
-                            strokeWidth: 2,
-                          ),
-                        ),
-                      );
+                      return loadingWidget;
                     },
                   ),
                 ],
@@ -245,16 +193,7 @@ class _CategoryListPageState extends State<CategoryListPage> {
           isLoading
               ? Container(
                   color: Colors.white60,
-                  child: const Center(
-                    child: SizedBox(
-                      height: 20.0,
-                      width: 20.0,
-                      child: CircularProgressIndicator(
-                        color: COLOR_BRAND_SECONDARY,
-                        strokeWidth: 2,
-                      ),
-                    ),
-                  ),
+                  child: loadingWidget,
                 )
               : Container(),
         ],

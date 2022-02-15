@@ -11,6 +11,17 @@ Container lineWidget = Container(
   ),
 );
 
+Center loadingWidget = const Center(
+  child: SizedBox(
+    height: 20.0,
+    width: 20.0,
+    child: CircularProgressIndicator(
+      color: COLOR_BRAND_SECONDARY,
+      strokeWidth: 2,
+    ),
+  ),
+);
+
 messageSuccessSnackBar(BuildContext context){
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
+import 'package:flutter_codigo4_menuapp/ui/widgets/general_widget.dart';
 
 class ItemProductListWidget extends StatelessWidget {
   String id;
@@ -72,16 +73,7 @@ class ItemProductListWidget extends StatelessWidget {
                       fadeInCurve: Curves.easeIn,
                       fadeInDuration: Duration(milliseconds: 400),
                       progressIndicatorBuilder: (context, url, progress) {
-                        return const Center(
-                          child: SizedBox(
-                            height: 20.0,
-                            width: 20.0,
-                            child: CircularProgressIndicator(
-                              color: COLOR_BRAND_SECONDARY,
-                              strokeWidth: 2,
-                            ),
-                          ),
-                        );
+                        return loadingWidget;
                       },
                       height: _height * 0.25,
                       width: double.infinity,
