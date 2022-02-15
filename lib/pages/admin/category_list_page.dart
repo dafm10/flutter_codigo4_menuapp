@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_codigo4_menuapp/models/category_model.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
+import 'package:flutter_codigo4_menuapp/ui/widgets/dialog_add_update_form_widget.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/dialog_delete_widget.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/general_widget.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/item_category_list_widget.dart';
@@ -18,6 +19,7 @@ class _CategoryListPageState extends State<CategoryListPage> {
 
   String idCategory = "";
   bool isLoading = false;
+  bool selected = true;
 
   void _showDeleteItem() {
     showDialog(
@@ -31,6 +33,15 @@ class _CategoryListPageState extends State<CategoryListPage> {
             Navigator.pop(context);
           },
         );
+      },
+    );
+  }
+
+  void showAddUpdateItem() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return DialogAddUpdateFormWidget();
       },
     );
   }
@@ -78,7 +89,9 @@ class _CategoryListPageState extends State<CategoryListPage> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: COLOR_BRAND_SECONDARY,
-        onPressed: () {},
+        onPressed: () {
+          showAddUpdateItem();
+        },
         child: SvgPicture.asset(
           "assets/icons/plus.svg",
           color: Colors.white,

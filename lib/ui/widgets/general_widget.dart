@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 
+// Linea de color rojo
 Container lineWidget = Container(
   width: 100,
   height: 3.5,
@@ -11,6 +12,7 @@ Container lineWidget = Container(
   ),
 );
 
+// CircularProgress editado
 Center loadingWidget = const Center(
   child: SizedBox(
     height: 20.0,
@@ -22,6 +24,7 @@ Center loadingWidget = const Center(
   ),
 );
 
+// SnackBar para enviar mensajes
 messageSuccessSnackBar(BuildContext context){
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
