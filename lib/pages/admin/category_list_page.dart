@@ -82,30 +82,8 @@ class _CategoryListPageState extends State<CategoryListPage> {
       isLoading = false;
       setState(() {});
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: COLOR_BRAND_SECONDARY,
-          content: Row(
-            children: const [
-              Icon(
-                Icons.check_circle,
-                color: Colors.white,
-              ),
-              SizedBox(
-                width: 10.0,
-              ),
-              Text(
-                "El registro se eliminó correctamente",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
+      messageSuccessSnackBar(context);
+
     }).catchError((error) {
       isLoading = false;
       setState(() {});

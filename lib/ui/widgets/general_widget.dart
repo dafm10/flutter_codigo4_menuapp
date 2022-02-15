@@ -1,5 +1,5 @@
 
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 
 Container lineWidget = Container(
@@ -10,3 +10,30 @@ Container lineWidget = Container(
     borderRadius: BorderRadius.circular(10.0),
   ),
 );
+
+messageSuccessSnackBar(BuildContext context){
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      backgroundColor: COLOR_BRAND_SECONDARY,
+      content: Row(
+        children: const [
+          Icon(
+            Icons.check_circle,
+            color: Colors.white,
+          ),
+          SizedBox(
+            width: 10.0,
+          ),
+          Text(
+            "El registro se eliminó correctamente",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 14.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
