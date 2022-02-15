@@ -4,7 +4,11 @@ import 'package:flutter_codigo4_menuapp/services/firestore_service.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 
 class DialogAddUpdateFormWidget extends StatefulWidget {
-  const DialogAddUpdateFormWidget({Key? key}) : super(key: key);
+  Category? category;
+
+  DialogAddUpdateFormWidget({
+    this.category,
+  });
 
   @override
   _DialogAddUpdateFormWidgetState createState() =>
@@ -12,11 +16,11 @@ class DialogAddUpdateFormWidget extends StatefulWidget {
 }
 
 class _DialogAddUpdateFormWidgetState extends State<DialogAddUpdateFormWidget> {
-
   bool selected = true;
   final _formKey = GlobalKey<FormState>();
   TextEditingController _descriptionController = TextEditingController();
-  MyFirestoreService _myFirestoreService = MyFirestoreService(collection: "categories");
+  MyFirestoreService _myFirestoreService =
+      MyFirestoreService(collection: "categories");
 
   _addCategory() {
     if (_formKey.currentState!.validate()) {
@@ -24,10 +28,7 @@ class _DialogAddUpdateFormWidgetState extends State<DialogAddUpdateFormWidget> {
         description: _descriptionController.text,
         status: selected,
       );
-
-      _myFirestoreService.addCategory(category).then((value) {
-
-      });
+      _myFirestoreService.addCategory(category).then((value) {});
     }
   }
 
@@ -85,8 +86,8 @@ class _DialogAddUpdateFormWidgetState extends State<DialogAddUpdateFormWidget> {
                     borderSide: BorderSide.none,
                   ),
                 ),
-                validator: (String? value){
-                  if(value!.isEmpty){
+                validator: (String? value) {
+                  if (value!.isEmpty) {
                     return "El campo no puede estar vacío";
                   }
                   return null;
