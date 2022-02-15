@@ -4,6 +4,7 @@ import 'package:flutter_codigo4_menuapp/services/firestore_service.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 
 class DialogAddUpdateFormWidget extends StatefulWidget {
+
   Category? category;
 
   DialogAddUpdateFormWidget({
@@ -22,6 +23,16 @@ class _DialogAddUpdateFormWidgetState extends State<DialogAddUpdateFormWidget> {
   MyFirestoreService _myFirestoreService =
       MyFirestoreService(collection: "categories");
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.category != null){
+      _descriptionController.text = widget.category!.description;
+      selected = widget.category!.status;
+    };
+  }
+
   _addCategory() {
     if (_formKey.currentState!.validate()) {
       Category category = Category(
@@ -39,7 +50,7 @@ class _DialogAddUpdateFormWidgetState extends State<DialogAddUpdateFormWidget> {
         borderRadius: BorderRadius.circular(12.0),
       ),
       title: Text(
-        "Agregar Categoría",
+        widget.category == null ? "Agregar Categoría" : "Editar Categoría",
         style: const TextStyle(
           fontSize: 16.0,
           fontWeight: FontWeight.bold,

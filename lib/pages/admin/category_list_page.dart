@@ -40,15 +40,6 @@ class _CategoryListPageState extends State<CategoryListPage> {
     );
   }
 
-  void showAddUpdateItem() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return DialogAddUpdateFormWidget();
-      },
-    );
-  }
-
   void deleteItem() {
 
     myFirestoreService.deleteItem(idCategory).then((value) {
@@ -62,6 +53,17 @@ class _CategoryListPageState extends State<CategoryListPage> {
       setState(() {});
     });
   }
+
+  void _showAddUpdateItem(Category? category) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return DialogAddUpdateFormWidget(category: category,);
+      },
+    );
+  }
+
+
 
 
   @override
@@ -96,7 +98,7 @@ class _CategoryListPageState extends State<CategoryListPage> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: COLOR_BRAND_SECONDARY,
         onPressed: () {
-          showAddUpdateItem();
+          _showAddUpdateItem(null);
         },
         child: SvgPicture.asset(
           "assets/icons/plus.svg",
@@ -197,7 +199,9 @@ class _CategoryListPageState extends State<CategoryListPage> {
                                 idCategory = categories[index].id!;
                                 _showDeleteItem();
                               },
-                              onUpdate: () {},
+                              onUpdate: () {
+                                _showAddUpdateItem(categories[index]);
+                              },
                             );
                           },
                         );
@@ -205,6 +209,7 @@ class _CategoryListPageState extends State<CategoryListPage> {
                       return loadingWidget;
                     },
                   ),
+                  const SizedBox(height: 50.0,),
                 ],
               ),
             ),
