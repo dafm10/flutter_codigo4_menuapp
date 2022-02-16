@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/general_widget.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/text_field_normal_widget.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ProductAddUpdatePage extends StatefulWidget {
   const ProductAddUpdatePage({Key? key}) : super(key: key);
@@ -36,6 +37,7 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 12.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -87,12 +89,14 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                 hinText: "Descripción",
                 maxLines: 4,
               ),
-              const SizedBox(height: 10.0,),
-              Padding(
+              const SizedBox(
+                height: 10.0,
+              ),
+              const Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Text(
                   "Categoría :",
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: COLOR_BRAND_SECONDARY,
                   ),
@@ -102,15 +106,17 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                 height: 6.0,
               ),
               Container(
-                margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+                margin: const EdgeInsets.symmetric(
+                    horizontal: 10.0, vertical: 10.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12.0),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black87.withOpacity(0.07),
-                      offset: Offset(4,4),
+                      offset: Offset(4, 4),
                       blurRadius: 12.0,
                     ),
                   ],
@@ -137,8 +143,9 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                   ),
                 ),
               ),
-              const SizedBox(height: 10.0,),
-
+              const SizedBox(
+                height: 10.0,
+              ),
               TextFieldNormalwidget(
                 hinText: "Origen",
               ),
@@ -173,6 +180,48 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                       hinText: "Tiempo",
                       textInputType: TextInputType.number,
                       maxLength: 2,
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFieldNormalwidget(
+                      hinText: "Ingredientes",
+                      maxLength: 1,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: (){
+
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(top: 22.0, right: 16.0),
+                      padding: const EdgeInsets.all(12.0),
+                      decoration: BoxDecoration(
+                        color: COLOR_SECONDARY,
+                        borderRadius: BorderRadius.circular(10.0),
+                        gradient: const LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Color(0xffFFFC7345),
+                            COLOR_SECONDARY
+                          ],
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xffFFFC7345).withOpacity(0.1),
+                            blurRadius: 12.0,
+                            offset: const Offset(4,4),
+                          ),
+                        ],
+                      ),
+                      child: SvgPicture.asset(
+                        "assets/icons/plus.svg",
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ],
