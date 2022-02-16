@@ -6,7 +6,7 @@ import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/dialog_add_update_form_widget.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/dialog_delete_widget.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/general_widget.dart';
-import 'package:flutter_codigo4_menuapp/ui/widgets/item_category_list_widget.dart';
+import 'package:flutter_codigo4_menuapp/ui/widgets/item_list_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CategoryListPage extends StatefulWidget {
@@ -194,7 +194,7 @@ class _CategoryListPageState extends State<CategoryListPage> {
                             endIndent: _width * 0.07,
                           ),
                           itemBuilder: (BuildContext context, int index) {
-                            return ItemCategoryListWidget(
+                            return ItemListWidget(
                               title: categories[index].description,
                               status: categories[index].status,
                               onDelete: () {

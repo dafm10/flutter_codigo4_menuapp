@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class ItemCategoryListWidget extends StatelessWidget {
+class ItemListWidget extends StatelessWidget {
 
   String title;
   bool status;
   Function onDelete;
   Function onUpdate;
 
-  ItemCategoryListWidget({
+  ItemListWidget({
     required this.title,
     required this.status,
     required this.onDelete,

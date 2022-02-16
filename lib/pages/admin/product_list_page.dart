@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_codigo4_menuapp/models/product_model.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/general_widget.dart';
+import 'package:flutter_codigo4_menuapp/ui/widgets/item_list_widget.dart';
 
 class ProductListpage extends StatefulWidget {
   const ProductListpage({Key? key}) : super(key: key);
@@ -89,28 +90,31 @@ class _ProductListpageState extends State<ProductListpage> {
               ),
               StreamBuilder(
                 stream: collectionReference.orderBy('name').snapshots(),
-                builder: (BuildContext context, AsyncSnapshot snap){
-                  if(snap.hasData){
+                builder: (BuildContext context, AsyncSnapshot snap) {
+                  if (snap.hasData) {
                     QuerySnapshot collection = snap.data;
 
                     List<Product> products = collection.docs.map((e) {
-                      Product item = Product.fromJson(e.data() as Map<String, dynamic>);
+                      Product item =
+                          Product.fromJson(e.data() as Map<String, dynamic>);
                       item.id = e.id;
-                      return  item;
+                      return item;
                     }).toList();
 
                     return ListView.builder(
                       shrinkWrap: true,
                       itemCount: products.length,
-                      itemBuilder: (BuildContext context, int index){
-                        return ListTile(
-                          title: Text("Hola"),
+                      itemBuilder: (BuildContext context, int index) {
+                        return ItemListWidget(
+                          title: products[index].name,
+                          status: products[index].status,
+                          onDelete: () {},
+                          onUpdate: () {},
                         );
                       },
                     );
-
                   }
-                 return loadingWidget;
+                  return loadingWidget;
                 },
               ),
             ],
