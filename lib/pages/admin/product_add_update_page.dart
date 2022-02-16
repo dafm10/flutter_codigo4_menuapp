@@ -85,7 +85,14 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                 height: 20.0,
               ),
               TextFieldNormalwidget(
-                hintextName: "Descripción",
+                hinText: "Nombre",
+              ),
+              TextFieldNormalwidget(
+                hinText: "Descripción",
+                maxLines: 4,
+              ),
+              TextFieldNormalwidget(
+                hinText: "Origen",
               ),
             ],
           ),
