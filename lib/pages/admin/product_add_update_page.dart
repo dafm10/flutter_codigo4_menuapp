@@ -3,6 +3,7 @@ import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/general_widget.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/text_field_normal_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProductAddUpdatePage extends StatefulWidget {
   const ProductAddUpdatePage({Key? key}) : super(key: key);
@@ -13,12 +14,18 @@ class ProductAddUpdatePage extends StatefulWidget {
 
 class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
 
+  ImagePicker _picker = ImagePicker();
   TextEditingController _addIngredientsController = TextEditingController();
 
   List<String> ingredients = [
     "Cebolla traida desde Macchu Picchu",
     "Palta traída desde Moquegua",
   ];
+
+  getImageGallery() async {
+    XFile? selectedImage = await _picker.pickImage(source: ImageSource.gallery);
+    print(selectedImage);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -202,12 +209,10 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       ingredients.add(_addIngredientsController.text);
                       _addIngredientsController.clear();
-                      setState(() {
-
-                      });
+                      setState(() {});
                     },
                     child: Container(
                       margin: const EdgeInsets.only(top: 22.0, right: 16.0),
@@ -218,16 +223,13 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                         gradient: const LinearGradient(
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
-                          colors: [
-                            Color(0xffFC7345),
-                            COLOR_SECONDARY
-                          ],
+                          colors: [Color(0xffFC7345), COLOR_SECONDARY],
                         ),
                         boxShadow: [
                           BoxShadow(
                             color: const Color(0xffFC7345).withOpacity(0.1),
                             blurRadius: 12.0,
-                            offset: const Offset(4,4),
+                            offset: const Offset(4, 4),
                           ),
                         ],
                       ),
@@ -239,9 +241,9 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                   ),
                 ],
               ),
-
               Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                margin: const EdgeInsets.symmetric(
+                    horizontal: 16.0, vertical: 10.0),
                 padding: const EdgeInsets.symmetric(vertical: 10.0),
                 height: 300.0,
                 width: double.infinity,
@@ -251,46 +253,71 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                     BoxShadow(
                       color: Colors.black87.withOpacity(0.07),
                       blurRadius: 12.0,
-                      offset: const Offset(4,4),
+                      offset: const Offset(4, 4),
                     ),
                   ],
                 ),
-                child: ingredients.isNotEmpty ? ListView.separated(
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: ingredients.length,
-                  separatorBuilder: (_,__) => const Divider(indent: 16.0, endIndent: 16.0,),
-                  itemBuilder: (context, index){
-                    return ListTile(
-                      title: Text(
-                        ingredients[index],
-                        style: TextStyle(
-                          fontSize: 15.0,
+                child: ingredients.isNotEmpty
+                    ? ListView.separated(
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: ingredients.length,
+                        separatorBuilder: (_, __) => const Divider(
+                          indent: 16.0,
+                          endIndent: 16.0,
                         ),
-                      ),
-                      trailing: IconButton(
-                        onPressed: (){
-                          ingredients.removeAt(index);
-                          setState(() {
-
-                          });
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            title: Text(
+                              ingredients[index],
+                              style: TextStyle(
+                                fontSize: 15.0,
+                              ),
+                            ),
+                            trailing: IconButton(
+                              onPressed: () {
+                                ingredients.removeAt(index);
+                                setState(() {});
+                              },
+                              icon: SvgPicture.asset(
+                                "assets/icons/trash.svg",
+                                height: 18.0,
+                              ),
+                            ),
+                          );
                         },
-                        icon: SvgPicture.asset(
-                          "assets/icons/trash.svg",
-                          height: 18.0,
-                        ),
+                      )
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            "assets/images/box.png",
+                            height: 65.0,
+                          ),
+                          const SizedBox(
+                            height: 10.0,
+                          ),
+                          const Text(
+                            "No hay ingredientes registrados",
+                          ),
+                        ],
                       ),
-                    );
-                  },
-                ): Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      "assets/images/box.png",
-                      height: 65.0,
-                    ),
-                    const SizedBox(height: 10.0,),
-                    const Text("No hay ingredientes registrados",),
-                  ],
+              ),
+              const Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Text(
+                  "Imagen",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: COLOR_BRAND_SECONDARY,
+                  ),
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  getImageGallery();
+                },
+                child: Text(
+                  "Galeria",
                 ),
               ),
             ],
