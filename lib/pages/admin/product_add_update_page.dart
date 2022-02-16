@@ -12,6 +12,14 @@ class ProductAddUpdatePage extends StatefulWidget {
 }
 
 class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
+
+  TextEditingController _addIngredientsController = TextEditingController();
+
+  List<String> ingredients = [
+    "Cebolla traida desde Macchu Picchu",
+    "Palta traída desde Moquegua",
+  ];
+
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
@@ -189,12 +197,16 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                   Expanded(
                     child: TextFieldNormalwidget(
                       hinText: "Ingredientes",
-                      maxLength: 1,
+                      controller: _addIngredientsController,
                     ),
                   ),
                   GestureDetector(
                     onTap: (){
+                      ingredients.add(_addIngredientsController.text);
+                      _addIngredientsController.clear();
+                      setState(() {
 
+                      });
                     },
                     child: Container(
                       margin: const EdgeInsets.only(top: 22.0, right: 16.0),
@@ -242,20 +254,25 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                     ),
                   ],
                 ),
-                child: ListView.separated(
-                  physics: BouncingScrollPhysics(),
-                  itemCount: 10,
-                  separatorBuilder: (_,__) => Divider(indent: 16.0, endIndent: 16.0,),
+                child: ingredients.isNotEmpty ? ListView.separated(
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: ingredients.length,
+                  separatorBuilder: (_,__) => const Divider(indent: 16.0, endIndent: 16.0,),
                   itemBuilder: (context, index){
                     return ListTile(
                       title: Text(
-                        "Cebolla",
+                        ingredients[index],
                         style: TextStyle(
                           fontSize: 15.0,
                         ),
                       ),
                       trailing: IconButton(
-                        onPressed: (){},
+                        onPressed: (){
+                          ingredients.removeAt(index);
+                          setState(() {
+
+                          });
+                        },
                         icon: SvgPicture.asset(
                           "assets/icons/trash.svg",
                           height: 18.0,
@@ -263,6 +280,16 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                       ),
                     );
                   },
+                ): Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("No hay ingredientes registrados",),
+                    SizedBox(height: 10.0,),
+                    Image.asset(
+                      "assets/images/box.png",
+                      height: 60.0,
+                    ),
+                  ],
                 ),
               ),
             ],

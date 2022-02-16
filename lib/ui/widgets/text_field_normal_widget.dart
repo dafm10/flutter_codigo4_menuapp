@@ -6,12 +6,14 @@ class TextFieldNormalwidget extends StatelessWidget {
   int? maxLines;
   TextInputType? textInputType;
   int? maxLength;
+  TextEditingController? controller;
 
   TextFieldNormalwidget({
     required this.hinText,
     this.maxLines,
     this.textInputType,
     this.maxLength,
+    this.controller,
   });
 
   @override
@@ -43,6 +45,7 @@ class TextFieldNormalwidget extends StatelessWidget {
             ),
             child: TextFormField(
               //controller: _descriptionController,
+              controller: controller,
               maxLines: maxLines,
               keyboardType: textInputType,
               maxLength: maxLength,
