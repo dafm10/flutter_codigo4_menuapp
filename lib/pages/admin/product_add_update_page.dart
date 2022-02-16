@@ -84,7 +84,9 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
               const SizedBox(
                 height: 20.0,
               ),
-              TextFieldNormalwidget(),
+              TextFieldNormalwidget(
+                hintextName: "Descripción",
+              ),
             ],
           ),
         ),

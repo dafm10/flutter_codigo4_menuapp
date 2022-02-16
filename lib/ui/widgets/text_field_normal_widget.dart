@@ -2,11 +2,17 @@
 import 'package:flutter/material.dart';
 
 class TextFieldNormalwidget extends StatelessWidget {
-  const TextFieldNormalwidget({Key? key}) : super(key: key);
+
+  String hintextName;
+
+  TextFieldNormalwidget({
+    required this.hintextName,
+});
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
@@ -19,7 +25,7 @@ class TextFieldNormalwidget extends StatelessWidget {
       child: TextFormField(
         //controller: _descriptionController,
         decoration: InputDecoration(
-          hintText: "Descripción",
+          hintText: hintextName,
           hintStyle: const TextStyle(
             fontSize: 14.0,
           ),
