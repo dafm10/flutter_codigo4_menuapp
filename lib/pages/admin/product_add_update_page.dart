@@ -94,6 +94,13 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
               TextFieldNormalwidget(
                 hinText: "Origen",
               ),
+              TextFieldNormalwidget(
+                hinText: "Precio",
+                textInputType: TextInputType.number,
+              ),
+              TextFieldNormalwidget(
+                hinText: "Descuento",
+              ),
             ],
           ),
         ),

@@ -4,10 +4,12 @@ import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 class TextFieldNormalwidget extends StatelessWidget {
   String hinText;
   int? maxLines;
+  TextInputType? textInputType;
 
   TextFieldNormalwidget({
     required this.hinText,
     this.maxLines,
+    this.textInputType,
   });
 
   @override
@@ -40,6 +42,7 @@ class TextFieldNormalwidget extends StatelessWidget {
             child: TextFormField(
               //controller: _descriptionController,
               maxLines: maxLines,
+              keyboardType: textInputType,
               decoration: InputDecoration(
                 hintText: hinText,
                 hintStyle: const TextStyle(
