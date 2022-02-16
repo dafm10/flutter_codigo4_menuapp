@@ -4,7 +4,6 @@ import 'package:flutter_codigo4_menuapp/services/firestore_service.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 
 class DialogAddUpdateFormWidget extends StatefulWidget {
-
   Category? category;
 
   DialogAddUpdateFormWidget({
@@ -27,23 +26,23 @@ class _DialogAddUpdateFormWidgetState extends State<DialogAddUpdateFormWidget> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    if(widget.category != null){
+    if (widget.category != null) {
       _descriptionController.text = widget.category!.description;
       selected = widget.category!.status;
-    };
+    }
+    ;
   }
 
   _addUpdateCategory() {
     if (_formKey.currentState!.validate()) {
-
       Category category = Category(
         description: _descriptionController.text,
         status: selected,
       );
 
-      if(widget.category == null){
+      if (widget.category == null) {
         _myFirestoreService.addCategory(category);
-      }else{
+      } else {
         category.id = widget.category!.id;
         _myFirestoreService.updateCategory(category);
       }

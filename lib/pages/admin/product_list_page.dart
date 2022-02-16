@@ -1,5 +1,6 @@
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_codigo4_menuapp/models/product_model.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/general_widget.dart';
 
@@ -11,9 +12,11 @@ class ProductListpage extends StatefulWidget {
 }
 
 class _ProductListpageState extends State<ProductListpage> {
+  CollectionReference collectionReference =
+      FirebaseFirestore.instance.collection('products');
+
   @override
   Widget build(BuildContext context) {
-
     double _width = MediaQuery.of(context).size.width;
     double _height = MediaQuery.of(context).size.height;
 
@@ -46,8 +49,7 @@ class _ProductListpageState extends State<ProductListpage> {
                 child: Row(
                   children: [
                     const CircleAvatar(
-                      backgroundImage:
-                      AssetImage("assets/images/logo.jpeg"),
+                      backgroundImage: AssetImage("assets/images/logo.jpeg"),
                       radius: 25.0,
                     ),
                     SizedBox(
@@ -84,6 +86,32 @@ class _ProductListpageState extends State<ProductListpage> {
               ),
               const SizedBox(
                 height: 20.0,
+              ),
+              StreamBuilder(
+                stream: collectionReference.orderBy('name').snapshots(),
+                builder: (BuildContext context, AsyncSnapshot snap){
+                  if(snap.hasData){
+                    QuerySnapshot collection = snap.data;
+
+                    List<Product> products = collection.docs.map((e) {
+                      Product item = Product.fromJson(e.data() as Map<String, dynamic>);
+                      item.id = e.id;
+                      return  item;
+                    }).toList();
+
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: products.length,
+                      itemBuilder: (BuildContext context, int index){
+                        return ListTile(
+                          title: Text("Hola"),
+                        );
+                      },
+                    );
+
+                  }
+                 return loadingWidget;
+                },
               ),
             ],
           ),
