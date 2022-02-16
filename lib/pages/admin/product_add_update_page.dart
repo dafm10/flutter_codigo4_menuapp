@@ -324,13 +324,48 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                 ),
               ),
               imageProduct != null
-                  ? Image.file(File(
-                      imageProduct!.path,
-                    ))
+                  ? Container(
+                      width: double.infinity,
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 16.0, vertical: 10.0),
+                      height: 200,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black87.withOpacity(0.07),
+                            offset: Offset(4, 4),
+                            blurRadius: 12.0,
+                          ),
+                        ],
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(12.0),
+                        child: Image.file(
+                          File(
+                            imageProduct!.path,
+                          ),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    )
                   : Container(
                       width: double.infinity,
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 16.0, vertical: 10.0),
                       height: 200,
-                      color: Colors.red,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black87.withOpacity(0.07),
+                            offset: Offset(4, 4),
+                            blurRadius: 12.0,
+                          ),
+                        ],
+                      ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -338,10 +373,10 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                             "assets/images/image.png",
                             height: 50.0,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
-                          Text(
+                          const Text(
                             "No hay una imagen seleccionada",
                           ),
                         ],
