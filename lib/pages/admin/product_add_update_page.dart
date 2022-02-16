@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/general_widget.dart';
@@ -13,8 +15,8 @@ class ProductAddUpdatePage extends StatefulWidget {
 }
 
 class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
-
   ImagePicker _picker = ImagePicker();
+  XFile? imageProduct;
   TextEditingController _addIngredientsController = TextEditingController();
 
   List<String> ingredients = [
@@ -24,7 +26,8 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
 
   getImageGallery() async {
     XFile? selectedImage = await _picker.pickImage(source: ImageSource.gallery);
-    print(selectedImage);
+    imageProduct = selectedImage;
+    setState(() {});
   }
 
   @override
@@ -320,6 +323,30 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                   "Galeria",
                 ),
               ),
+              imageProduct != null
+                  ? Image.file(File(
+                      imageProduct!.path,
+                    ))
+                  : Container(
+                      width: double.infinity,
+                      height: 200,
+                      color: Colors.red,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            "assets/images/image.png",
+                            height: 50.0,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            "No hay una imagen seleccionada",
+                          ),
+                        ],
+                      ),
+                    ),
             ],
           ),
         ),
