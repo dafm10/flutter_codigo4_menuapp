@@ -305,22 +305,50 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                         ],
                       ),
               ),
-              const Padding(
+              Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Text(
-                  "Imagen",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: COLOR_BRAND_SECONDARY,
-                  ),
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  getImageGallery();
-                },
-                child: Text(
-                  "Galeria",
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "Imagen",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: COLOR_BRAND_SECONDARY,
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        ElevatedButton.icon(
+                          icon: Icon(Icons.image),
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            primary: Color(0xFFFC7345),
+                          ),
+                          onPressed: () {
+                            getImageGallery();
+                          },
+                          label: Text("Galería"),
+                        ),
+                        const SizedBox(width: 12.0,),
+                        ElevatedButton.icon(
+                          icon: Icon(Icons.image),
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            primary: Color(0xFFFC7345),
+                          ),
+                          onPressed: () {
+                            getImageGallery();
+                          },
+                          label: Text("Cámara"),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
               imageProduct != null
