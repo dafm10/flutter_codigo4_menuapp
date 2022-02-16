@@ -206,13 +206,13 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                           colors: [
-                            Color(0xffFFFC7345),
+                            Color(0xffFC7345),
                             COLOR_SECONDARY
                           ],
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: const Color(0xffFFFC7345).withOpacity(0.1),
+                            color: const Color(0xffFC7345).withOpacity(0.1),
                             blurRadius: 12.0,
                             offset: const Offset(4,4),
                           ),
@@ -225,6 +225,45 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                     ),
                   ),
                 ],
+              ),
+
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                height: 300.0,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black87.withOpacity(0.07),
+                      blurRadius: 12.0,
+                      offset: const Offset(4,4),
+                    ),
+                  ],
+                ),
+                child: ListView.separated(
+                  physics: BouncingScrollPhysics(),
+                  itemCount: 10,
+                  separatorBuilder: (_,__) => Divider(indent: 16.0, endIndent: 16.0,),
+                  itemBuilder: (context, index){
+                    return ListTile(
+                      title: Text(
+                        "Cebolla",
+                        style: TextStyle(
+                          fontSize: 15.0,
+                        ),
+                      ),
+                      trailing: IconButton(
+                        onPressed: (){},
+                        icon: SvgPicture.asset(
+                          "assets/icons/trash.svg",
+                          height: 18.0,
+                        ),
+                      ),
+                    );
+                  },
+                ),
               ),
             ],
           ),
