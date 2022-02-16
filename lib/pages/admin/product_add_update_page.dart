@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/general_widget.dart';
@@ -12,10 +11,8 @@ class ProductAddUpdatePage extends StatefulWidget {
 }
 
 class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
-
   @override
   Widget build(BuildContext context) {
-
     double _width = MediaQuery.of(context).size.width;
     double _height = MediaQuery.of(context).size.height;
 
@@ -37,7 +34,7 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12.0),
+          padding: const EdgeInsets.symmetric(vertical: 12.0),
           child: Column(
             children: [
               Padding(
@@ -45,8 +42,7 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                 child: Row(
                   children: [
                     const CircleAvatar(
-                      backgroundImage:
-                      AssetImage("assets/images/logo.jpeg"),
+                      backgroundImage: AssetImage("assets/images/logo.jpeg"),
                       radius: 25.0,
                     ),
                     SizedBox(
@@ -91,6 +87,58 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                 hinText: "Descripción",
                 maxLines: 4,
               ),
+              const SizedBox(height: 10.0,),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Text(
+                  "Categoría :",
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: COLOR_BRAND_SECONDARY,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 6.0,
+              ),
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black87.withOpacity(0.07),
+                      offset: Offset(4,4),
+                      blurRadius: 12.0,
+                    ),
+                  ],
+                ),
+                width: double.infinity,
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton(
+                    value: "1",
+                    items: [
+                      DropdownMenuItem(
+                        child: Text(
+                          "Bebidas",
+                        ),
+                        value: "1",
+                      ),
+                      DropdownMenuItem(
+                        child: Text(
+                          "Platos de Fondo",
+                        ),
+                        value: "2",
+                      ),
+                    ],
+                    onChanged: (String? value) {},
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10.0,),
+
               TextFieldNormalwidget(
                 hinText: "Origen",
               ),
