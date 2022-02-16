@@ -5,11 +5,13 @@ class TextFieldNormalwidget extends StatelessWidget {
   String hinText;
   int? maxLines;
   TextInputType? textInputType;
+  int? maxLength;
 
   TextFieldNormalwidget({
     required this.hinText,
     this.maxLines,
     this.textInputType,
+    this.maxLength,
   });
 
   @override
@@ -43,7 +45,9 @@ class TextFieldNormalwidget extends StatelessWidget {
               //controller: _descriptionController,
               maxLines: maxLines,
               keyboardType: textInputType,
+              maxLength: maxLength,
               decoration: InputDecoration(
+                counterText: "",
                 hintText: hinText,
                 hintStyle: const TextStyle(
                   fontSize: 14.0,

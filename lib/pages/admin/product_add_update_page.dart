@@ -94,12 +94,40 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
               TextFieldNormalwidget(
                 hinText: "Origen",
               ),
-              TextFieldNormalwidget(
-                hinText: "Precio",
-                textInputType: TextInputType.number,
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFieldNormalwidget(
+                      hinText: "Precio",
+                      textInputType: TextInputType.number,
+                    ),
+                  ),
+                  Expanded(
+                    child: TextFieldNormalwidget(
+                      hinText: "Descuento",
+                      textInputType: TextInputType.number,
+                      maxLength: 3,
+                    ),
+                  ),
+                ],
               ),
-              TextFieldNormalwidget(
-                hinText: "Descuento",
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFieldNormalwidget(
+                      hinText: "Puntaje",
+                      textInputType: TextInputType.number,
+                      maxLength: 1,
+                    ),
+                  ),
+                  Expanded(
+                    child: TextFieldNormalwidget(
+                      hinText: "Tiempo",
+                      textInputType: TextInputType.number,
+                      maxLength: 2,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
