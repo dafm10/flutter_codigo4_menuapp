@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/general_widget.dart';
+import 'package:flutter_codigo4_menuapp/ui/widgets/text_field_normal_widget.dart';
 
 class ProductAddUpdatePage extends StatefulWidget {
   const ProductAddUpdatePage({Key? key}) : super(key: key);
@@ -22,9 +23,6 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        /*leading: const SizedBox(
-          width: 20.0,
-        ),*/
         title: const Text(
           "MenuApp",
           style: TextStyle(
@@ -86,6 +84,7 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
               const SizedBox(
                 height: 20.0,
               ),
+              TextFieldNormalwidget(),
             ],
           ),
         ),

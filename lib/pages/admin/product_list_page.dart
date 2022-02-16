@@ -27,9 +27,6 @@ class _ProductListpageState extends State<ProductListpage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        /*leading: const SizedBox(
-          width: 20.0,
-        ),*/
         title: const Text(
           "MenuApp",
           style: TextStyle(
