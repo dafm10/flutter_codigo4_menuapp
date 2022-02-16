@@ -42,6 +42,7 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
         ),
       ),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 12.0),
           child: Column(
@@ -283,12 +284,12 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                 ): Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("No hay ingredientes registrados",),
-                    SizedBox(height: 10.0,),
                     Image.asset(
                       "assets/images/box.png",
-                      height: 60.0,
+                      height: 65.0,
                     ),
+                    const SizedBox(height: 10.0,),
+                    const Text("No hay ingredientes registrados",),
                   ],
                 ),
               ),
