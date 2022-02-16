@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_codigo4_menuapp/models/product_model.dart';
+import 'package:flutter_codigo4_menuapp/pages/admin/product_add_update_page.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/general_widget.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/item_list_widget.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ProductListpage extends StatefulWidget {
   const ProductListpage({Key? key}) : super(key: key);
@@ -38,6 +40,17 @@ class _ProductListpageState extends State<ProductListpage> {
         centerTitle: true,
         iconTheme: const IconThemeData(
           color: COLOR_BRAND_SECONDARY,
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: COLOR_BRAND_SECONDARY,
+        onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductAddUpdatePage()));
+        },
+        child: SvgPicture.asset(
+          "assets/icons/plus.svg",
+          color: Colors.white,
+          height: 26.0,
         ),
       ),
       body: SingleChildScrollView(
