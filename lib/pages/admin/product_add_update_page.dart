@@ -15,9 +15,9 @@ class ProductAddUpdatePage extends StatefulWidget {
 }
 
 class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
-  ImagePicker _picker = ImagePicker();
+  final ImagePicker _picker = ImagePicker();
   XFile? imageProduct;
-  TextEditingController _addIngredientsController = TextEditingController();
+  final TextEditingController _addIngredientsController = TextEditingController();
 
   List<String> ingredients = [
     "Cebolla traida desde Macchu Picchu",
@@ -28,6 +28,14 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
     XFile? selectedImage = await _picker.pickImage(source: ImageSource.gallery);
     imageProduct = selectedImage;
     setState(() {});
+  }
+
+  getImageCamera() async {
+    XFile? _selectedImage = await _picker.pickImage(source: ImageSource.camera);
+    imageProduct = _selectedImage;
+    setState(() {
+
+    });
   }
 
   @override
@@ -112,7 +120,7 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                 height: 10.0,
               ),
               const Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
                 child: Text(
                   "Categoría :",
                   style: TextStyle(
@@ -135,7 +143,7 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black87.withOpacity(0.07),
-                      offset: Offset(4, 4),
+                      offset: const Offset(4, 4),
                       blurRadius: 12.0,
                     ),
                   ],
@@ -320,31 +328,31 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                     Row(
                       children: [
                         ElevatedButton.icon(
-                          icon: Icon(Icons.image),
+                          icon: const Icon(Icons.image),
                           style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
                             ),
-                            primary: Color(0xFFFC7345),
+                            primary: const Color(0xFFFC7345),
                           ),
                           onPressed: () {
                             getImageGallery();
                           },
-                          label: Text("Galería"),
+                          label: const Text("Galería"),
                         ),
                         const SizedBox(width: 12.0,),
                         ElevatedButton.icon(
-                          icon: Icon(Icons.image),
+                          icon: const Icon(Icons.image),
                           style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
                             ),
-                            primary: Color(0xFFFC7345),
+                            primary: const Color(0xFFFC7345),
                           ),
                           onPressed: () {
-                            getImageGallery();
+                            getImageCamera();
                           },
-                          label: Text("Cámara"),
+                          label: const Text("Cámara"),
                         ),
                       ],
                     ),
