@@ -1,7 +1,7 @@
 
 class Product {
 
-  String id;
+  String? id;
   String category;
   String image;
   int rate;
@@ -15,7 +15,7 @@ class Product {
   bool status;
 
   Product({
-    required this.id,
+    this.id,
     required this.category,
     required this.image,
     required this.rate,
@@ -45,7 +45,6 @@ class Product {
   );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
     "category": category,
     "image": image,
     "rate": rate,

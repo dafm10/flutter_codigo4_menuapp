@@ -25,12 +25,12 @@ Center loadingWidget = const Center(
 );
 
 // SnackBar para enviar mensajes
-messageSuccessSnackBar(BuildContext context){
+messageSuccessSnackBar(BuildContext context, String message){
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       backgroundColor: COLOR_BRAND_SECONDARY,
       content: Row(
-        children: const [
+        children: [
           Icon(
             Icons.check_circle,
             color: Colors.white,
@@ -39,7 +39,7 @@ messageSuccessSnackBar(BuildContext context){
             width: 10.0,
           ),
           Text(
-            "El registro se eliminó correctamente",
+            message,
             style: TextStyle(
               color: Colors.white,
               fontSize: 14.0,

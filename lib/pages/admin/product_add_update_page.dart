@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:flutter_codigo4_menuapp/models/category_model.dart';
+import 'package:flutter_codigo4_menuapp/models/product_model.dart';
 import 'package:flutter_codigo4_menuapp/services/firestore_service.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/general_widget.dart';
@@ -19,6 +20,8 @@ class ProductAddUpdatePage extends StatefulWidget {
 
 class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
   bool selectedStatus = true;
+  bool isLoading = false;
+
   final ImagePicker _picker = ImagePicker();
   XFile? imageProduct;
 
@@ -36,6 +39,9 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
 
   final MyFirestoreService _myFirestoreService =
       MyFirestoreService(collection: "categories");
+
+  final MyFirestoreService _myProductService =
+      MyFirestoreService(collection: "products");
 
   // Creamos la instancia de Firebase Storage
   firebase_storage.FirebaseStorage _storage =
@@ -68,7 +74,7 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
     setState(() {});
   }
 
-  uploadImageFirebase() async {
+  Future<String> uploadImageFirebase() async {
     // creamos la referencia a una carpeta que vamos a crear
     //Estamos referenciando que vamos a crear una carpeta Products para subir las imagenes
     firebase_storage.Reference _reference = _storage.ref().child("products");
@@ -76,10 +82,48 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
     firebase_storage.TaskSnapshot upload =
         await _reference.child("m$time.jpg").putFile(File(imageProduct!.path));
     String url = await upload.ref.getDownloadURL();
+    return url;
   }
 
-  addProduct() {
-    if (_keyForm.currentState!.validate()) {}
+  addProduct() async {
+    if (_keyForm.currentState!.validate()) {
+      if (imageProduct != null) {
+        isLoading = true;
+        setState(() {});
+
+        String url = await uploadImageFirebase();
+
+        Product product = Product(
+          category: idCategory,
+          image: url,
+          rate: int.parse(_rateController.text),
+          price: double.parse(_priceController.text),
+          origin: _originController.text,
+          name: _nameController.text,
+          ingredients: ingredients,
+          discount: int.parse(_discountController.text),
+          description: _descriptionController.text,
+          time: int.parse(_timeController.text),
+          status: selectedStatus,
+        );
+        _myProductService.addProduct(product).then((value) {
+          print(value);
+          isLoading = false;
+          setState(() {});
+          messageSuccessSnackBar(
+              context, "El registro se añadió correctamente");
+          Navigator.pop(context);
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              "Por favor, selecciona una imagen.",
+            ),
+          ),
+        );
+      }
+    }
   }
 
   @override
@@ -103,110 +147,113 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
           color: COLOR_BRAND_SECONDARY,
         ),
       ),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12.0),
-          child: Form(
-            key: _keyForm,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    children: [
-                      const CircleAvatar(
-                        backgroundImage: AssetImage("assets/images/logo.jpeg"),
-                        radius: 25.0,
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12.0),
+              child: Form(
+                key: _keyForm,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Row(
+                        children: [
+                          const CircleAvatar(
+                            backgroundImage:
+                                AssetImage("assets/images/logo.jpeg"),
+                            radius: 25.0,
+                          ),
+                          SizedBox(
+                            width: _width * 0.03,
+                          ),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "Agregar Producto",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20.0,
+                                  ),
+                                ),
+                                Text(
+                                  "Ingresa los siguientes datos por favor",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    color: COLOR_PRIMARY.withOpacity(0.6),
+                                    fontSize: 14.0,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: _height * 0.011,
+                                ),
+                                lineWidget,
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                      SizedBox(
-                        width: _width * 0.03,
-                      ),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "Agregar Producto",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20.0,
-                              ),
-                            ),
-                            Text(
-                              "Ingresa los siguientes datos por favor",
-                              style: TextStyle(
-                                fontWeight: FontWeight.normal,
-                                color: COLOR_PRIMARY.withOpacity(0.6),
-                                fontSize: 14.0,
-                              ),
-                            ),
-                            SizedBox(
-                              height: _height * 0.011,
-                            ),
-                            lineWidget,
-                          ],
+                    ),
+                    const SizedBox(
+                      height: 20.0,
+                    ),
+                    TextFieldNormalwidget(
+                      hinText: "Nombre",
+                      controller: _nameController,
+                    ),
+                    TextFieldNormalwidget(
+                      hinText: "Descripción",
+                      maxLines: 4,
+                      controller: _descriptionController,
+                    ),
+                    const SizedBox(
+                      height: 10.0,
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Text(
+                        "Categoría :",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: COLOR_BRAND_SECONDARY,
                         ),
                       ),
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 20.0,
-                ),
-                TextFieldNormalwidget(
-                  hinText: "Nombre",
-                  controller: _nameController,
-                ),
-                TextFieldNormalwidget(
-                  hinText: "Descripción",
-                  maxLines: 4,
-                  controller: _descriptionController,
-                ),
-                const SizedBox(
-                  height: 10.0,
-                ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Text(
-                    "Categoría :",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: COLOR_BRAND_SECONDARY,
                     ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 6.0,
-                ),
-                Container(
-                  margin: const EdgeInsets.symmetric(
-                      horizontal: 10.0, vertical: 10.0),
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 10.0, vertical: 8.0),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black87.withOpacity(0.07),
-                        offset: const Offset(4, 4),
-                        blurRadius: 12.0,
+                    const SizedBox(
+                      height: 6.0,
+                    ),
+                    Container(
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 10.0, vertical: 10.0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10.0, vertical: 8.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black87.withOpacity(0.07),
+                            offset: const Offset(4, 4),
+                            blurRadius: 12.0,
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  width: double.infinity,
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton(
-                      value: idCategory,
-                      items: categories
-                          .map((e) => DropdownMenuItem(
-                                child: Text(e.description),
-                                value: e.id,
-                              ))
-                          .toList(),
-                      /*items: [
+                      width: double.infinity,
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton(
+                          value: idCategory,
+                          items: categories
+                              .map((e) => DropdownMenuItem(
+                                    child: Text(e.description),
+                                    value: e.id,
+                                  ))
+                              .toList(),
+                          /*items: [
                         DropdownMenuItem(
                           child: Text(
                             "Bebidas",
@@ -220,334 +267,343 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                           value: "2",
                         ),
                       ],*/
-                      onChanged: (String? value) {
-                        idCategory = value!;
-                        setState(() {});
-                      },
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 10.0,
-                ),
-                TextFieldNormalwidget(
-                  hinText: "Origen",
-                  controller: _originController,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextFieldNormalwidget(
-                        hinText: "Precio",
-                        textInputType: TextInputType.number,
-                        controller: _priceController,
-                      ),
-                    ),
-                    Expanded(
-                      child: TextFieldNormalwidget(
-                        hinText: "Descuento",
-                        textInputType: TextInputType.number,
-                        maxLength: 3,
-                        controller: _discountController,
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextFieldNormalwidget(
-                        hinText: "Puntaje",
-                        textInputType: TextInputType.number,
-                        maxLength: 1,
-                        controller: _rateController,
-                      ),
-                    ),
-                    Expanded(
-                      child: TextFieldNormalwidget(
-                        hinText: "Tiempo",
-                        textInputType: TextInputType.number,
-                        maxLength: 2,
-                        controller: _timeController,
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextFieldNormalwidget(
-                        hinText: "Ingredientes",
-                        controller: _addIngredientsController,
-                        validator: false,
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        ingredients.add(_addIngredientsController.text);
-                        _addIngredientsController.clear();
-                        setState(() {});
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.only(top: 22.0, right: 16.0),
-                        padding: const EdgeInsets.all(12.0),
-                        decoration: BoxDecoration(
-                          color: COLOR_SECONDARY,
-                          borderRadius: BorderRadius.circular(10.0),
-                          gradient: const LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [Color(0xffFC7345), COLOR_SECONDARY],
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: const Color(0xffFC7345).withOpacity(0.1),
-                              blurRadius: 12.0,
-                              offset: const Offset(4, 4),
-                            ),
-                          ],
-                        ),
-                        child: SvgPicture.asset(
-                          "assets/icons/plus.svg",
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Container(
-                  margin: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 10.0),
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  height: 300.0,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black87.withOpacity(0.07),
-                        blurRadius: 12.0,
-                        offset: const Offset(4, 4),
-                      ),
-                    ],
-                  ),
-                  child: ingredients.isNotEmpty
-                      ? ListView.separated(
-                          physics: const BouncingScrollPhysics(),
-                          itemCount: ingredients.length,
-                          separatorBuilder: (_, __) => const Divider(
-                            indent: 16.0,
-                            endIndent: 16.0,
-                          ),
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              title: Text(
-                                ingredients[index],
-                                style: TextStyle(
-                                  fontSize: 15.0,
-                                ),
-                              ),
-                              trailing: IconButton(
-                                onPressed: () {
-                                  ingredients.removeAt(index);
-                                  setState(() {});
-                                },
-                                icon: SvgPicture.asset(
-                                  "assets/icons/trash.svg",
-                                  height: 18.0,
-                                ),
-                              ),
-                            );
+                          onChanged: (String? value) {
+                            idCategory = value!;
+                            setState(() {});
                           },
-                        )
-                      : Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              "assets/images/box.png",
-                              height: 65.0,
-                            ),
-                            const SizedBox(
-                              height: 10.0,
-                            ),
-                            const Text(
-                              "No hay ingredientes registrados",
-                            ),
-                          ],
-                        ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        "Imagen",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: COLOR_BRAND_SECONDARY,
                         ),
                       ),
-                      Row(
-                        children: [
-                          ElevatedButton.icon(
-                            icon: const Icon(
-                              Icons.image,
-                              size: 17.0,
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              primary: const Color(0xFFFC7345),
-                            ),
-                            onPressed: () {
-                              getImageGallery();
-                            },
-                            label: const Text("Galería"),
+                    ),
+                    const SizedBox(
+                      height: 10.0,
+                    ),
+                    TextFieldNormalwidget(
+                      hinText: "Origen",
+                      controller: _originController,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextFieldNormalwidget(
+                            hinText: "Precio",
+                            textInputType: TextInputType.number,
+                            controller: _priceController,
                           ),
-                          const SizedBox(
-                            width: 12.0,
+                        ),
+                        Expanded(
+                          child: TextFieldNormalwidget(
+                            hinText: "Descuento",
+                            textInputType: TextInputType.number,
+                            maxLength: 3,
+                            controller: _discountController,
                           ),
-                          ElevatedButton.icon(
-                            icon: const Icon(
-                              Icons.camera,
-                              size: 17.0,
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8.0),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextFieldNormalwidget(
+                            hinText: "Puntaje",
+                            textInputType: TextInputType.number,
+                            maxLength: 1,
+                            controller: _rateController,
+                          ),
+                        ),
+                        Expanded(
+                          child: TextFieldNormalwidget(
+                            hinText: "Tiempo",
+                            textInputType: TextInputType.number,
+                            maxLength: 2,
+                            controller: _timeController,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextFieldNormalwidget(
+                            hinText: "Ingredientes",
+                            controller: _addIngredientsController,
+                            validator: false,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            ingredients.add(_addIngredientsController.text);
+                            _addIngredientsController.clear();
+                            setState(() {});
+                          },
+                          child: Container(
+                            margin:
+                                const EdgeInsets.only(top: 22.0, right: 16.0),
+                            padding: const EdgeInsets.all(12.0),
+                            decoration: BoxDecoration(
+                              color: COLOR_SECONDARY,
+                              borderRadius: BorderRadius.circular(10.0),
+                              gradient: const LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [Color(0xffFC7345), COLOR_SECONDARY],
                               ),
-                              primary: const Color(0xFFFC7345),
+                              boxShadow: [
+                                BoxShadow(
+                                  color:
+                                      const Color(0xffFC7345).withOpacity(0.1),
+                                  blurRadius: 12.0,
+                                  offset: const Offset(4, 4),
+                                ),
+                              ],
                             ),
-                            onPressed: () {
-                              getImageCamera();
-                            },
-                            label: const Text("Cámara"),
+                            child: SvgPicture.asset(
+                              "assets/icons/plus.svg",
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 16.0, vertical: 10.0),
+                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                      height: 300.0,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black87.withOpacity(0.07),
+                            blurRadius: 12.0,
+                            offset: const Offset(4, 4),
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                ),
-                imageProduct != null
-                    ? Container(
-                        width: double.infinity,
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 16.0, vertical: 10.0),
-                        height: 200,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12.0),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black87.withOpacity(0.07),
-                              offset: Offset(4, 4),
-                              blurRadius: 12.0,
+                      child: ingredients.isNotEmpty
+                          ? ListView.separated(
+                              physics: const BouncingScrollPhysics(),
+                              itemCount: ingredients.length,
+                              separatorBuilder: (_, __) => const Divider(
+                                indent: 16.0,
+                                endIndent: 16.0,
+                              ),
+                              itemBuilder: (context, index) {
+                                return ListTile(
+                                  title: Text(
+                                    ingredients[index],
+                                    style: TextStyle(
+                                      fontSize: 15.0,
+                                    ),
+                                  ),
+                                  trailing: IconButton(
+                                    onPressed: () {
+                                      ingredients.removeAt(index);
+                                      setState(() {});
+                                    },
+                                    icon: SvgPicture.asset(
+                                      "assets/icons/trash.svg",
+                                      height: 18.0,
+                                    ),
+                                  ),
+                                );
+                              },
+                            )
+                          : Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  "assets/images/box.png",
+                                  height: 65.0,
+                                ),
+                                const SizedBox(
+                                  height: 10.0,
+                                ),
+                                const Text(
+                                  "No hay ingredientes registrados",
+                                ),
+                              ],
                             ),
-                          ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            "Imagen",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: COLOR_BRAND_SECONDARY,
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              ElevatedButton.icon(
+                                icon: const Icon(
+                                  Icons.image,
+                                  size: 17.0,
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  primary: const Color(0xFFFC7345),
+                                ),
+                                onPressed: () {
+                                  getImageGallery();
+                                },
+                                label: const Text("Galería"),
+                              ),
+                              const SizedBox(
+                                width: 12.0,
+                              ),
+                              ElevatedButton.icon(
+                                icon: const Icon(
+                                  Icons.camera,
+                                  size: 17.0,
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  primary: const Color(0xFFFC7345),
+                                ),
+                                onPressed: () {
+                                  getImageCamera();
+                                },
+                                label: const Text("Cámara"),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    imageProduct != null
+                        ? Container(
+                            width: double.infinity,
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 16.0, vertical: 10.0),
+                            height: 200,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black87.withOpacity(0.07),
+                                  offset: Offset(4, 4),
+                                  blurRadius: 12.0,
+                                ),
+                              ],
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12.0),
+                              child: Image.file(
+                                File(
+                                  imageProduct!.path,
+                                ),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          )
+                        : Container(
+                            width: double.infinity,
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 16.0, vertical: 10.0),
+                            height: 200,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black87.withOpacity(0.07),
+                                  offset: Offset(4, 4),
+                                  blurRadius: 12.0,
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  "assets/images/image.png",
+                                  height: 50.0,
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                const Text(
+                                  "No hay una imagen seleccionada",
+                                ),
+                              ],
+                            ),
+                          ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Row(
+                        children: [
+                          const Text(
+                            "Estado",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: COLOR_BRAND_SECONDARY,
+                            ),
+                          ),
+                          Checkbox(
+                            value: selectedStatus,
+                            activeColor: COLOR_SECONDARY,
+                            onChanged: (value) {
+                              selectedStatus = value!;
+                              setState(() {});
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 12.0,
+                    ),
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 10.0),
+                      width: double.infinity,
+                      height: 50.0,
+                      child: ElevatedButton.icon(
+                        icon: const Icon(
+                          Icons.save,
+                          size: 17.0,
                         ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(12.0),
-                          child: Image.file(
-                            File(
-                              imageProduct!.path,
-                            ),
-                            fit: BoxFit.cover,
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          primary: const Color(0xFFFC7345),
+                        ),
+                        onPressed: () {
+                          addProduct();
+                        },
+                        label: const Text(
+                          "Guardar",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                      )
-                    : Container(
-                        width: double.infinity,
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 16.0, vertical: 10.0),
-                        height: 200,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12.0),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black87.withOpacity(0.07),
-                              offset: Offset(4, 4),
-                              blurRadius: 12.0,
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              "assets/images/image.png",
-                              height: 50.0,
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            const Text(
-                              "No hay una imagen seleccionada",
-                            ),
-                          ],
-                        ),
-                      ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    children: [
-                      const Text(
-                        "Estado",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: COLOR_BRAND_SECONDARY,
-                        ),
-                      ),
-                      Checkbox(
-                        value: selectedStatus,
-                        activeColor: COLOR_SECONDARY,
-                        onChanged: (value) {
-                          selectedStatus = value!;
-                          setState(() {});
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 12.0,
-                ),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 10.0),
-                  width: double.infinity,
-                  height: 50.0,
-                  child: ElevatedButton.icon(
-                    icon: const Icon(
-                      Icons.save,
-                      size: 17.0,
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      primary: const Color(0xFFFC7345),
-                    ),
-                    onPressed: () {
-                      addProduct();
-                      //uploadImageFirebase();
-                    },
-                    label: const Text(
-                      "Guardar",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ),
+                    const SizedBox(
+                      height: 30.0,
+                    ),
+                  ],
                 ),
-                const SizedBox(
-                  height: 30.0,
-                ),
-              ],
+              ),
             ),
           ),
-        ),
+          isLoading
+              ? Container(
+                  color: Colors.white60,
+                  child: loadingWidget,
+                )
+              : Container(),
+        ],
       ),
     );
   }

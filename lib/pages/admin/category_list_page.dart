@@ -46,7 +46,7 @@ class _CategoryListPageState extends State<CategoryListPage> {
       if (value == 1) {
         isLoading = false;
         setState(() {});
-        messageSuccessSnackBar(context);
+        messageSuccessSnackBar(context, "El registro se eliminó correctamente");
       }
     }).catchError((error) {
       isLoading = false;
