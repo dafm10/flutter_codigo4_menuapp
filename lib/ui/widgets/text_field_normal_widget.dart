@@ -7,6 +7,7 @@ class TextFieldNormalwidget extends StatelessWidget {
   TextInputType? textInputType;
   int? maxLength;
   TextEditingController? controller;
+  bool? validator;
 
   TextFieldNormalwidget({
     required this.hinText,
@@ -14,6 +15,7 @@ class TextFieldNormalwidget extends StatelessWidget {
     this.textInputType,
     this.maxLength,
     this.controller,
+    this.validator,
   });
 
   @override
@@ -75,6 +77,8 @@ class TextFieldNormalwidget extends StatelessWidget {
                 ),
               ),
               validator: (String? value) {
+                if(validator != null) return null;
+
                 if (value!.isEmpty) {
                   return "El campo no puede estar vacío";
                 }
