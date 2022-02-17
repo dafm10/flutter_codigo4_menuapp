@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_codigo4_menuapp/models/category_model.dart';
 import 'package:flutter_codigo4_menuapp/services/firestore_service.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/general_widget.dart';
@@ -18,13 +20,29 @@ class ProductAddUpdatePage extends StatefulWidget {
 class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
   final ImagePicker _picker = ImagePicker();
   XFile? imageProduct;
-  final TextEditingController _addIngredientsController = TextEditingController();
-  MyFirestoreService _myFirestoreService = MyFirestoreService(collection: "categories");
+  final TextEditingController _addIngredientsController =
+      TextEditingController();
+  MyFirestoreService _myFirestoreService =
+      MyFirestoreService(collection: "categories");
 
   List<String> ingredients = [
     "Cebolla traida desde Macchu Picchu",
     "Palta traída desde Moquegua",
   ];
+
+  List<Category> categories = [];
+  String idCategory = "";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _myFirestoreService.getCategories().then((value) {
+      categories = value;
+      idCategory = categories[0].id!;
+      setState(() {});
+    });
+  }
 
   getImageGallery() async {
     XFile? selectedImage = await _picker.pickImage(source: ImageSource.gallery);
@@ -35,9 +53,7 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
   getImageCamera() async {
     XFile? _selectedImage = await _picker.pickImage(source: ImageSource.camera);
     imageProduct = _selectedImage;
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   @override
@@ -153,8 +169,14 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                 width: double.infinity,
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton(
-                    value: "1",
-                    items: [
+                    value: idCategory,
+                    items: categories
+                        .map((e) => DropdownMenuItem(
+                              child: Text(e.description),
+                              value: e.id,
+                            ))
+                        .toList(),
+                    /*items: [
                       DropdownMenuItem(
                         child: Text(
                           "Bebidas",
@@ -167,8 +189,14 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                         ),
                         value: "2",
                       ),
-                    ],
-                    onChanged: (String? value) {},
+                    ],*/
+                    onChanged: (String? value) {
+                      print(value);
+                      idCategory = value!;
+                      setState(() {
+
+                      });
+                    },
                   ),
                 ),
               ),
@@ -330,7 +358,10 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                     Row(
                       children: [
                         ElevatedButton.icon(
-                          icon: const Icon(Icons.image, size: 17.0,),
+                          icon: const Icon(
+                            Icons.image,
+                            size: 17.0,
+                          ),
                           style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
@@ -342,9 +373,14 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                           },
                           label: const Text("Galería"),
                         ),
-                        const SizedBox(width: 12.0,),
+                        const SizedBox(
+                          width: 12.0,
+                        ),
                         ElevatedButton.icon(
-                          icon: const Icon(Icons.camera, size: 17.0,),
+                          icon: const Icon(
+                            Icons.camera,
+                            size: 17.0,
+                          ),
                           style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
@@ -420,7 +456,6 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                         ],
                       ),
                     ),
-
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Row(
@@ -433,20 +468,25 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                       ),
                     ),
                     Checkbox(
-                        value: true,
-                        activeColor: COLOR_SECONDARY,
-                        onChanged: (value){},
+                      value: true,
+                      activeColor: COLOR_SECONDARY,
+                      onChanged: (value) {},
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 12.0,),
+              const SizedBox(
+                height: 12.0,
+              ),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 10.0),
                 width: double.infinity,
                 height: 50.0,
                 child: ElevatedButton.icon(
-                  icon: const Icon(Icons.save, size: 17.0,),
+                  icon: const Icon(
+                    Icons.save,
+                    size: 17.0,
+                  ),
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0),
@@ -464,7 +504,9 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                   ),
                 ),
               ),
-              const SizedBox(height: 30.0,),
+              const SizedBox(
+                height: 30.0,
+              ),
             ],
           ),
         ),
