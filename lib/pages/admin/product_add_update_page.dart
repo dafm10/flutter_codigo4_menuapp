@@ -18,12 +18,14 @@ class ProductAddUpdatePage extends StatefulWidget {
 }
 
 class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
+  bool selectedStatus = true;
   final ImagePicker _picker = ImagePicker();
   XFile? imageProduct;
   final TextEditingController _addIngredientsController =
       TextEditingController();
   MyFirestoreService _myFirestoreService =
       MyFirestoreService(collection: "categories");
+  // Creamos la instancia de Firebase Storage
   firebase_storage.FirebaseStorage _storage = firebase_storage.FirebaseStorage.instance;
 
   List<String> ingredients = [
@@ -57,9 +59,14 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
     setState(() {});
   }
 
-  uploadImageFirebase(){
+  uploadImageFirebase() async {
+    // creamos la referencia a una carpeta que vamos a crear
     //Estamos referenciando que vamos a crear una carpeta Products para subir las imagenes
     firebase_storage.Reference _reference = _storage.ref().child("products");
+    String time = DateTime.now().toString();
+    firebase_storage.TaskSnapshot upload = await _reference.child("m$time.jpg").putFile(File(imageProduct!.path));
+    String url = await upload.ref.getDownloadURL();
+    print(url);
   }
 
   @override
@@ -473,9 +480,12 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                       ),
                     ),
                     Checkbox(
-                      value: true,
+                      value: selectedStatus,
                       activeColor: COLOR_SECONDARY,
-                      onChanged: (value) {},
+                      onChanged: (value) {
+                        selectedStatus = value!;
+                        setState(() {});
+                      },
                     ),
                   ],
                 ),
@@ -499,7 +509,7 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                     primary: const Color(0xFFFC7345),
                   ),
                   onPressed: () {
-                    getImageCamera();
+                    uploadImageFirebase();
                   },
                   label: const Text(
                     "Guardar",
