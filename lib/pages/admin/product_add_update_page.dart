@@ -419,8 +419,28 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                       ),
                     ),
 
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  children: [
+                    const Text(
+                      "Estado",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: COLOR_BRAND_SECONDARY,
+                      ),
+                    ),
+                    Checkbox(
+                        value: true,
+                        activeColor: COLOR_SECONDARY,
+                        onChanged: (value){},
+                    ),
+                  ],
+                ),
+              ),
               const SizedBox(height: 12.0,),
               Container(
+                margin: const EdgeInsets.symmetric(horizontal: 10.0),
                 width: double.infinity,
                 height: 50.0,
                 child: ElevatedButton.icon(
