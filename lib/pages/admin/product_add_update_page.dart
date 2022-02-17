@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:flutter_codigo4_menuapp/models/category_model.dart';
 import 'package:flutter_codigo4_menuapp/services/firestore_service.dart';
@@ -24,6 +24,7 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
       TextEditingController();
   MyFirestoreService _myFirestoreService =
       MyFirestoreService(collection: "categories");
+  firebase_storage.FirebaseStorage _storage = firebase_storage.FirebaseStorage.instance;
 
   List<String> ingredients = [
     "Cebolla traida desde Macchu Picchu",
@@ -54,6 +55,11 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
     XFile? _selectedImage = await _picker.pickImage(source: ImageSource.camera);
     imageProduct = _selectedImage;
     setState(() {});
+  }
+
+  uploadImageFirebase(){
+    //Estamos referenciando que vamos a crear una carpeta Products para subir las imagenes
+    firebase_storage.Reference _reference = _storage.ref().child("products");
   }
 
   @override
@@ -191,7 +197,6 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                       ),
                     ],*/
                     onChanged: (String? value) {
-                      print(value);
                       idCategory = value!;
                       setState(() {
 
