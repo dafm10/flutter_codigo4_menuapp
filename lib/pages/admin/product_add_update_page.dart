@@ -342,7 +342,7 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                         ),
                         const SizedBox(width: 12.0,),
                         ElevatedButton.icon(
-                          icon: const Icon(Icons.image),
+                          icon: const Icon(Icons.camera),
                           style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
@@ -418,6 +418,31 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                         ],
                       ),
                     ),
+
+              const SizedBox(height: 12.0,),
+              Container(
+                width: double.infinity,
+                height: 50.0,
+                child: ElevatedButton.icon(
+                  icon: const Icon(Icons.save, size: 17.0,),
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    primary: const Color(0xFFFC7345),
+                  ),
+                  onPressed: () {
+                    getImageCamera();
+                  },
+                  label: const Text(
+                    "Guardar",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 30.0,),
             ],
           ),
         ),
