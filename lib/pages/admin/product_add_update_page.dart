@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_codigo4_menuapp/services/firestore_service.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/general_widget.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/text_field_normal_widget.dart';
@@ -18,6 +19,7 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
   final ImagePicker _picker = ImagePicker();
   XFile? imageProduct;
   final TextEditingController _addIngredientsController = TextEditingController();
+  MyFirestoreService _myFirestoreService = MyFirestoreService(collection: "categories");
 
   List<String> ingredients = [
     "Cebolla traida desde Macchu Picchu",
@@ -328,7 +330,7 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                     Row(
                       children: [
                         ElevatedButton.icon(
-                          icon: const Icon(Icons.image),
+                          icon: const Icon(Icons.image, size: 17.0,),
                           style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
@@ -342,7 +344,7 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                         ),
                         const SizedBox(width: 12.0,),
                         ElevatedButton.icon(
-                          icon: const Icon(Icons.camera),
+                          icon: const Icon(Icons.camera, size: 17.0,),
                           style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
