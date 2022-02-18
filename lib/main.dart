@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_codigo4_menuapp/helpers/sp_global.dart';
 import 'package:flutter_codigo4_menuapp/pages/admin/home_admin_page.dart';
 import 'package:flutter_codigo4_menuapp/pages/admin/login_page.dart';
+import 'package:flutter_codigo4_menuapp/pages/customer/login_customer_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
@@ -24,7 +25,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         textTheme: GoogleFonts.manropeTextTheme().apply(),
       ),
-      home: PreInit(),
+      //home: PreInit(),
+      home: LoginCustomerPage(),
     );
   }
 }

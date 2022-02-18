@@ -1,79 +1,24 @@
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_codigo4_menuapp/helpers/sp_global.dart';
-import 'package:flutter_codigo4_menuapp/models/user_model.dart';
-import 'package:flutter_codigo4_menuapp/pages/admin/home_admin_page.dart';
 import 'package:flutter_codigo4_menuapp/services/firestore_service.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 
-class LoginAdminPage extends StatefulWidget {
-  const LoginAdminPage({Key? key}) : super(key: key);
+class LoginCustomerPage extends StatefulWidget {
+  const LoginCustomerPage({Key? key}) : super(key: key);
 
   @override
-  _LoginAdminPageState createState() => _LoginAdminPageState();
+  _LoginCustomerPageState createState() => _LoginCustomerPageState();
 }
 
-class _LoginAdminPageState extends State<LoginAdminPage> {
+class _LoginCustomerPageState extends State<LoginCustomerPage> {
+
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool isInvisible = true;
   final _formKey = GlobalKey<FormState>();
   SPGlobal _prefs = SPGlobal();
   MyFirestoreService myUserService = MyFirestoreService(collection: "users");
-
-  _loginEmailPassword() async {
-    //print(FirebaseAuth.instance.currentUser);
-    /*UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: "dafm.10@gmail.com",
-      password: "9667921d",
-    );*/
-    //print(await userCredential.user!.getIdToken());
-    //print(userCredential.user);
-
-    try {
-      if (_formKey.currentState!.validate()) {
-        UserCredential userCredential =
-            await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: _emailController.text,
-          password: _passwordController.text,
-        );
-        if(userCredential != null){
-          String? email = userCredential.user!.email;
-          //print(userCredential.user!.email);
-          // guardamos un valor en SP cuando nos logueamos como usuario
-          _prefs.isAdmin = true;
-          UserModel? user = await myUserService.getUserData(email!);
-          //print(user!.toJson());
-          if(user!.role == "admin"){
-            Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => HomeAdminPage()),
-            (route) => false);
-          }
-        }
-      }
-    } on FirebaseAuthException catch (e) {
-      if (e.code == "user-not-found") {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            backgroundColor: Colors.redAccent,
-            content: Text(
-              "El usuario no existe",
-            ),
-          ),
-        );
-      } else if (e.code == "wrong-password") {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            backgroundColor: Colors.redAccent,
-            content: Text(
-              "Contraseña incorrecta",
-            ),
-          ),
-        );
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,13 +47,6 @@ class _LoginAdminPageState extends State<LoginAdminPage> {
                       color: Colors.white,
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold),
-                ),
-                const Text(
-                  "Administrador",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15.0,
-                      fontWeight: FontWeight.normal),
                 ),
                 const SizedBox(
                   height: 30.0,
@@ -229,7 +167,7 @@ class _LoginAdminPageState extends State<LoginAdminPage> {
                 Container(
                   width: double.infinity,
                   height: 60.0,
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     gradient: LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
@@ -241,7 +179,7 @@ class _LoginAdminPageState extends State<LoginAdminPage> {
                   ),
                   child: ElevatedButton(
                     onPressed: () {
-                      _loginEmailPassword();
+
                     },
                     child: const Text(
                       "Iniciar Sesiñon",
