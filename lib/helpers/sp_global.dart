@@ -19,7 +19,7 @@ class SPGlobal{
 
   // cambiamos a los valores que queremmos almacenar
   set isAdmin(bool value){
-    _prefs.setBool("isAdmin", true);
+    _prefs.setBool("isAdmin", value);
   }
 
   bool get isAdmin{

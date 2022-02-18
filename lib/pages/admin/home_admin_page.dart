@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_codigo4_menuapp/helpers/sp_global.dart';
 import 'package:flutter_codigo4_menuapp/pages/admin/category_list_page.dart';
+import 'package:flutter_codigo4_menuapp/pages/admin/login_page.dart';
 import 'package:flutter_codigo4_menuapp/pages/admin/product_list_page.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/general_widget.dart';
@@ -13,6 +16,9 @@ class HomeAdminPage extends StatefulWidget {
 }
 
 class _HomeAdminPageState extends State<HomeAdminPage> {
+
+  final SPGlobal _prefs = SPGlobal();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,6 +36,22 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
           ),
         ),
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {
+              _prefs.isAdmin = false;
+              FirebaseAuth.instance.signOut();
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginAdminPage()),
+                      (route) => false);
+            },
+            icon: Icon(
+              Icons.exit_to_app,
+              color: COLOR_BRAND_SECONDARY,
+            ),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(

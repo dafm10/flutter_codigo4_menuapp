@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_codigo4_menuapp/helpers/sp_global.dart';
 import 'package:flutter_codigo4_menuapp/pages/admin/home_admin_page.dart';
 import 'package:flutter_codigo4_menuapp/pages/admin/login_page.dart';
-import 'package:flutter_codigo4_menuapp/pages/customer/home_customer_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
@@ -25,8 +24,17 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         textTheme: GoogleFonts.manropeTextTheme().apply(),
       ),
-      home: LoginAdminPage(),
+      home: PreInit(),
     );
   }
 }
 
+class PreInit extends StatelessWidget {
+
+  SPGlobal prefs = SPGlobal();
+
+  @override
+  Widget build(BuildContext context) {
+    return prefs.isAdmin ? HomeAdminPage() : LoginAdminPage();
+  }
+}

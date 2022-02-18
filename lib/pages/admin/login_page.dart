@@ -34,14 +34,15 @@ class _LoginAdminPageState extends State<LoginAdminPage> {
           email: _emailController.text,
           password: _passwordController.text,
         );
-        // guardamos un valor en SP cuando nos logueamos como usuario
-        _prefs.isAdmin = true;
-        //Navigator.push(
-        //  context, MaterialPageRoute(builder: (context) => HomeAdminPage()));
-        Navigator.pushAndRemoveUntil(
+        if(userCredential != null){
+          print(userCredential.user!.email);
+          // guardamos un valor en SP cuando nos logueamos como usuario
+          _prefs.isAdmin = true;
+          Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => HomeAdminPage()),
             (route) => false);
+        }
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == "user-not-found") {
