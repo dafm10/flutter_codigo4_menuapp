@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_codigo4_menuapp/helpers/sp_global.dart';
 import 'package:flutter_codigo4_menuapp/pages/admin/home_admin_page.dart';
+import 'package:flutter_codigo4_menuapp/services/firestore_service.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 
 class LoginAdminPage extends StatefulWidget {
@@ -17,6 +18,7 @@ class _LoginAdminPageState extends State<LoginAdminPage> {
   bool isInvisible = true;
   final _formKey = GlobalKey<FormState>();
   SPGlobal _prefs = SPGlobal();
+  MyFirestoreService myUserService = MyFirestoreService(collection: "users");
 
   _loginEmailPassword() async {
     //print(FirebaseAuth.instance.currentUser);
@@ -35,13 +37,14 @@ class _LoginAdminPageState extends State<LoginAdminPage> {
           password: _passwordController.text,
         );
         if(userCredential != null){
-          print(userCredential.user!.email);
+          //print(userCredential.user!.email);
           // guardamos un valor en SP cuando nos logueamos como usuario
           _prefs.isAdmin = true;
-          Navigator.pushAndRemoveUntil(
+          myUserService.getUserData();
+          /*Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => HomeAdminPage()),
-            (route) => false);
+            (route) => false);*/
         }
       }
     } on FirebaseAuthException catch (e) {

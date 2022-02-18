@@ -123,4 +123,9 @@ class MyFirestoreService {
     }
   }
 
+  Future getUserData() async {
+    QuerySnapshot collection = await _collectionReference.where('email', isEqualTo: "dafm.10@gmail.com").get();
+    print(collection.docs.length);
+  }
+
 }
