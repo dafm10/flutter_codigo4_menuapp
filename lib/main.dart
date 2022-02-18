@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_codigo4_menuapp/helpers/sp_global.dart';
 import 'package:flutter_codigo4_menuapp/pages/admin/home_admin_page.dart';
 import 'package:flutter_codigo4_menuapp/pages/admin/login_page.dart';
 import 'package:flutter_codigo4_menuapp/pages/customer/home_customer_page.dart';
@@ -7,6 +8,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SPGlobal prefs = SPGlobal();
+  await prefs.initShared();
   await Firebase.initializeApp();
   runApp(MyApp());
 }
@@ -26,3 +29,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
