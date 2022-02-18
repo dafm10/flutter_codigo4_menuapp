@@ -5,7 +5,6 @@ import 'package:flutter_codigo4_menuapp/pages/customer/login_customer_page.dart'
 import 'package:flutter_codigo4_menuapp/services/firestore_service.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/textfield_normal_2_widget.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class RegisterCustomerPage extends StatefulWidget {
   const RegisterCustomerPage({Key? key}) : super(key: key);
@@ -24,12 +23,34 @@ class _RegisterCustomerPageState extends State<RegisterCustomerPage> {
   MyFirestoreService myUserService = MyFirestoreService(collection: "users");
 
   _registerCustomer() async {
-    UserCredential userCredential =
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-      email: "davidf.10m@gmail.com",
-      password: "9667921d",
-    );
-    print(userCredential.user);
+    try{
+      UserCredential userCredential =
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: "frikitecp@gmail.com",
+        password: "12",
+      );
+      print(userCredential.user);
+    } on FirebaseAuthException catch(e){
+      if(e.code == "email-already-in-use"){
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            backgroundColor: Colors.redAccent,
+            content: Text(
+              "El correo electrónico ya está registrado",
+            ),
+          ),
+        );
+      }else if(e.code == "weak-password"){
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            backgroundColor: Colors.redAccent,
+            content: Text(
+              "La contraseña debe contener como mínimo 6 caracteres",
+            ),
+          ),
+        );
+      }
+    }
   }
 
   @override
@@ -68,7 +89,7 @@ class _RegisterCustomerPageState extends State<RegisterCustomerPage> {
                   controller: _nameController,
                 ),
                 const SizedBox(
-                  height: 20.0,
+                  height: 10.0,
                 ),
                 TextFieldNormal2Widget(
                   hintText: "Correo Electrónico",
