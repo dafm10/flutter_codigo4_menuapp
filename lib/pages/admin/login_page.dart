@@ -185,8 +185,8 @@ class _LoginAdminPageState extends State<LoginAdminPage> {
 
                       });
                     },
-                    icon: const Icon(
-                      Icons.remove_red_eye,
+                    icon: Icon(
+                      isInvisible ? Icons.remove_red_eye : Icons.remove_red_eye_outlined,
                       color: Colors.white,
                     ),
                   ),
