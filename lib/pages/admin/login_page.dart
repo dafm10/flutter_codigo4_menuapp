@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_codigo4_menuapp/helpers/sp_global.dart';
+import 'package:flutter_codigo4_menuapp/models/user_model.dart';
 import 'package:flutter_codigo4_menuapp/pages/admin/home_admin_page.dart';
 import 'package:flutter_codigo4_menuapp/services/firestore_service.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
@@ -37,14 +38,18 @@ class _LoginAdminPageState extends State<LoginAdminPage> {
           password: _passwordController.text,
         );
         if(userCredential != null){
+          String? email = userCredential.user!.email;
           //print(userCredential.user!.email);
           // guardamos un valor en SP cuando nos logueamos como usuario
           _prefs.isAdmin = true;
-          myUserService.getUserData();
-          /*Navigator.pushAndRemoveUntil(
+          UserModel? user = await myUserService.getUserData(email!);
+          print(user!.toJson());
+          if(user.role == "admin"){
+            Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => HomeAdminPage()),
-            (route) => false);*/
+            (route) => false);
+          }
         }
       }
     } on FirebaseAuthException catch (e) {

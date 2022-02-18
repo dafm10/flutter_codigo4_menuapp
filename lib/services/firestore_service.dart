@@ -124,12 +124,12 @@ class MyFirestoreService {
     }
   }
 
-  Future<User?> getUserData() async {
-    QuerySnapshot collection = await _collectionReference.where('email', isEqualTo: "dafm.10@gmail.com").get();
+  Future<UserModel?> getUserData(String email) async {
+    QuerySnapshot collection = await _collectionReference.where('email', isEqualTo: email).get();
     if(collection.docs.isNotEmpty){
       Map<String, dynamic> myMap = collection.docs.first.data() as Map<String, dynamic>;
-      User user = User.fromJson(myMap);
-      print(user.toJson());
+      UserModel user = UserModel.fromJson(myMap);
+      //print(user.toJson());
       return user;
     }
   }
