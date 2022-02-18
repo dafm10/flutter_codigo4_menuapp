@@ -229,8 +229,9 @@ class _LoginAdminPageState extends State<LoginAdminPage> {
                 Container(
                   width: double.infinity,
                   height: 60.0,
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12.0),
+                    gradient: const LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [

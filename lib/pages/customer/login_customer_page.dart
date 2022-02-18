@@ -1,8 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_codigo4_menuapp/helpers/sp_global.dart';
+import 'package:flutter_codigo4_menuapp/pages/customer/register_customer_page.dart';
 import 'package:flutter_codigo4_menuapp/services/firestore_service.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginCustomerPage extends StatefulWidget {
   const LoginCustomerPage({Key? key}) : super(key: key);
@@ -12,7 +13,6 @@ class LoginCustomerPage extends StatefulWidget {
 }
 
 class _LoginCustomerPageState extends State<LoginCustomerPage> {
-
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool isInvisible = true;
@@ -23,7 +23,7 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff0D0F0E),
+      backgroundColor: const Color(0xff0D0F0E),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 12.0),
@@ -49,7 +49,7 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
                       fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
-                  height: 30.0,
+                  height: 20.0,
                 ),
                 Row(
                   children: const [
@@ -162,13 +162,14 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
                   },
                 ),
                 const SizedBox(
-                  height: 40.0,
+                  height: 25.0,
                 ),
                 Container(
                   width: double.infinity,
                   height: 60.0,
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
+                    borderRadius: BorderRadius.circular(12.0),
+                    gradient: const LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
@@ -178,9 +179,7 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
                     ),
                   ),
                   child: ElevatedButton(
-                    onPressed: () {
-
-                    },
+                    onPressed: () {},
                     child: const Text(
                       "Iniciar Sesiñon",
                       style: TextStyle(
@@ -189,12 +188,106 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
                       ),
                     ),
                     style: ElevatedButton.styleFrom(
-                        primary: Colors.transparent,
-                        shadowColor: Colors.transparent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.0),
-                        )),
+                      primary: Colors.transparent,
+                      shadowColor: Colors.transparent,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                    ),
                   ),
+                ),
+                const SizedBox(
+                  height: 16.0,
+                ),
+                Container(
+                  width: double.infinity,
+                  height: 60.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  child: ElevatedButton.icon(
+                    onPressed: () {},
+                    icon: Image.asset(
+                      "assets/images/google.png",
+                      height: 24.0,
+                    ),
+                    label: Text(
+                      "Inicio de sesión con Google",
+                      style: TextStyle(
+                        color: Colors.black87.withOpacity(0.7),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16.0,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 16.0,
+                ),
+                Container(
+                  width: double.infinity,
+                  height: 60.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  child: ElevatedButton.icon(
+                    onPressed: () {},
+                    icon: SvgPicture.asset(
+                      "assets/icons/bx-facebook.svg",
+                      color: Colors.white,
+                      height: 20.0,
+                    ),
+                    label: Text(
+                      "Inicio de sesión con Facebook",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16.0,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      primary: Color(0xff415DaE),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 5.0,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Aún no estás registrado?",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 8.0,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => RegisterCustomerPage(),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        "Regístrate",
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
