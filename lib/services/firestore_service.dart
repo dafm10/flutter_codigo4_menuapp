@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_codigo4_menuapp/models/category_model.dart';
 import 'package:flutter_codigo4_menuapp/models/product_model.dart';
+import 'package:flutter_codigo4_menuapp/models/user_model.dart';
 
 class MyFirestoreService {
   final String collection;
@@ -123,9 +124,14 @@ class MyFirestoreService {
     }
   }
 
-  Future getUserData() async {
+  Future<User?> getUserData() async {
     QuerySnapshot collection = await _collectionReference.where('email', isEqualTo: "dafm.10@gmail.com").get();
-    print(collection.docs.length);
+    if(collection.docs.isNotEmpty){
+      Map<String, dynamic> myMap = collection.docs.first.data() as Map<String, dynamic>;
+      User user = User.fromJson(myMap);
+      print(user.toJson());
+      return user;
+    }
   }
 
 }
