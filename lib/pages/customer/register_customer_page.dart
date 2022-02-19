@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_codigo4_menuapp/helpers/sp_global.dart';
 import 'package:flutter_codigo4_menuapp/models/user_model.dart';
+import 'package:flutter_codigo4_menuapp/pages/customer/home_customer_page.dart';
 import 'package:flutter_codigo4_menuapp/pages/customer/login_customer_page.dart';
 import 'package:flutter_codigo4_menuapp/services/firestore_service.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
@@ -37,7 +38,13 @@ class _RegisterCustomerPageState extends State<RegisterCustomerPage> {
           name: _nameController.text,
           role: "cliente",
         );
-        myUserService.addUser(user);
+        myUserService.addUser(user).then((value){
+          _prefs.isCustomer = true;
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => HomeCustomerPage()),
+                  (route) => false);
+        });
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == "email-already-in-use") {
@@ -84,7 +91,7 @@ class _RegisterCustomerPageState extends State<RegisterCustomerPage> {
                   fit: BoxFit.cover,
                 ),
                 const Text(
-                  "Inicio de Sesión",
+                  "Regístrate",
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 18.0,

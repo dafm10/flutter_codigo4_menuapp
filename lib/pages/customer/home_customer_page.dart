@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_codigo4_menuapp/helpers/sp_global.dart';
 import 'package:flutter_codigo4_menuapp/models/category_model.dart';
 import 'package:flutter_codigo4_menuapp/models/product_model.dart';
+import 'package:flutter_codigo4_menuapp/pages/customer/login_customer_page.dart';
 import 'package:flutter_codigo4_menuapp/pages/customer/product_detail_customer_page.dart';
 import 'package:flutter_codigo4_menuapp/services/firestore_service.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
@@ -22,6 +24,8 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
 
   MyFirestoreService _myCategoryService =
       MyFirestoreService(collection: "categories");
+
+  SPGlobal _prefs = SPGlobal();
 
   List<Product> products = [];
   List<Product> productsAux = [];
@@ -99,6 +103,19 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
             },
             icon: Icon(
               Icons.search,
+              color: COLOR_PRIMARY,
+            ),
+          ),
+          IconButton(
+            onPressed: () async {
+              _prefs.isCustomer = false;
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginCustomerPage()),
+                      (route) => false);
+            },
+            icon: Icon(
+              Icons.exit_to_app,
               color: COLOR_PRIMARY,
             ),
           ),

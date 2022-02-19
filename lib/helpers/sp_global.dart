@@ -26,4 +26,12 @@ class SPGlobal{
     return _prefs.getBool("isAdmin") ?? false;
   }
 
+  set isCustomer(bool value){
+    _prefs.setBool("isCustomer", value);
+  }
+
+  bool get isCustomer{
+    return _prefs.getBool("isCustomer") ?? false;
+  }
+
 }
