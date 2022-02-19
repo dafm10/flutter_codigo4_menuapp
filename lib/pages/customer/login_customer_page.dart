@@ -98,6 +98,12 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
     UserCredential user =
         await FirebaseAuth.instance.signInWithCredential(credential);
 
+    UserCredential userCredential =
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
+
     print(googleSignInAccount.email);
     print(googleSignInAccount.displayName);
   }

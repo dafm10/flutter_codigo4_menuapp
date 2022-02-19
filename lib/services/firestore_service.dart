@@ -147,4 +147,18 @@ class MyFirestoreService {
     }
   }
 
+  Future<bool?> checkEmail(String email) async {
+    try{
+      QuerySnapshot collection = await _collectionReference.where('email', isEqualTo: email).get();
+      bool? res = collection.docs.isNotEmpty;
+      return res;
+    }on TimeoutException catch (e) {
+      return Future.error("Error internet 1");
+    } on SocketException catch (e) {
+      return Future.error("Error internet 2");
+    } on Error catch (e) {
+      return Future.error("Error internet 3");
+    }
+  }
+
 }
