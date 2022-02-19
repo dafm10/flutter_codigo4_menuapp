@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_codigo4_menuapp/helpers/sp_global.dart';
+import 'package:flutter_codigo4_menuapp/models/user_model.dart';
+import 'package:flutter_codigo4_menuapp/pages/customer/home_customer_page.dart';
 import 'package:flutter_codigo4_menuapp/pages/customer/register_customer_page.dart';
 import 'package:flutter_codigo4_menuapp/services/firestore_service.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
@@ -19,6 +22,52 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
   final _formKey = GlobalKey<FormState>();
   SPGlobal _prefs = SPGlobal();
   MyFirestoreService myUserService = MyFirestoreService(collection: "users");
+
+  _loginWithEmailPassword() async {
+    try {
+      if (_formKey.currentState!.validate()) {
+        UserCredential userCredential =
+            await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: _emailController.text,
+          password: _passwordController.text,
+        );
+        if(userCredential != null){
+          String? email = userCredential.user!.email;
+          //print(userCredential.user!.email);
+          // guardamos un valor en SP cuando nos logueamos como usuario
+          _prefs.isCustomer = true;
+          UserModel? user = await myUserService.getUserData(email!);
+          //print(user!.toJson());
+          if(user!.role == "cliente"){
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const HomeCustomerPage()),
+                    (route) => false);
+          }
+        }
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == "user-not-found") {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            backgroundColor: Colors.redAccent,
+            content: Text(
+              "El usuario no existe",
+            ),
+          ),
+        );
+      } else if (e.code == "wrong-password") {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            backgroundColor: Colors.redAccent,
+            content: Text(
+              "Contraseña incorrecta",
+            ),
+          ),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -179,7 +228,9 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
                     ),
                   ),
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      _loginWithEmailPassword();
+                    },
                     child: const Text(
                       "Iniciar Sesiñon",
                       style: TextStyle(

@@ -19,13 +19,13 @@ class HomeCustomerPage extends StatefulWidget {
 }
 
 class _HomeCustomerPageState extends State<HomeCustomerPage> {
-  MyFirestoreService _myProductService =
+  final MyFirestoreService _myProductService =
       MyFirestoreService(collection: "products");
 
-  MyFirestoreService _myCategoryService =
+  final MyFirestoreService _myCategoryService =
       MyFirestoreService(collection: "categories");
 
-  SPGlobal _prefs = SPGlobal();
+  final SPGlobal _prefs = SPGlobal();
 
   List<Product> products = [];
   List<Product> productsAux = [];
