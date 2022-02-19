@@ -8,6 +8,7 @@ import 'package:flutter_codigo4_menuapp/services/firestore_service.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/general_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginCustomerPage extends StatefulWidget {
   const LoginCustomerPage({Key? key}) : super(key: key);
@@ -25,6 +26,8 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
   final SPGlobal _prefs = SPGlobal();
   MyFirestoreService myUserService = MyFirestoreService(collection: "users");
 
+  final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
+
   _loginWithEmailPassword() async {
     try {
       if (_formKey.currentState!.validate()) {
@@ -33,25 +36,26 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
 
         });
         UserCredential userCredential =
-            await FirebaseAuth.instance.signInWithEmailAndPassword(
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: _emailController.text,
           password: _passwordController.text,
         );
-        if(userCredential != null){
+        if (userCredential != null) {
           String? email = userCredential.user!.email;
           //print(userCredential.user!.email);
           // guardamos un valor en SP cuando nos logueamos como usuario
           _prefs.isCustomer = true;
           UserModel? user = await myUserService.getUserData(email!);
           //print(user!.toJson());
-          if(user!.role == "cliente"){
+          if (user!.role == "cliente") {
             isLoading = false;
             setState(() {
 
             });
             Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(builder: (context) => const HomeCustomerPage()),
+                MaterialPageRoute(
+                    builder: (context) => const HomeCustomerPage()),
                     (route) => false);
           }
         }
@@ -83,6 +87,24 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
     }
   }
 
+  _logiWithGoogle() async {
+    GoogleSignInAccount? googleSignInAccount = await _googleSignIn.signIn();
+    if (googleSignInAccount == null) {
+      return;
+    }
+
+    GoogleSignInAuthentication _googleSignInAuth = await googleSignInAccount.authentication;
+
+    OAuthCredential credential = GoogleAuthProvider.credential(
+      accessToken:_googleSignInAuth.accessToken, idToken:_googleSignInAuth.idToken,);
+
+    UserCredential user = await FirebaseAuth.instance.signInWithCredential(
+        credential);
+
+    print(googleSignInAccount.email);
+    print(googleSignInAccount.displayName);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,7 +113,8 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
         children: [
           SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 12.0),
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 10.0, vertical: 12.0),
               child: Form(
                 key: _formKey,
                 child: Column(
@@ -274,7 +297,7 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
                       ),
                       child: ElevatedButton.icon(
                         onPressed: () {
-
+                          _logiWithGoogle();
                         },
                         icon: Image.asset(
                           "assets/images/google.png",
@@ -307,7 +330,7 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
                       ),
                       child: ElevatedButton.icon(
                         onPressed: () {
-
+                          _googleSignIn.signOut();
                         },
                         icon: SvgPicture.asset(
                           "assets/icons/bx-facebook.svg",
@@ -355,7 +378,8 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
                           child: Text(
                             "Regístrate",
                             style: TextStyle(
-                                color: Colors.white, fontWeight: FontWeight.bold),
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
                       ],
@@ -368,7 +392,7 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
           isLoading ? Container(
             color: Colors.white24,
             child: loadingWidget,
-          ): Container(),
+          ) : Container(),
         ],
       ),
     );
