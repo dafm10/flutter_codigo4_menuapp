@@ -134,4 +134,17 @@ class MyFirestoreService {
     }
   }
 
+  Future addUser(UserModel user) async {
+    try{
+      DocumentReference documentReference = await _collectionReference.add(user.toJson());
+      return documentReference.id;
+    }on TimeoutException catch (e) {
+      return Future.error("Error internet 1");
+    } on SocketException catch (e) {
+      return Future.error("Error internet 2");
+    } on Error catch (e) {
+      return Future.error("Error internet 3");
+    }
+  }
+
 }

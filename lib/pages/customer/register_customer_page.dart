@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_codigo4_menuapp/helpers/sp_global.dart';
+import 'package:flutter_codigo4_menuapp/models/user_model.dart';
 import 'package:flutter_codigo4_menuapp/pages/customer/login_customer_page.dart';
 import 'package:flutter_codigo4_menuapp/services/firestore_service.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
@@ -23,15 +24,23 @@ class _RegisterCustomerPageState extends State<RegisterCustomerPage> {
   MyFirestoreService myUserService = MyFirestoreService(collection: "users");
 
   _registerCustomer() async {
-    try{
+    try {
       UserCredential userCredential =
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: "frikitecp@gmail.com",
-        password: "12",
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
       );
-      print(userCredential.user);
-    } on FirebaseAuthException catch(e){
-      if(e.code == "email-already-in-use"){
+
+      if (userCredential.user != null) {
+        UserModel user = UserModel(
+          email: _emailController.text,
+          name: _nameController.text,
+          role: "cliente",
+        );
+        myUserService.addUser(user);
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == "email-already-in-use") {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             backgroundColor: Colors.redAccent,
@@ -40,7 +49,7 @@ class _RegisterCustomerPageState extends State<RegisterCustomerPage> {
             ),
           ),
         );
-      }else if(e.code == "weak-password"){
+      } else if (e.code == "weak-password") {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             backgroundColor: Colors.redAccent,
@@ -121,7 +130,7 @@ class _RegisterCustomerPageState extends State<RegisterCustomerPage> {
                       color: Colors.white54,
                     ),
                     filled: true,
-                    fillColor: Color(0xff2A2A2A),
+                    fillColor: const Color(0xff2A2A2A),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.0),
                       borderSide: BorderSide.none,
@@ -215,7 +224,7 @@ class _RegisterCustomerPageState extends State<RegisterCustomerPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LoginCustomerPage(),
+                            builder: (context) => const LoginCustomerPage(),
                           ),
                         );
                       },
