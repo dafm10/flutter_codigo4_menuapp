@@ -32,11 +32,9 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
     try {
       if (_formKey.currentState!.validate()) {
         isLoading = true;
-        setState(() {
-
-        });
+        setState(() {});
         UserCredential userCredential =
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
+            await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: _emailController.text,
           password: _passwordController.text,
         );
@@ -49,22 +47,18 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
           //print(user!.toJson());
           if (user!.role == "cliente") {
             isLoading = false;
-            setState(() {
-
-            });
+            setState(() {});
             Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
                     builder: (context) => const HomeCustomerPage()),
-                    (route) => false);
+                (route) => false);
           }
         }
       }
     } on FirebaseAuthException catch (e) {
       isLoading = false;
-      setState(() {
-
-      });
+      setState(() {});
       if (e.code == "user-not-found") {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -93,13 +87,16 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
       return;
     }
 
-    GoogleSignInAuthentication _googleSignInAuth = await googleSignInAccount.authentication;
+    GoogleSignInAuthentication _googleSignInAuth =
+        await googleSignInAccount.authentication;
 
     OAuthCredential credential = GoogleAuthProvider.credential(
-      accessToken:_googleSignInAuth.accessToken, idToken:_googleSignInAuth.idToken,);
+      accessToken: _googleSignInAuth.accessToken,
+      idToken: _googleSignInAuth.idToken,
+    );
 
-    UserCredential user = await FirebaseAuth.instance.signInWithCredential(
-        credential);
+    UserCredential user =
+        await FirebaseAuth.instance.signInWithCredential(credential);
 
     print(googleSignInAccount.email);
     print(googleSignInAccount.displayName);
@@ -113,8 +110,8 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
         children: [
           SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 10.0, vertical: 12.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 12.0),
               child: Form(
                 key: _formKey,
                 child: Column(
@@ -353,7 +350,9 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 5.0,),
+                    SizedBox(
+                      height: 5.0,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -389,10 +388,12 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
               ),
             ),
           ),
-          isLoading ? Container(
-            color: Colors.white24,
-            child: loadingWidget,
-          ) : Container(),
+          isLoading
+              ? Container(
+                  color: Colors.white24,
+                  child: loadingWidget,
+                )
+              : Container(),
         ],
       ),
     );
