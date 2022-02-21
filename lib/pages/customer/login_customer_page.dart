@@ -97,16 +97,31 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
     );
 
     // con esto podemos registrarnos en Authentication
+    // Hasta aqui nos permite registrar en Authentication
     UserCredential user =
     await FirebaseAuth.instance.signInWithCredential(credential);
 
+    //Aqui validamos para registrar en FireStor en la colección Users
     if (user.user != null) {
       String? email = user.user!.email;
+      // aqui validamos si el email ingresado ya existe
       bool res = await myUserService.checkEmail(email);
       if (!res) {
         UserModel _user = UserModel(
             email: email!, name: user.user!.displayName!, role: "cliente");
-        myUserService.addUser(_user);
+        myUserService.addUser(_user).then((value) {
+          _prefs.isCustomer = true;
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const HomeCustomerPage()),
+                  (route) => false);
+        });
+      }else{
+        _prefs.isCustomer = true;
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const HomeCustomerPage()),
+                (route) => false);
       }
     }
 
