@@ -34,7 +34,7 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
         isLoading = true;
         setState(() {});
         UserCredential userCredential =
-            await FirebaseAuth.instance.signInWithEmailAndPassword(
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: _emailController.text,
           password: _passwordController.text,
         );
@@ -52,7 +52,7 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => const HomeCustomerPage()),
-                (route) => false);
+                    (route) => false);
           }
         }
       }
@@ -83,29 +83,36 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
 
   _logiWithGoogle() async {
     GoogleSignInAccount? googleSignInAccount = await _googleSignIn.signIn();
+
     if (googleSignInAccount == null) {
       return;
     }
 
     GoogleSignInAuthentication _googleSignInAuth =
-        await googleSignInAccount.authentication;
+    await googleSignInAccount.authentication;
 
     OAuthCredential credential = GoogleAuthProvider.credential(
       accessToken: _googleSignInAuth.accessToken,
       idToken: _googleSignInAuth.idToken,
     );
 
+    // con esto podemos registrarnos en Authentication
     UserCredential user =
-        await FirebaseAuth.instance.signInWithCredential(credential);
+    await FirebaseAuth.instance.signInWithCredential(credential);
 
-    UserCredential userCredential =
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: _emailController.text,
-      password: _passwordController.text,
-    );
+    if (user.user != null) {
+      String? email = user.user!.email;
+      bool res = await myUserService.checkEmail(email);
+      if (!res) {
+        UserModel _user = UserModel(
+            email: email!, name: user.user!.displayName!, role: "cliente");
+        myUserService.addUser(_user);
+      }
+    }
 
-    print(googleSignInAccount.email);
-    print(googleSignInAccount.displayName);
+    print(user.user!.email);
+    //print(googleSignInAccount.email);
+    //print(googleSignInAccount.displayName);
   }
 
   @override
@@ -117,7 +124,7 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
           SingleChildScrollView(
             child: Padding(
               padding:
-                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 12.0),
+              const EdgeInsets.symmetric(horizontal: 10.0, vertical: 12.0),
               child: Form(
                 key: _formKey,
                 child: Column(
@@ -396,9 +403,9 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
           ),
           isLoading
               ? Container(
-                  color: Colors.white24,
-                  child: loadingWidget,
-                )
+            color: Colors.white24,
+            child: loadingWidget,
+          )
               : Container(),
         ],
       ),

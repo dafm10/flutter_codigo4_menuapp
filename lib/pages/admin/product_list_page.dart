@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_codigo4_menuapp/models/product_model.dart';
 import 'package:flutter_codigo4_menuapp/pages/admin/product_add_update_page.dart';
+import 'package:flutter_codigo4_menuapp/services/firestore_service.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
+import 'package:flutter_codigo4_menuapp/ui/widgets/dialog_delete_widget.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/general_widget.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/item_list_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -17,6 +19,41 @@ class ProductListpage extends StatefulWidget {
 class _ProductListpageState extends State<ProductListpage> {
   CollectionReference collectionReference =
       FirebaseFirestore.instance.collection('products');
+
+  MyFirestoreService myFirestoreService =
+  MyFirestoreService(collection: "products");
+
+  String idProduct = "";
+  bool isLoading = false;
+
+  void _showDeleteItem() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return DialogDeleteWidget(
+          onDelete: () {
+            isLoading = true;
+            setState(() {});
+            deleteItem();
+            Navigator.pop(context);
+          },
+        );
+      },
+    );
+  }
+
+  void deleteItem() {
+    myFirestoreService.deleteItem(idProduct).then((value) {
+      if (value == 1) {
+        isLoading = false;
+        setState(() {});
+        messageSuccessSnackBar(context, "El registro se eliminó correctamente");
+      }
+    }).catchError((error) {
+      isLoading = false;
+      setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,86 +87,99 @@ class _ProductListpageState extends State<ProductListpage> {
           height: 26.0,
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12.0),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Row(
-                  children: [
-                    const CircleAvatar(
-                      backgroundImage: AssetImage("assets/images/logo.jpeg"),
-                      radius: 25.0,
-                    ),
-                    SizedBox(
-                      width: _width * 0.03,
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            "Productos",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20.0,
-                            ),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12.0),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(
+                      children: [
+                        const CircleAvatar(
+                          backgroundImage: AssetImage("assets/images/logo.jpeg"),
+                          radius: 25.0,
+                        ),
+                        SizedBox(
+                          width: _width * 0.03,
+                        ),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Productos",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20.0,
+                                ),
+                              ),
+                              Text(
+                                "Gestiona los productos existentes",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                  color: COLOR_PRIMARY.withOpacity(0.6),
+                                  fontSize: 14.0,
+                                ),
+                              ),
+                              SizedBox(
+                                height: _height * 0.011,
+                              ),
+                              lineWidget,
+                            ],
                           ),
-                          Text(
-                            "Gestiona los productos existentes",
-                            style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              color: COLOR_PRIMARY.withOpacity(0.6),
-                              fontSize: 14.0,
-                            ),
-                          ),
-                          SizedBox(
-                            height: _height * 0.011,
-                          ),
-                          lineWidget,
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 20.0,
-              ),
-              StreamBuilder(
-                stream: collectionReference.orderBy('name').snapshots(),
-                builder: (BuildContext context, AsyncSnapshot snap) {
-                  if (snap.hasData) {
-                    QuerySnapshot collection = snap.data;
+                  ),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  StreamBuilder(
+                    stream: collectionReference.orderBy('name').snapshots(),
+                    builder: (BuildContext context, AsyncSnapshot snap) {
+                      if (snap.hasData) {
+                        QuerySnapshot collection = snap.data;
 
-                    List<Product> products = collection.docs.map((e) {
-                      Product item =
+                        List<Product> products = collection.docs.map((e) {
+                          Product item =
                           Product.fromJson(e.data() as Map<String, dynamic>);
-                      item.id = e.id;
-                      return item;
-                    }).toList();
+                          item.id = e.id;
+                          return item;
+                        }).toList();
 
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: products.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return ItemListWidget(
-                          title: products[index].name,
-                          status: products[index].status,
-                          onDelete: () {},
-                          onUpdate: () {},
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: products.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return ItemListWidget(
+                              title: products[index].name,
+                              status: products[index].status,
+                              onDelete: () {
+                                idProduct = products[index].id!;
+                                _showDeleteItem();
+                              },
+                              onUpdate: () {},
+                            );
+                          },
                         );
-                      },
-                    );
-                  }
-                  return loadingWidget;
-                },
+                      }
+                      return loadingWidget;
+                    },
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
+          isLoading
+              ? Container(
+            color: Colors.white60,
+            child: loadingWidget,
+          )
+              : Container(),
+        ],
       ),
     );
   }

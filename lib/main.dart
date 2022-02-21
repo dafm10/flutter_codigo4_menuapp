@@ -1,8 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_codigo4_menuapp/helpers/sp_global.dart';
+import 'package:flutter_codigo4_menuapp/pages/admin/category_list_page.dart';
 import 'package:flutter_codigo4_menuapp/pages/admin/home_admin_page.dart';
 import 'package:flutter_codigo4_menuapp/pages/admin/login_page.dart';
+import 'package:flutter_codigo4_menuapp/pages/admin/product_list_page.dart';
 import 'package:flutter_codigo4_menuapp/pages/customer/login_customer_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
