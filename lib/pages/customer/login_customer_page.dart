@@ -7,6 +7,7 @@ import 'package:flutter_codigo4_menuapp/pages/customer/register_customer_page.da
 import 'package:flutter_codigo4_menuapp/services/firestore_service.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/general_widget.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -128,6 +129,12 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
     print(user.user!.email);
     //print(googleSignInAccount.email);
     //print(googleSignInAccount.displayName);
+  }
+
+  _loginWithFacebook() async {
+
+    FacebookAuth.instance.login(permissions: ['email', 'public_profile']);
+
   }
 
   @override
@@ -355,14 +362,14 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
                       ),
                       child: ElevatedButton.icon(
                         onPressed: () {
-                          _googleSignIn.signOut();
+                          _loginWithFacebook();
                         },
                         icon: SvgPicture.asset(
                           "assets/icons/bx-facebook.svg",
                           color: Colors.white,
                           height: 20.0,
                         ),
-                        label: Text(
+                        label: const Text(
                           "Inicio de sesión con Facebook",
                           style: TextStyle(
                             color: Colors.white,
@@ -378,19 +385,19 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5.0,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
+                        const Text(
                           "Aún no estás registrado?",
                           style: TextStyle(
                             color: Colors.white,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 8.0,
                         ),
                         GestureDetector(

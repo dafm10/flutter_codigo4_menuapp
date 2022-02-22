@@ -10,6 +10,7 @@ import 'package:flutter_codigo4_menuapp/ui/widgets/general_widget.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/item_filter_category_widget.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/item_product_list_widget.dart';
 import 'package:flutter_codigo4_menuapp/utils/search_products_delegate.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class HomeCustomerPage extends StatefulWidget {
   const HomeCustomerPage({Key? key}) : super(key: key);
@@ -26,6 +27,7 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
       MyFirestoreService(collection: "categories");
 
   final SPGlobal _prefs = SPGlobal();
+  final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
 
   List<Product> products = [];
   List<Product> productsAux = [];
@@ -108,6 +110,7 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
           ),
           IconButton(
             onPressed: () async {
+              _googleSignIn.signOut();
               _prefs.isCustomer = false;
               Navigator.pushAndRemoveUntil(
                   context,
