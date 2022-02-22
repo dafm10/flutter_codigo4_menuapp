@@ -18,6 +18,13 @@ class ProductDetailCustomerPage extends StatelessWidget {
     double _width = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      /*appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        iconTheme: const IconThemeData(
+          color: COLOR_BRAND_SECONDARY,
+        ),
+      ),*/
       /*floatingActionButton: FloatingActionButton(
         //backgroundColor: const Color(0xff45EF61),
         backgroundColor: const Color(0xff00BB2D),
@@ -219,29 +226,87 @@ class ProductDetailCustomerPage extends StatelessWidget {
             child: Container(
               margin:
                   const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
               height: 70.0,
               decoration: BoxDecoration(
                 color: Colors.white,
               ),
               child: Row(
                 children: [
-                  ButtonAddRemoveWidget(
-                    icon: Icons.remove,
-                    onPressed: () {},
+                  Row(
+                    children: [
+                      ButtonAddRemoveWidget(
+                        icon: Icons.remove,
+                        onPressed: () {},
+                      ),
+                      const SizedBox(
+                        width: 8.0,
+                      ),
+                      Text(
+                        "1",
+                        style: TextStyle(
+                          color: COLOR_BRAND_SECONDARY,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 22.0,
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 8.0,
+                      ),
+                      ButtonAddRemoveWidget(
+                        icon: Icons.add,
+                        onPressed: () {},
+                      ),
+                    ],
                   ),
-                  const SizedBox(width: 8.0,),
-                  Text(
-                    "1",
-                    style: TextStyle(
-                      color: COLOR_BRAND_SECONDARY,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22.0,
+                  SizedBox(width: 10.0,),
+                  Expanded(
+                    child: MaterialButton(
+                      onPressed: (){},
+                      minWidth: 0,
+                      padding: EdgeInsets.zero,
+                      child: Container(
+                        height: 50.0,
+                        decoration: BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.circular(12.0),
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              Color(0xFFFC7345),
+                              COLOR_SECONDARY,
+                            ],
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color(0xffFFFC7345).withOpacity(0.4),
+                              blurRadius: 12,
+                              offset: const Offset(4, 4),
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.shopping_cart_outlined,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: 8.0,
+                            ),
+                            Text(
+                              "Agregar al carrito",
+                              style: TextStyle(
+                                  fontSize: 18.0,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 8.0,),
-                  ButtonAddRemoveWidget(
-                    icon: Icons.add,
-                    onPressed: () {},
                   ),
                 ],
               ),
