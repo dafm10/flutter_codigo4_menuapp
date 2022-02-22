@@ -7,10 +7,17 @@ import 'package:flutter_codigo4_menuapp/ui/widgets/general_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ProductDetailCustomerPage extends StatelessWidget {
+class ProductDetailCustomerPage extends StatefulWidget {
   Product product;
 
   ProductDetailCustomerPage({required this.product});
+
+  @override
+  State<ProductDetailCustomerPage> createState() => _ProductDetailCustomerPageState();
+}
+
+class _ProductDetailCustomerPageState extends State<ProductDetailCustomerPage> {
+  int quantity = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +64,7 @@ class ProductDetailCustomerPage extends StatelessWidget {
               ),
             ),*/
                 Hero(
-                  tag: product.id!,
+                  tag: widget.product.id!,
                   child: CachedNetworkImage(
                     fit: BoxFit.cover,
                     fadeInCurve: Curves.easeIn,
@@ -76,7 +83,7 @@ class ProductDetailCustomerPage extends StatelessWidget {
                     },
                     height: _height * 0.4,
                     width: double.infinity,
-                    imageUrl: product.image,
+                    imageUrl: widget.product.image,
                   ),
                 ),
                 Padding(
@@ -91,7 +98,7 @@ class ProductDetailCustomerPage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  product.name,
+                                  widget.product.name,
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
@@ -99,13 +106,13 @@ class ProductDetailCustomerPage extends StatelessWidget {
                                       fontSize: 22.0),
                                 ),
                                 Text(
-                                  "Origen: ${product.origin}",
+                                  "Origen: ${widget.product.origin}",
                                   style: TextStyle(
                                       fontWeight: FontWeight.normal,
                                       fontSize: 14.0),
                                 ),
                                 Text(
-                                  "Tiempo de preparación: ${product.time} mins.",
+                                  "Tiempo de preparación: ${widget.product.time} mins.",
                                   style: TextStyle(
                                       fontWeight: FontWeight.normal,
                                       fontSize: 14.0),
@@ -113,7 +120,7 @@ class ProductDetailCustomerPage extends StatelessWidget {
                                 Row(
                                   children: [
                                     Text(
-                                      "Calificación: ${product.rate}",
+                                      "Calificación: ${widget.product.rate}",
                                       style: TextStyle(
                                           fontWeight: FontWeight.normal,
                                           fontSize: 15.0),
@@ -132,12 +139,12 @@ class ProductDetailCustomerPage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Text(
-                                "S/. ${product.price.toStringAsFixed(2)}",
+                                "S/. ${widget.product.price.toStringAsFixed(2)}",
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20.0),
                               ),
-                              product.discount > 0
+                              widget.product.discount > 0
                                   ? Container(
                                       width: 60.0,
                                       height: 30.0,
@@ -148,7 +155,7 @@ class ProductDetailCustomerPage extends StatelessWidget {
                                       ),
                                       alignment: Alignment.center,
                                       child: Text(
-                                        "-${product.discount}%",
+                                        "-${widget.product.discount}%",
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 16.0,
@@ -169,7 +176,7 @@ class ProductDetailCustomerPage extends StatelessWidget {
                         height: 6.0,
                       ),
                       Text(
-                        product.description,
+                        widget.product.description,
                         style: TextStyle(
                           fontWeight: FontWeight.normal,
                           fontSize: 14.0,
@@ -190,7 +197,7 @@ class ProductDetailCustomerPage extends StatelessWidget {
                       ),
                       // con los 3 puntos concatenamos la lista, ya que
                       // todos los elementos está en una columna
-                      ...product.ingredients
+                      ...widget.product.ingredients
                           .map<Widget>(
                             (item) => Text(
                               "- $item",
@@ -237,17 +244,28 @@ class ProductDetailCustomerPage extends StatelessWidget {
                     children: [
                       ButtonAddRemoveWidget(
                         icon: Icons.remove,
-                        onPressed: () {},
+                        onPressed: () {
+                          if(quantity > 1){
+                            quantity--;
+                            setState(() {
+
+                            });
+                          }
+                        },
                       ),
                       const SizedBox(
                         width: 8.0,
                       ),
-                      Text(
-                        "1",
-                        style: TextStyle(
-                          color: COLOR_BRAND_SECONDARY,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 22.0,
+                      Container(
+                        alignment: Alignment.center,
+                        width: 30.0,
+                        child: Text(
+                          quantity.toString(),
+                          style: TextStyle(
+                            color: COLOR_BRAND_SECONDARY,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22.0,
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -255,7 +273,12 @@ class ProductDetailCustomerPage extends StatelessWidget {
                       ),
                       ButtonAddRemoveWidget(
                         icon: Icons.add,
-                        onPressed: () {},
+                        onPressed: () {
+                          quantity++;
+                          setState(() {
+
+                          });
+                        },
                       ),
                     ],
                   ),
@@ -270,7 +293,7 @@ class ProductDetailCustomerPage extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: Colors.blue,
                           borderRadius: BorderRadius.circular(12.0),
-                          gradient: LinearGradient(
+                          gradient: const LinearGradient(
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                             colors: [
@@ -288,7 +311,7 @@ class ProductDetailCustomerPage extends StatelessWidget {
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
+                          children: const [
                             Icon(
                               Icons.shopping_cart_outlined,
                               color: Colors.white,
