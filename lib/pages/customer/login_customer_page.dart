@@ -133,7 +133,12 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
 
   _loginWithFacebook() async {
 
-    FacebookAuth.instance.login(permissions: ['email', 'public_profile']);
+   LoginResult _loginResult = await FacebookAuth.instance.login(permissions: ['email', 'public_profile']);
+   print(_loginResult.status);
+   FacebookAuth.instance.getUserData().then((value) {
+     print(value);
+   });
+   print(_loginResult.accessToken!.token);
 
   }
 
