@@ -134,11 +134,21 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
   _loginWithFacebook() async {
 
    LoginResult _loginResult = await FacebookAuth.instance.login(permissions: ['email', 'public_profile']);
-   print(_loginResult.status);
+
+   if(_loginResult.status == LoginStatus.success){
+     Map<String, dynamic> userData = await FacebookAuth.instance.getUserData();
+     print(userData);
+
+     AccessToken accessToken = _loginResult.accessToken!;
+     OAuthCredential credential = FacebookAuthProvider.credential(accessToken.token);
+     UserCredential _userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+   }
+
+  /* print(_loginResult.status);
    FacebookAuth.instance.getUserData().then((value) {
      print(value);
    });
-   print(_loginResult.accessToken!.token);
+   print(_loginResult.accessToken!.token);*/
 
   }
 
