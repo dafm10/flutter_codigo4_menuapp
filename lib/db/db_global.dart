@@ -1,0 +1,6 @@
+
+class DBGlobal{
+
+
+
+}

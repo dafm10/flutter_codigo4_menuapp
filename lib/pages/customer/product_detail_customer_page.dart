@@ -101,19 +101,19 @@ class _ProductDetailCustomerPageState extends State<ProductDetailCustomerPage> {
                                   widget.product.name,
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 22.0),
                                 ),
                                 Text(
                                   "Origen: ${widget.product.origin}",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontWeight: FontWeight.normal,
                                       fontSize: 14.0),
                                 ),
                                 Text(
                                   "Tiempo de preparación: ${widget.product.time} mins.",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontWeight: FontWeight.normal,
                                       fontSize: 14.0),
                                 ),
@@ -125,7 +125,7 @@ class _ProductDetailCustomerPageState extends State<ProductDetailCustomerPage> {
                                           fontWeight: FontWeight.normal,
                                           fontSize: 15.0),
                                     ),
-                                    Icon(
+                                    const Icon(
                                       Icons.star,
                                       size: 20.0,
                                       color: Color(0xffffb703),
@@ -140,7 +140,7 @@ class _ProductDetailCustomerPageState extends State<ProductDetailCustomerPage> {
                             children: [
                               Text(
                                 "S/. ${widget.product.price.toStringAsFixed(2)}",
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20.0),
                               ),
@@ -156,7 +156,7 @@ class _ProductDetailCustomerPageState extends State<ProductDetailCustomerPage> {
                                       alignment: Alignment.center,
                                       child: Text(
                                         "-${widget.product.discount}%",
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 16.0,
                                           color: Colors.white,
@@ -177,7 +177,7 @@ class _ProductDetailCustomerPageState extends State<ProductDetailCustomerPage> {
                       ),
                       Text(
                         widget.product.description,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontWeight: FontWeight.normal,
                           fontSize: 14.0,
                         ),
@@ -185,7 +185,7 @@ class _ProductDetailCustomerPageState extends State<ProductDetailCustomerPage> {
                       const SizedBox(
                         height: 10.0,
                       ),
-                      Text(
+                      const Text(
                         "Ingredientes principales",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -201,7 +201,7 @@ class _ProductDetailCustomerPageState extends State<ProductDetailCustomerPage> {
                           .map<Widget>(
                             (item) => Text(
                               "- $item",
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontWeight: FontWeight.normal,
                                 fontSize: 14.0,
                               ),
@@ -237,6 +237,13 @@ class _ProductDetailCustomerPageState extends State<ProductDetailCustomerPage> {
               height: 70.0,
               decoration: BoxDecoration(
                 color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black87.withOpacity(0.06),
+                    blurRadius: 12.0,
+                    offset: const Offset(-4,-4),
+                  ),
+                ],
               ),
               child: Row(
                 children: [
@@ -261,7 +268,7 @@ class _ProductDetailCustomerPageState extends State<ProductDetailCustomerPage> {
                         width: 30.0,
                         child: Text(
                           quantity.toString(),
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: COLOR_BRAND_SECONDARY,
                             fontWeight: FontWeight.bold,
                             fontSize: 22.0,
@@ -282,7 +289,7 @@ class _ProductDetailCustomerPageState extends State<ProductDetailCustomerPage> {
                       ),
                     ],
                   ),
-                  SizedBox(width: 10.0,),
+                  const SizedBox(width: 10.0,),
                   Expanded(
                     child: MaterialButton(
                       onPressed: (){},
