@@ -10,6 +10,7 @@ import 'package:flutter_codigo4_menuapp/ui/widgets/general_widget.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/item_filter_category_widget.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/item_product_list_widget.dart';
 import 'package:flutter_codigo4_menuapp/utils/search_products_delegate.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class HomeCustomerPage extends StatefulWidget {
@@ -103,7 +104,7 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
                 ),
               );
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.search,
               color: COLOR_PRIMARY,
             ),
@@ -111,13 +112,14 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
           IconButton(
             onPressed: () async {
               _googleSignIn.signOut();
+              FacebookAuth.instance.logOut();
               _prefs.isCustomer = false;
               Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => LoginCustomerPage()),
                       (route) => false);
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.exit_to_app,
               color: COLOR_PRIMARY,
             ),
@@ -132,11 +134,11 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
             children: [
               Row(
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     backgroundImage: AssetImage("assets/images/logo.jpeg"),
                     radius: 25.0,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10.0,
                   ),
                   Expanded(
@@ -246,7 +248,7 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
               ),
               Text(
                 categoryTitle,
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 15.0,
                 ),
