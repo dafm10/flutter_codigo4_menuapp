@@ -35,7 +35,7 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
         isLoading = true;
         setState(() {});
         UserCredential userCredential =
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
+            await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: _emailController.text,
           password: _passwordController.text,
         );
@@ -53,7 +53,7 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => const HomeCustomerPage()),
-                    (route) => false);
+                (route) => false);
           }
         }
       }
@@ -90,7 +90,7 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
     }
 
     GoogleSignInAuthentication _googleSignInAuth =
-    await googleSignInAccount.authentication;
+        await googleSignInAccount.authentication;
 
     OAuthCredential credential = GoogleAuthProvider.credential(
       accessToken: _googleSignInAuth.accessToken,
@@ -100,7 +100,7 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
     // con esto podemos registrarnos en Authentication
     // Hasta aqui nos permite registrar en Authentication
     UserCredential user =
-    await FirebaseAuth.instance.signInWithCredential(credential);
+        await FirebaseAuth.instance.signInWithCredential(credential);
 
     //Aqui validamos para registrar en FireStor en la colección Users
     if (user.user != null) {
@@ -115,14 +115,14 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (context) => const HomeCustomerPage()),
-                  (route) => false);
+              (route) => false);
         });
-      }else{
+      } else {
         _prefs.isCustomer = true;
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => const HomeCustomerPage()),
-                (route) => false);
+            (route) => false);
       }
     }
 
@@ -132,24 +132,49 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
   }
 
   _loginWithFacebook() async {
+    LoginResult _loginResult = await FacebookAuth.instance
+        .login(permissions: ['email', 'public_profile']);
 
-   LoginResult _loginResult = await FacebookAuth.instance.login(permissions: ['email', 'public_profile']);
+    if (_loginResult.status == LoginStatus.success) {
+      Map<String, dynamic> userData = await FacebookAuth.instance.getUserData();
+      print(userData);
 
-   if(_loginResult.status == LoginStatus.success){
-     Map<String, dynamic> userData = await FacebookAuth.instance.getUserData();
-     print(userData);
+      AccessToken accessToken = _loginResult.accessToken!;
+      OAuthCredential credential =
+          FacebookAuthProvider.credential(accessToken.token);
+      UserCredential _userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
 
-     AccessToken accessToken = _loginResult.accessToken!;
-     OAuthCredential credential = FacebookAuthProvider.credential(accessToken.token);
-     UserCredential _userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
-   }
+      if (_userCredential.user != null) {
+        String? email = _userCredential.user!.email;
+        bool res = await myUserService.checkEmail(email);
+        if (!res) {
+          UserModel _user = UserModel(
+              email: email!,
+              name: _userCredential.user!.displayName!,
+              role: 'cliente');
+          myUserService.addUser(_user).then((value) {
+            _prefs.isCustomer = true;
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const HomeCustomerPage()),
+                    (route) => false);
+          });
+        }else{
+          _prefs.isCustomer = true;
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const HomeCustomerPage()),
+                  (route) => false);
+        }
+      }
+    }
 
-  /* print(_loginResult.status);
+    /* print(_loginResult.status);
    FacebookAuth.instance.getUserData().then((value) {
      print(value);
    });
    print(_loginResult.accessToken!.token);*/
-
   }
 
   @override
@@ -161,7 +186,7 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
           SingleChildScrollView(
             child: Padding(
               padding:
-              const EdgeInsets.symmetric(horizontal: 10.0, vertical: 12.0),
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 12.0),
               child: Form(
                 key: _formKey,
                 child: Column(
@@ -440,9 +465,9 @@ class _LoginCustomerPageState extends State<LoginCustomerPage> {
           ),
           isLoading
               ? Container(
-            color: Colors.white24,
-            child: loadingWidget,
-          )
+                  color: Colors.white24,
+                  child: loadingWidget,
+                )
               : Container(),
         ],
       ),
