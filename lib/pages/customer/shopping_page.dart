@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_codigo4_menuapp/db/db_global.dart';
 import 'package:flutter_codigo4_menuapp/models/product_model.dart';
@@ -42,14 +41,15 @@ class _ShoppingPageState extends State<ShoppingPage> {
             return ListView.separated(
               itemCount: products.length,
               separatorBuilder: (_, __) =>
-              const Divider(indent: 16.0, endIndent: 16.0),
+                  const Divider(indent: 16.0, endIndent: 16.0),
               itemBuilder: (context, index) {
                 return Container(
-                  height: 100,
+                  margin: const EdgeInsets.symmetric(horizontal: 12.0),
+                  height: 90,
                   child: Row(
                     children: [
                       Container(
-                        width: 100,
+                        width: 90,
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             fit: BoxFit.cover,
@@ -59,26 +59,44 @@ class _ShoppingPageState extends State<ShoppingPage> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            Text(
-                              products[index].name,
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                products[index].name,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                    fontSize: 16.0, fontWeight: FontWeight.bold),
                               ),
-                            ),
-                            SizedBox(width: 4.0,),
-                            Text(
-                              "Cantidad: ${products[index].quantity}",
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.normal
+                              const SizedBox(
+                                width: 4.0,
                               ),
-                            ),
-                          ],
+                              Text(
+                                "Cantidad: ${products[index].quantity}",
+                                style: const TextStyle(
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.normal),
+                              ),
+                              const SizedBox(
+                                width: 4.0,
+                              ),
+                              GestureDetector(
+                                onTap: (){},
+                                child: Text(
+                                  "Eliminar",
+                                  style: const TextStyle(
+                                    decoration: TextDecoration.underline,
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.normal),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
