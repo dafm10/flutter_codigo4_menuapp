@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_codigo4_menuapp/db/db_global.dart';
 import 'package:flutter_codigo4_menuapp/models/product_model.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/button_add_remove_widget.dart';
@@ -13,7 +14,8 @@ class ProductDetailCustomerPage extends StatefulWidget {
   ProductDetailCustomerPage({required this.product});
 
   @override
-  State<ProductDetailCustomerPage> createState() => _ProductDetailCustomerPageState();
+  State<ProductDetailCustomerPage> createState() =>
+      _ProductDetailCustomerPageState();
 }
 
 class _ProductDetailCustomerPageState extends State<ProductDetailCustomerPage> {
@@ -241,7 +243,7 @@ class _ProductDetailCustomerPageState extends State<ProductDetailCustomerPage> {
                   BoxShadow(
                     color: Colors.black87.withOpacity(0.06),
                     blurRadius: 12.0,
-                    offset: const Offset(-4,-4),
+                    offset: const Offset(-4, -4),
                   ),
                 ],
               ),
@@ -252,11 +254,9 @@ class _ProductDetailCustomerPageState extends State<ProductDetailCustomerPage> {
                       ButtonAddRemoveWidget(
                         icon: Icons.remove,
                         onPressed: () {
-                          if(quantity > 1){
+                          if (quantity > 1) {
                             quantity--;
-                            setState(() {
-
-                            });
+                            setState(() {});
                           }
                         },
                       ),
@@ -282,17 +282,34 @@ class _ProductDetailCustomerPageState extends State<ProductDetailCustomerPage> {
                         icon: Icons.add,
                         onPressed: () {
                           quantity++;
-                          setState(() {
-
-                          });
+                          setState(() {});
                         },
                       ),
                     ],
                   ),
-                  const SizedBox(width: 10.0,),
+                  const SizedBox(
+                    width: 10.0,
+                  ),
                   Expanded(
                     child: MaterialButton(
-                      onPressed: (){},
+                      onPressed: () {
+                        //DBGlobal.db.initDb();
+                        Product product = Product(
+                          category: "bebidas",
+                          image: "sdsdfsdf",
+                          rate: 1,
+                          price: 22.0,
+                          origin: "sdasdasd",
+                          name: "Ceviche",
+                          ingredients: [],
+                          discount: 10,
+                          description: "dssdfdsfds",
+                          time: 5,
+                          status: true,
+                          quenatity: 10,
+                        );
+                        DBGlobal.db.insertProduct(product);
+                      },
                       minWidth: 0,
                       padding: EdgeInsets.zero,
                       child: Container(

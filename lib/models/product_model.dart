@@ -13,6 +13,7 @@ class Product {
   String description;
   int time;
   bool status;
+  int? quenatity;
 
   Product({
     this.id,
@@ -27,6 +28,7 @@ class Product {
     required this.description,
     required this.time,
     required this.status,
+    this.quenatity,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
@@ -42,6 +44,7 @@ class Product {
     description: json["description"],
     time: json["time"],
     status: json["status"],
+    quenatity: json["quenatity"] ?? 0,
   );
 
   Map<String, dynamic> toJson() => {
@@ -56,5 +59,6 @@ class Product {
     "description": description,
     "time": time,
     "status": status,
+    "quantity": quenatity ?? 0,
   };
 }
