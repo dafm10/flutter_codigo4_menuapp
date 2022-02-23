@@ -4,6 +4,7 @@ import 'package:flutter_codigo4_menuapp/models/category_model.dart';
 import 'package:flutter_codigo4_menuapp/models/product_model.dart';
 import 'package:flutter_codigo4_menuapp/pages/customer/login_customer_page.dart';
 import 'package:flutter_codigo4_menuapp/pages/customer/product_detail_customer_page.dart';
+import 'package:flutter_codigo4_menuapp/pages/customer/shopping_page.dart';
 import 'package:flutter_codigo4_menuapp/services/firestore_service.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/general_widget.dart';
@@ -111,13 +112,27 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
           ),
           IconButton(
             onPressed: () async {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ShoppingPage(),
+                ),
+              );
+            },
+            icon: const Icon(
+              Icons.shopping_cart_outlined,
+              color: COLOR_PRIMARY,
+            ),
+          ),
+          IconButton(
+            onPressed: () async {
               _googleSignIn.signOut();
               FacebookAuth.instance.logOut();
               _prefs.isCustomer = false;
               Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => LoginCustomerPage()),
-                      (route) => false);
+                  (route) => false);
             },
             icon: const Icon(
               Icons.exit_to_app,
