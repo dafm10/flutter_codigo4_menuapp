@@ -263,14 +263,14 @@ class _HomeCustomerPageState extends State<HomeCustomerPage> {
                       itemCount: products.length,
                       itemBuilder: (BuildContext context, int index) {
                         return ItemProductListWidget(
-                          id: products[index].id!,
+                          id: products[index].id,
                           name: products[index].name,
                           image: products[index].image,
-                          origin: products[index].origin,
-                          description: products[index].description,
+                          origin: products[index].origin!,
+                          description: products[index].description!,
                           price: products[index].price,
-                          time: products[index].time,
-                          discount: products[index].discount,
+                          time: products[index].time!,
+                          discount: products[index].discount!,
                           onTap: () {
                             Navigator.push(
                               context,

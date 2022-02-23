@@ -66,7 +66,7 @@ class _ProductDetailCustomerPageState extends State<ProductDetailCustomerPage> {
               ),
             ),*/
                 Hero(
-                  tag: widget.product.id!,
+                  tag: widget.product.id,
                   child: CachedNetworkImage(
                     fit: BoxFit.cover,
                     fadeInCurve: Curves.easeIn,
@@ -146,7 +146,7 @@ class _ProductDetailCustomerPageState extends State<ProductDetailCustomerPage> {
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20.0),
                               ),
-                              widget.product.discount > 0
+                              widget.product.discount! > 0
                                   ? Container(
                                       width: 60.0,
                                       height: 30.0,
@@ -178,7 +178,7 @@ class _ProductDetailCustomerPageState extends State<ProductDetailCustomerPage> {
                         height: 6.0,
                       ),
                       Text(
-                        widget.product.description,
+                        widget.product.description!,
                         style: const TextStyle(
                           fontWeight: FontWeight.normal,
                           fontSize: 14.0,
@@ -199,7 +199,7 @@ class _ProductDetailCustomerPageState extends State<ProductDetailCustomerPage> {
                       ),
                       // con los 3 puntos concatenamos la lista, ya que
                       // todos los elementos está en una columna
-                      ...widget.product.ingredients
+                      ...widget.product.ingredients!
                           .map<Widget>(
                             (item) => Text(
                               "- $item",
@@ -294,21 +294,17 @@ class _ProductDetailCustomerPageState extends State<ProductDetailCustomerPage> {
                     child: MaterialButton(
                       onPressed: () {
                         //DBGlobal.db.initDb();
-                        Product product = Product(
-                          category: "bebidas",
-                          image: "sdsdfsdf",
-                          rate: 1,
-                          price: 22.0,
-                          origin: "sdasdasd",
-                          name: "Ceviche",
-                          ingredients: [],
-                          discount: 10,
-                          description: "dssdfdsfds",
-                          time: 5,
-                          status: true,
-                          quenatity: 10,
+                        /*Product product = Product(
+                          id: "123213213",
+                          image: "ddsdsdsd",
+                          price: 100.0,
+                          name: "Lomo Saltado",
+                          quantity: 2,
                         );
-                        DBGlobal.db.insertProduct(product);
+                        DBGlobal.db.insertProduct(product);*/
+                        widget.product.quantity = quantity;
+                        DBGlobal.db.insertProduct(widget.product);
+                        //DBGlobal.db.getProducts();
                       },
                       minWidth: 0,
                       padding: EdgeInsets.zero,

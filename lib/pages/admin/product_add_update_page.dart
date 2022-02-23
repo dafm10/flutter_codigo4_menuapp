@@ -94,6 +94,7 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
         String url = await uploadImageFirebase();
 
         Product product = Product(
+          id: "",
           category: idCategory,
           image: url,
           rate: int.parse(_rateController.text),

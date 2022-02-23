@@ -1,64 +1,64 @@
 
 class Product {
 
-  String? id;
-  String category;
+  String id;
+  String? category;
   String image;
-  int rate;
+  int? rate;
   double price;
-  String origin;
+  String? origin;
   String name;
-  List<String> ingredients;
-  int discount;
-  String description;
-  int time;
-  bool status;
-  int? quenatity;
+  List<String>? ingredients;
+  int? discount;
+  String? description;
+  int? time;
+  bool? status;
+  int? quantity;
 
   Product({
-    this.id,
-    required this.category,
+    required this.id,
+    this.category,
     required this.image,
-    required this.rate,
+    this.rate,
     required this.price,
-    required this.origin,
+    this.origin,
     required this.name,
-    required this.ingredients,
-    required this.discount,
-    required this.description,
-    required this.time,
-    required this.status,
-    this.quenatity,
+    this.ingredients,
+    this.discount,
+    this.description,
+    this.time,
+    this.status,
+    this.quantity,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
     id: json["id"] ?? "",
-    category: json["category"],
+    category: json["category"] ?? "",
     image: json["image"],
-    rate: json["rate"],
+    rate: json["rate"] ?? 0,
     price: json["price"].toDouble(),
-    origin: json["origin"],
+    origin: json["origin"] ?? "",
     name: json["name"],
-    ingredients: List<String>.from(json["ingredients"].map((x) => x)),
-    discount: json["discount"],
-    description: json["description"],
-    time: json["time"],
-    status: json["status"],
-    quenatity: json["quenatity"] ?? 0,
+    ingredients: json["ingredients"] != null ? List<String>.from(json["ingredients"].map((x) => x)) : [],
+    discount: json["discount"] ?? 0,
+    description: json["description"] ,
+    time: json["time"] ?? 0,
+    status: json["status"] ?? false,
+    quantity: json["quantity"] ?? 0,
   );
 
   Map<String, dynamic> toJson() => {
-    "category": category,
+    "category": category ?? "",
     "image": image,
-    "rate": rate,
+    "rate": rate ?? 0,
     "price": price,
-    "origin": origin,
+    "origin": origin ?? "",
     "name": name,
-    "ingredients": List<dynamic>.from(ingredients.map((x) => x)),
-    "discount": discount,
-    "description": description,
-    "time": time,
-    "status": status,
-    "quantity": quenatity ?? 0,
+    "ingredients": ingredients != null ? List<dynamic>.from(ingredients!.map((x) => x)) : [],
+    "discount": discount ?? 0,
+    "description": description ?? "",
+    "time": time ?? 0,
+    "status": status ?? false,
+    "quantity": quantity ?? 0,
   };
 }

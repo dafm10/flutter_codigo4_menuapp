@@ -156,9 +156,9 @@ class _ProductListpageState extends State<ProductListpage> {
                           itemBuilder: (BuildContext context, int index) {
                             return ItemListWidget(
                               title: products[index].name,
-                              status: products[index].status,
+                              status: products[index].status!,
                               onDelete: () {
-                                idProduct = products[index].id!;
+                                idProduct = products[index].id;
                                 _showDeleteItem();
                               },
                               onUpdate: () {},

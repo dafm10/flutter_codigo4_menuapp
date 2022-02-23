@@ -65,11 +65,11 @@ class SearchProduct extends SearchDelegate {
       itemCount: aux.length,
       itemBuilder: (conext, index) {
         return ItemProductSearchWidget(
-          id: aux[index].id!,
+          id: aux[index].id,
           image: aux[index].image,
           name: aux[index].name,
-          origin: aux[index].origin,
-          description: aux[index].description,
+          origin: aux[index].origin!,
+          description: aux[index].description!,
           price: aux[index].price,
           onTap: (){
             Navigator.push(
@@ -96,11 +96,11 @@ class SearchProduct extends SearchDelegate {
       itemCount: aux.length,
       itemBuilder: (conext, index) {
         return ItemProductSearchWidget(
-          id: aux[index].id!,
+          id: aux[index].id,
           image: aux[index].image,
           name: aux[index].name,
-          origin: aux[index].origin,
-          description: aux[index].description,
+          origin: aux[index].origin!,
+          description: aux[index].description!,
           price: aux[index].price,
           onTap: (){
             Navigator.push(

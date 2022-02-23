@@ -27,22 +27,33 @@ class DBGlobal {
       version: 1,
       onOpen: (db) {},
       onCreate: (Database db, int version) async {
-        await db.execute("CREATE TABLE Product(id TEXT PRIMARY KEY, name TEXT, image TEXT, price REAL, quantity INTEGER)");
+        await db.execute(
+            "CREATE TABLE Product(id TEXT PRIMARY KEY, name TEXT, image TEXT, price REAL, quantity INTEGER)");
       },
     );
   }
 
-  Future<int> insertProduct(Product product) async{
+  Future<int> insertProduct(Product product) async {
     final db = await getDatabase();
-    int res = await db!.insert('Product',{
-      "id": product.id,
-      "name": product.name,
-      "image": product.image,
-      "price": product.price,
-      "quantity": product.quenatity,
-    } );
+    int res = await db!.insert(
+      'Product',
+      {
+        "id": product.id,
+        "name": product.name,
+        "image": product.image,
+        "price": product.price,
+        "quantity": product.quantity,
+      },
+    );
     print(res);
     return res;
   }
 
+  Future<List<Product>> getProducts() async {
+    final db = await getDatabase();
+    List<Map<String,dynamic>> res = await db!.query('Product');
+    List<Product> products = res.isNotEmpty ? res.map<Product>((e) => Product.fromJson(e)).toList() : [];
+    print(products);
+    return products;
+  }
 }
