@@ -5,8 +5,6 @@ import 'package:flutter_codigo4_menuapp/models/product_model.dart';
 import 'package:flutter_codigo4_menuapp/ui/general/colors.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/button_add_remove_widget.dart';
 import 'package:flutter_codigo4_menuapp/ui/widgets/general_widget.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class ProductDetailCustomerPage extends StatefulWidget {
   Product product;
@@ -24,7 +22,7 @@ class _ProductDetailCustomerPageState extends State<ProductDetailCustomerPage> {
   @override
   Widget build(BuildContext context) {
     double _height = MediaQuery.of(context).size.height;
-    double _width = MediaQuery.of(context).size.width;
+    //double _width = MediaQuery.of(context).size.width;
 
     return Scaffold(
       /*appBar: AppBar(
