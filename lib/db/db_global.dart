@@ -45,7 +45,7 @@ class DBGlobal {
         "quantity": product.quantity,
       },
     );
-    print(res);
+    //print(res);
     return res;
   }
 
@@ -53,7 +53,13 @@ class DBGlobal {
     final db = await getDatabase();
     List<Map<String,dynamic>> res = await db!.query('Product');
     List<Product> products = res.isNotEmpty ? res.map<Product>((e) => Product.fromJson(e)).toList() : [];
-    print(products);
+    //print(products);
     return products;
+  }
+
+  Future<int> deleteProduct(String id) async {
+    final db = await getDatabase();
+    int res = await db!.delete('Product', where: "id = '$id'");
+    return res;
   }
 }
