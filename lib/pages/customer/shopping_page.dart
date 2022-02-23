@@ -54,7 +54,7 @@ class _ShoppingPageState extends State<ShoppingPage> {
                           image: DecorationImage(
                             fit: BoxFit.cover,
                             image: NetworkImage(
-                              "https://comidasperuanas.net/wp-content/uploads/2015/09/Arroz-con-pato.jpg",
+                              products[index].image,
                             ),
                           ),
                         ),
@@ -71,7 +71,8 @@ class _ShoppingPageState extends State<ShoppingPage> {
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
-                                    fontSize: 16.0, fontWeight: FontWeight.bold),
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.bold),
                               ),
                               const SizedBox(
                                 width: 4.0,
@@ -96,7 +97,7 @@ class _ShoppingPageState extends State<ShoppingPage> {
                                 ),
                               ),*/
                               InkWell(
-                                onTap: (){},
+                                onTap: () {},
                                 child: const Text(
                                   "Eliminar",
                                   style: TextStyle(
@@ -108,6 +109,34 @@ class _ShoppingPageState extends State<ShoppingPage> {
                             ],
                           ),
                         ),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text("Precio"),
+                          Text("S/. ${products[index].price.toString()}"),
+                        ],
+                      ),
+                      const SizedBox(
+                        width: 16.0,
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          const Text(
+                            "Subtot.",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600
+                            ),
+                          ),
+                          Text(
+                            "S/. ${(products[index].quantity! * products[index].price).toStringAsFixed(2)}",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
