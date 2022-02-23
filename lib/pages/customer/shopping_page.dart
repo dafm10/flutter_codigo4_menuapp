@@ -85,12 +85,22 @@ class _ShoppingPageState extends State<ShoppingPage> {
                               const SizedBox(
                                 width: 4.0,
                               ),
-                              GestureDetector(
+                              /*GestureDetector(
                                 onTap: (){},
                                 child: Text(
                                   "Eliminar",
                                   style: const TextStyle(
                                     decoration: TextDecoration.underline,
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.normal),
+                                ),
+                              ),*/
+                              InkWell(
+                                onTap: (){},
+                                child: const Text(
+                                  "Eliminar",
+                                  style: TextStyle(
+                                      decoration: TextDecoration.underline,
                                       fontSize: 14.0,
                                       fontWeight: FontWeight.normal),
                                 ),
