@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_codigo4_menuapp/db/db_global.dart';
 import 'package:flutter_codigo4_menuapp/models/product_model.dart';
@@ -22,7 +23,7 @@ class _ShoppingPageState extends State<ShoppingPage> {
           width: 20.0,
         ),*/
         title: const Text(
-          "MenuApp",
+          "Carrito de compras",
           style: TextStyle(
             fontWeight: FontWeight.bold,
             color: COLOR_PRIMARY,
@@ -40,10 +41,48 @@ class _ShoppingPageState extends State<ShoppingPage> {
             List<Product> products = snap.data;
             return ListView.separated(
               itemCount: products.length,
-              separatorBuilder: (_,__)=>Divider(indent: 16.0, endIndent: 16.0,),
-              itemBuilder: (context, index){
-                return ListTile(
-                  title: Text(products[index].name),
+              separatorBuilder: (_, __) =>
+              const Divider(indent: 16.0, endIndent: 16.0),
+              itemBuilder: (context, index) {
+                return Container(
+                  height: 100,
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 100,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(
+                              "https://comidasperuanas.net/wp-content/uploads/2015/09/Arroz-con-pato.jpg",
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Text(
+                              products[index].name,
+                              style: TextStyle(
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold
+                              ),
+                            ),
+                            SizedBox(width: 4.0,),
+                            Text(
+                              "Cantidad: ${products[index].quantity}",
+                              style: TextStyle(
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.normal
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 );
               },
             );
