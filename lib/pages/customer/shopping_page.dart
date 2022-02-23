@@ -33,60 +33,62 @@ class _ShoppingPageState extends State<ShoppingPage> {
           color: COLOR_PRIMARY,
         ),
       ),
-      body: FutureBuilder(
-        future: DBGlobal.db.getProducts(),
-        builder: (BuildContext context, AsyncSnapshot snap) {
-          if (snap.hasData) {
-            List<Product> products = snap.data;
-            return ListView.separated(
-              itemCount: products.length,
-              separatorBuilder: (_, __) =>
+      body: Stack(
+        children: [
+          FutureBuilder(
+            future: DBGlobal.db.getProducts(),
+            builder: (BuildContext context, AsyncSnapshot snap) {
+              if (snap.hasData) {
+                List<Product> products = snap.data;
+                return ListView.separated(
+                  itemCount: products.length,
+                  separatorBuilder: (_, __) =>
                   const Divider(indent: 16.0, endIndent: 16.0),
-              itemBuilder: (context, index) {
-                return Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 12.0),
-                  height: 90,
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 90,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(
-                              products[index].image,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 12.0),
+                      height: 90,
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 90,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(
+                                  "https://comidasperuanas.net/wp-content/uploads/2015/09/Arroz-con-pato.jpg",
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                products[index].name,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              const SizedBox(
-                                width: 4.0,
-                              ),
-                              Text(
-                                "Cantidad: ${products[index].quantity}",
-                                style: const TextStyle(
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                              const SizedBox(
-                                width: 4.0,
-                              ),
-                              /*GestureDetector(
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    products[index].name,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  const SizedBox(
+                                    width: 4.0,
+                                  ),
+                                  Text(
+                                    "Cantidad: ${products[index].quantity}",
+                                    style: const TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.normal),
+                                  ),
+                                  const SizedBox(
+                                    width: 4.0,
+                                  ),
+                                  /*GestureDetector(
                                 onTap: (){},
                                 child: Text(
                                   "Eliminar",
@@ -96,56 +98,112 @@ class _ShoppingPageState extends State<ShoppingPage> {
                                       fontWeight: FontWeight.normal),
                                 ),
                               ),*/
-                              InkWell(
-                                onTap: () {},
-                                child: const Text(
-                                  "Eliminar",
-                                  style: TextStyle(
-                                      decoration: TextDecoration.underline,
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.normal),
+                                  InkWell(
+                                    onTap: () {},
+                                    child: const Text(
+                                      "Eliminar",
+                                      style: TextStyle(
+                                          decoration: TextDecoration.underline,
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.normal),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text("Precio"),
+                              Text("S/. ${products[index].price.toString()}"),
+                            ],
+                          ),
+                          const SizedBox(
+                            width: 16.0,
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              const Text(
+                                "Subtot.",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600
+                                ),
+                              ),
+                              Text(
+                                "S/. ${(products[index].quantity! * products[index].price).toStringAsFixed(2)}",
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w600
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text("Precio"),
-                          Text("S/. ${products[index].price.toString()}"),
                         ],
                       ),
-                      const SizedBox(
-                        width: 16.0,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          const Text(
-                            "Subtot.",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600
-                            ),
-                          ),
-                          Text(
-                            "S/. ${(products[index].quantity! * products[index].price).toStringAsFixed(2)}",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600
-                            ),
-                          ),
-                        ],
+                    );
+                  },
+                );
+              }
+              return loadingWidget;
+            },
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.all(18.0),
+              child: MaterialButton(
+                onPressed: () {
+                },
+                minWidth: 0,
+                padding: EdgeInsets.zero,
+                child: Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
+                  height: 50.0,
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.circular(12.0),
+                    gradient: const LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        Color(0xFFFC7345),
+                        COLOR_SECONDARY,
+                      ],
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0xffFFFC7345).withOpacity(0.4),
+                        blurRadius: 12,
+                        offset: const Offset(4, 4),
                       ),
                     ],
                   ),
-                );
-              },
-            );
-          }
-          return loadingWidget;
-        },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Icon(
+                        Icons.price_change,
+                        color: Colors.white,
+                      ),
+                      SizedBox(
+                        width: 8.0,
+                      ),
+                      Text(
+                        "Total a pagar: ",
+                        style: TextStyle(
+                            fontSize: 18.0,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
